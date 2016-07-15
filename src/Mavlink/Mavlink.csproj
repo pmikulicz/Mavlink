@@ -35,9 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Messages\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IMavlinkCommunicator.cs" />
+    <Compile Include="Messages\Message.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
