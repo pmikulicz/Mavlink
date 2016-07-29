@@ -1,6 +1,10 @@
 ﻿namespace Mavlink.Messages
 {
-    public sealed class Message
+    public abstract class Message
     {
+        /// <summary>
+        /// Gets id of the message
+        /// </summary>
+        public abstract int Id { get; }
     }
 }
