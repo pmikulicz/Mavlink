@@ -38,19 +38,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMavlinkCommunicatorFactory.cs" />
-    <Compile Include="IMessageNotifier.cs" />
+    <Compile Include="Packets\IPacketFactory.cs" />
+    <Compile Include="Packets\IPacketHandler.cs" />
+    <Compile Include="Messages\IMessageFactory.cs" />
+    <Compile Include="Messages\IMessageNotifier.cs" />
     <Compile Include="MavlinkCommunicator.cs" />
     <Compile Include="IMavlinkCommunicator.cs" />
     <Compile Include="MavlinkCommunicatorFactory.cs" />
-    <Compile Include="MessageNotifier.cs" />
-    <Compile Include="MessageReceivedEventArgs.cs" />
-    <Compile Include="Messages\HeartbeatMessage.cs" />
-    <Compile Include="Messages\Message.cs" />
+    <Compile Include="Messages\MessageFactory.cs" />
+    <Compile Include="Messages\MessageNotifier.cs" />
+    <Compile Include="Messages\MessageReceivedEventArgs.cs" />
+    <Compile Include="Messages\Models\HeartbeatMessage.cs" />
+    <Compile Include="Messages\Models\Message.cs" />
     <Compile Include="Messages\Types\MavAutopilot.cs" />
     <Compile Include="Messages\Types\MavModeFlag.cs" />
     <Compile Include="Messages\Types\MavState.cs" />
     <Compile Include="Messages\Types\MavType.cs" />
-    <Compile Include="Packet.cs" />
+    <Compile Include="Packets\Packet.cs" />
+    <Compile Include="Packets\PacketFactory.cs" />
+    <Compile Include="Packets\PacketHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

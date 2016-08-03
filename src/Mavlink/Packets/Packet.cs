@@ -7,14 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Mavlink
+namespace Mavlink.Packets
 {
     /// <summary>
     /// Represents model of single mavlink packet
     /// </summary>
     internal sealed class Packet
     {
-        public Packet(byte payloadLength, byte sequenceNumber, byte systemId, byte componentId, byte messageId, byte[] payload, byte checksum)
+        public Packet(byte payloadLength, byte sequenceNumber, byte systemId, byte componentId, byte messageId, byte[] payload, byte[] checksum)
         {
             Header = HeaderValue;
             PayloadLength = payloadLength;
@@ -69,7 +69,7 @@ namespace Mavlink
         /// <summary>
         /// Gets checksum of the entire packet, excluding the packet start sign
         /// </summary>
-        public byte Checksum { get; }
+        public byte[] Checksum { get; }
 
         internal static byte HeaderValue = 0xFE;
     }

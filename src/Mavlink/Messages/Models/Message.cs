@@ -1,4 +1,4 @@
-﻿namespace Mavlink.Messages
+﻿namespace Mavlink.Messages.Models
 {
     public abstract class Message
     {

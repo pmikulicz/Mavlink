@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages;
+using Mavlink.Messages.Models;
 using System;
 
-namespace Mavlink
+namespace Mavlink.Messages
 {
     /// <summary>
     /// Represents event argument that is used to provide data for the MessageReceived event

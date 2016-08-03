@@ -1,6 +1,6 @@
 ﻿using Mavlink.Messages.Types;
 
-namespace Mavlink.Messages
+namespace Mavlink.Messages.Models
 {
     public sealed class HeartbeatMessage : Message
     {

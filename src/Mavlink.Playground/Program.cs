@@ -1,4 +1,5 @@
 ﻿using Mavlink.Messages;
+using Mavlink.Messages.Models;
 using System;
 using System.IO;
 using System.IO.Ports;
