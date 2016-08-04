@@ -38,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMavlinkCommunicatorFactory.cs" />
-    <Compile Include="Packets\IPacketFactory.cs" />
+    <Compile Include="Packets\IPacketBuilder.cs" />
     <Compile Include="Packets\IPacketHandler.cs" />
     <Compile Include="Messages\IMessageFactory.cs" />
     <Compile Include="Messages\IMessageNotifier.cs" />
@@ -54,9 +54,11 @@
     <Compile Include="Messages\Types\MavModeFlag.cs" />
     <Compile Include="Messages\Types\MavState.cs" />
     <Compile Include="Messages\Types\MavType.cs" />
+    <Compile Include="Packets\IPacketValidator.cs" />
     <Compile Include="Packets\Packet.cs" />
-    <Compile Include="Packets\PacketFactory.cs" />
+    <Compile Include="Packets\PacketBuilder.cs" />
     <Compile Include="Packets\PacketHandler.cs" />
+    <Compile Include="Packets\PacketValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

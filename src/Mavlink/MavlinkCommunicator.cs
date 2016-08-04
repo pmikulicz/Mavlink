@@ -14,7 +14,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +24,7 @@ namespace Mavlink
     /// </summary>
     internal sealed class MavlinkCommunicator : IMavlinkCommunicator
     {
-        private readonly IPacketHandler _mavlinkPacketHandler;
+        private readonly IPacketHandler _packetHandler;
         private readonly IMessageFactory _messageFactory;
         private readonly IDictionary<Func<Message, bool>, MessageNotifier> _messageNotifiers;
         private readonly Stream _stream;
@@ -34,19 +33,19 @@ namespace Mavlink
         private readonly Task _streamReadingTaks;
         private readonly CancellationTokenSource _cancellationTokenSource;
         private bool _disposed;
-        private static int _bufferSize = 1024;
+        private const int BufferSize = 1024;
 
-        internal MavlinkCommunicator(Stream stream, IPacketHandler mavlinkPacketHandler, IMessageFactory messageFactory)
+        internal MavlinkCommunicator(Stream stream, IPacketHandler packetHandler, IMessageFactory messageFactory)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
-            if (mavlinkPacketHandler == null)
-                throw new ArgumentNullException(nameof(mavlinkPacketHandler));
+            if (packetHandler == null)
+                throw new ArgumentNullException(nameof(packetHandler));
             if (messageFactory == null)
                 throw new ArgumentNullException(nameof(messageFactory));
 
             _stream = stream;
-            _mavlinkPacketHandler = mavlinkPacketHandler;
+            _packetHandler = packetHandler;
             _messageFactory = messageFactory;
             _binaryReader = new BinaryReader(stream);
             _binaryWriter = new BinaryWriter(stream);
@@ -108,8 +107,8 @@ namespace Mavlink
         {
             while (true)
             {
-                byte[] bytesRead = _binaryReader.ReadBytes(_bufferSize);
-                IEnumerable<Packet> packets = _mavlinkPacketHandler.HandlePackets(bytesRead);
+                byte[] bytesRead = _binaryReader.ReadBytes(BufferSize);
+                IEnumerable<Packet> packets = _packetHandler.HandlePackets(bytesRead);
 
                 foreach (Packet packet in packets)
                 {

@@ -14,6 +14,17 @@ namespace Mavlink.Packets
     /// </summary>
     internal sealed class Packet
     {
+        internal const byte HeaderValue = 0xFE;
+        internal const int HeaderIndex = 0;
+        internal const int PayloadLengthIndex = 1;
+        internal const int PacketSequenceIndex = 2;
+        internal const int SystemIdIndex = 3;
+        internal const int ComponentIdIndex = 4;
+        internal const int MessageIdIndex = 5;
+        internal const int PayloadIndex = 6;
+        internal const int ChecksumLength = 2;
+        internal const int MetadataLength = 6;
+
         public Packet(byte payloadLength, byte sequenceNumber, byte systemId, byte componentId, byte messageId, byte[] payload, byte[] checksum)
         {
             Header = HeaderValue;
@@ -70,7 +81,5 @@ namespace Mavlink.Packets
         /// Gets checksum of the entire packet, excluding the packet start sign
         /// </summary>
         public byte[] Checksum { get; }
-
-        internal static byte HeaderValue = 0xFE;
     }
 }

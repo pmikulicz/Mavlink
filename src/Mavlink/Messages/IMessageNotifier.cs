@@ -3,7 +3,7 @@
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Interface of component which is responsible for notifying about an incoming messages
+//   Interface of a component which is responsible for notifying about an incoming messages
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ using System;
 namespace Mavlink.Messages
 {
     /// <summary>
-    /// Interface of component which is responsible for notifying about an incoming messages
+    /// Interface of a component which is responsible for notifying about an incoming messages
     /// </summary>
     public interface IMessageNotifier
     {
