@@ -1,4 +1,5 @@
 ﻿using Mavlink.Messages.Types;
+using System.Runtime.InteropServices;
 
 namespace Mavlink.Messages.Models
 {
