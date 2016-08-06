@@ -26,7 +26,7 @@ namespace Mavlink
     {
         private readonly IPacketHandler _packetHandler;
         private readonly IMessageFactory _messageFactory;
-        private readonly IDictionary<Func<Message, bool>, MessageNotifier> _messageNotifiers;
+        private readonly IDictionary<Func<IMessage, bool>, MessageNotifier> _messageNotifiers;
         private readonly Stream _stream;
         private readonly BinaryReader _binaryReader;
         private readonly BinaryWriter _binaryWriter;
@@ -49,7 +49,7 @@ namespace Mavlink
             _messageFactory = messageFactory;
             _binaryReader = new BinaryReader(stream);
             _binaryWriter = new BinaryWriter(stream);
-            _messageNotifiers = new ConcurrentDictionary<Func<Message, bool>, MessageNotifier>();
+            _messageNotifiers = new ConcurrentDictionary<Func<IMessage, bool>, MessageNotifier>();
             _cancellationTokenSource = new CancellationTokenSource();
             _streamReadingTaks = Task.Factory.StartNew(ProcessReading, _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
@@ -59,7 +59,7 @@ namespace Mavlink
         /// </summary>
         /// <param name="condition">A condition which must meet the message</param>
         /// <returns>Component which will notify an incoming message</returns>
-        public IMessageNotifier SubscribeForReceive(Func<Message, bool> condition)
+        public IMessageNotifier SubscribeForReceive(Func<IMessage, bool> condition)
         {
             if (condition == null)
                 throw new ArgumentNullException(nameof(condition));
@@ -78,7 +78,7 @@ namespace Mavlink
         /// </summary>
         /// <param name="message">Message to be sent asynchronously</param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        public async Task<bool> SendMessageAsync(Message message)
+        public async Task<bool> SendMessageAsync(IMessage message)
         {
             return await Task.FromResult(true);
         }
@@ -112,13 +112,13 @@ namespace Mavlink
 
                 foreach (Packet packet in packets)
                 {
-                    Message message = _messageFactory.Create(packet.Payload, packet.MessageId);
+                    IMessage message = _messageFactory.Create(packet.Payload, packet.MessageId);
                     NotifyForMessage(message);
                 }
             }
         }
 
-        private void NotifyForMessage(Message message)
+        private void NotifyForMessage(IMessage message)
         {
             foreach (var messageNotifier in _messageNotifiers)
             {

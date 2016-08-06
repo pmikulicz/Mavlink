@@ -3,21 +3,28 @@ using System.Runtime.InteropServices;
 
 namespace Mavlink.Messages.Models
 {
-    public sealed class HeartbeatMessage : Message
+    [StructLayout(LayoutKind.Sequential)]
+    public struct HeartbeatMessage : IMessage
     {
-        public HeartbeatMessage(MavType type, MavAutopilot autopilot, MavModeFlag baseMode, uint customMode, byte mavlinkVersion)
+        public HeartbeatMessage(MavType type, MavAutopilot autopilot, MavModeFlag baseMode, uint customMode, MavState systemStatus, byte mavlinkVersion)
         {
             Type = type;
             Autopilot = autopilot;
             BaseMode = baseMode;
             CustomMode = customMode;
+            SystemStatus = systemStatus;
             MavlinkVersion = mavlinkVersion;
         }
 
         /// <summary>
-        /// Gets id of the message
+        /// Gets type of the message
         /// </summary>
-        public override int Id => 0;
+        public MessageId Id => MessageId.Heartbeat;
+
+        /// <summary>
+        /// A bitfield for use for autopilot-specific flags
+        /// </summary>
+        public uint CustomMode { get; }
 
         /// <summary>
         /// Type of the mavlink
@@ -35,14 +42,9 @@ namespace Mavlink.Messages.Models
         public MavModeFlag BaseMode { get; }
 
         /// <summary>
-        /// A bitfield for use for autopilot-specific flags
-        /// </summary>
-        public uint CustomMode { get; }
-
-        /// <summary>
         /// System status flag
         /// </summary>
-        public MavState SystemStatus { get; set; }
+        public MavState SystemStatus { get; }
 
         /// <summary>
         /// Mavlink version

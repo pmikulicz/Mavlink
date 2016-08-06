@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages.Models;
+using Mavlink.Messages.Types;
 
 namespace Mavlink.Messages
 {
@@ -22,6 +23,6 @@ namespace Mavlink.Messages
         /// <param name="payload">Payload from which message will be created</param>
         /// <param name="messageId">Id of created message</param>
         /// <returns>Mavlink message</returns>
-        Message Create(byte[] payload, int messageId);
+        IMessage Create(byte[] payload, MessageId messageId);
     }
 }

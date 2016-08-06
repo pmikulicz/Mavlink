@@ -7,11 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Mavlink.Messages.Types
 {
     /// <summary>
     /// Defines flags which encodes the mavlink mode
     /// </summary>
+    [Flags]
     public enum MavModeFlag : byte
     {
         /// <summary>

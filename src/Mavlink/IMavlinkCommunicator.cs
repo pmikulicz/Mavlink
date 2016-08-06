@@ -24,13 +24,13 @@ namespace Mavlink
         /// </summary>
         /// <param name="condition">A condition which must meet the message</param>
         /// <returns>Component which will notify an incoming message</returns>
-        IMessageNotifier SubscribeForReceive(Func<Message, bool> condition);
+        IMessageNotifier SubscribeForReceive(Func<IMessage, bool> condition);
 
         /// <summary>
         /// Sends message via mavlink protocol asynchronously
         /// </summary>
         /// <param name="message">Message to be sent asynchronously</param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        Task<bool> SendMessageAsync(Message message);
+        Task<bool> SendMessageAsync(IMessage message);
     }
 }

@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMavlinkCommunicatorFactory.cs" />
+    <Compile Include="Messages\MessageStructAttribute.cs" />
+    <Compile Include="Messages\Types\MessageId.cs" />
     <Compile Include="Packets\IPacketBuilder.cs" />
     <Compile Include="Packets\IPacketHandler.cs" />
     <Compile Include="Messages\IMessageFactory.cs" />

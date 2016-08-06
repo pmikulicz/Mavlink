@@ -1,4 +1,5 @@
-﻿using Mavlink.Packets;
+﻿using Mavlink.Messages.Types;
+using Mavlink.Packets;
 using Moq;
 using NUnit.Framework;
 
@@ -69,9 +70,24 @@ namespace Mavlink.UnitTests.Packets
                 foreach (byte packetByte in HeartbeatPacketBytes)
                     PacketBuilder.AddByte(packetByte);
 
+                MessageId expectedMessageId = MessageId.Heartbeat;
+                byte expectedPayloadLegth = 9;
+                byte expectedSequenceNumber = 78;
+                byte expectedSystemId = 1;
+                byte expectedHeader = Packet.HeaderValue;
+                byte[] expectedChecksum = { 0x1C, 0x7F };
+                byte[] expectedPayload = { 0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03 };
+
                 Packet packet = PacketBuilder.Build();
 
                 Assert.AreNotEqual(null, packet);
+                Assert.AreEqual(expectedMessageId, packet.MessageId);
+                Assert.AreEqual(expectedPayloadLegth, packet.PayloadLength);
+                Assert.AreEqual(expectedSequenceNumber, packet.SequenceNumber);
+                Assert.AreEqual(expectedSystemId, packet.SystemId);
+                Assert.AreEqual(expectedHeader, packet.Header);
+                Assert.AreEqual(expectedChecksum, packet.Checksum);
+                Assert.AreEqual(expectedPayload, packet.Payload);
             }
         }
     }

@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Messages.Types;
+
 namespace Mavlink.Packets
 {
     /// <summary>
@@ -32,7 +34,7 @@ namespace Mavlink.Packets
             SequenceNumber = sequenceNumber;
             SystemId = systemId;
             ComponentId = componentId;
-            MessageId = messageId;
+            MessageId = (MessageId)messageId;
             Payload = payload;
             Checksum = checksum;
         }
@@ -70,7 +72,7 @@ namespace Mavlink.Packets
         /// Gets identification of the message.
         /// The id defines what the payload "means" and how it should be correctly decoded
         /// </summary>
-        public byte MessageId { get; }
+        public MessageId MessageId { get; }
 
         /// <summary>
         /// Gets the data of the message, depends on the message id

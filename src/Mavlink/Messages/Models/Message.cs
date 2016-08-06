@@ -1,10 +1,12 @@
-﻿namespace Mavlink.Messages.Models
+﻿using Mavlink.Messages.Types;
+
+namespace Mavlink.Messages.Models
 {
-    public abstract class Message
+    public interface IMessage
     {
         /// <summary>
-        /// Gets id of the message
+        /// Gets type of the message
         /// </summary>
-        public abstract int Id { get; }
+        MessageId Id { get; }
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines micro air vehicles/autopilots. This identifies the individual model
     /// </summary>
-    public enum MavAutopilot
+    public enum MavAutopilot : byte
     {
         /// <summary>
         /// Generic autopilot, full support for everything

@@ -71,8 +71,8 @@ namespace Mavlink.Packets
             byte[] checksum = new byte[Packet.ChecksumLength];
             int payloadLength = Convert.ToInt32(packetBytes[Packet.PayloadLengthIndex]);
             byte[] payload = new byte[payloadLength];
-            Array.Copy(packetBytes, Packet.PayloadIndex + Packet.PayloadLengthIndex, checksum, 0, Packet.ChecksumLength);
-            Array.Copy(packetBytes, Packet.PayloadLengthIndex, payload, 0, payloadLength);
+            Array.Copy(packetBytes, Packet.PayloadIndex + payloadLength, checksum, 0, Packet.ChecksumLength);
+            Array.Copy(packetBytes, Packet.PayloadIndex, payload, 0, payloadLength);
 
             Packet packet = new Packet(packetBytes[Packet.PayloadLengthIndex], packetBytes[Packet.PacketSequenceIndex], packetBytes[Packet.SystemIdIndex],
                 packetBytes[Packet.ComponentIdIndex], packetBytes[Packet.MessageIdIndex], payload, checksum);

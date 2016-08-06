@@ -17,7 +17,7 @@ namespace Mavlink.Messages
     /// </summary>
     public sealed class MessageReceivedEventArgs : EventArgs
     {
-        public MessageReceivedEventArgs(Message message)
+        public MessageReceivedEventArgs(IMessage message)
         {
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
@@ -28,6 +28,6 @@ namespace Mavlink.Messages
         /// <summary>
         /// Gets the message which was received from mavlink
         /// </summary>
-        public Message Message { get; }
+        public IMessage Message { get; }
     }
 }
