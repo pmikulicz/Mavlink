@@ -7,9 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages.Models;
-using Mavlink.Messages.Types;
-
 namespace Mavlink.Messages
 {
     /// <summary>

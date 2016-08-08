@@ -1,7 +1,19 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MessageStructAttribute.cs" company="Patryk Mikulicz">
+//   Copyright (c) 2016 Patryk Mikulicz.
+// </copyright>
+// <summary>
+//  Specifies a mavlink message structure with appropriate structure type
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 
 namespace Mavlink.Messages
 {
+    /// <summary>
+    /// Specifies a mavlink message structure with appropriate structure type
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     internal class MessageStructAttribute : Attribute
     {
@@ -13,6 +25,9 @@ namespace Mavlink.Messages
             Type = type;
         }
 
+        /// <summary>
+        /// Gets structure type
+        /// </summary>
         public Type Type { get; }
     }
 }

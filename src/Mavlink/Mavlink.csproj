@@ -2,7 +2,7 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6258B144-7715-47D2-9631-4A44E69465C2}</ProjectGuid>
@@ -13,8 +13,9 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,11 +36,15 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMavlinkCommunicatorFactory.cs" />
     <Compile Include="Messages\MessageStructAttribute.cs" />
-    <Compile Include="Messages\Types\MessageId.cs" />
+    <Compile Include="Messages\MessageId.cs" />
+    <Compile Include="Messages\Models\SysStatusMessage.cs" />
+    <Compile Include="Messages\Models\SystemTimeMessage.cs" />
+    <Compile Include="Messages\Types\MavSysStatusSensor.cs" />
     <Compile Include="Packets\IPacketBuilder.cs" />
     <Compile Include="Packets\IPacketHandler.cs" />
     <Compile Include="Messages\IMessageFactory.cs" />
@@ -51,7 +56,7 @@
     <Compile Include="Messages\MessageNotifier.cs" />
     <Compile Include="Messages\MessageReceivedEventArgs.cs" />
     <Compile Include="Messages\Models\HeartbeatMessage.cs" />
-    <Compile Include="Messages\Models\Message.cs" />
+    <Compile Include="Messages\IMessage.cs" />
     <Compile Include="Messages\Types\MavAutopilot.cs" />
     <Compile Include="Messages\Types\MavModeFlag.cs" />
     <Compile Include="Messages\Types\MavState.cs" />

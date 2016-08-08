@@ -1,23 +1,29 @@
-﻿using Mavlink.Messages.Types;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="HeartbeatMessage.cs" company="Patryk Mikulicz">
+//   Copyright (c) 2016 Patryk Mikulicz.
+// </copyright>
+// <summary>
+//   The heartbeat message shows that a system is present and responding.
+//   The type of the MAV and Autopilot hardware allow the receiving system to treat further messages from this system appropriate
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using Mavlink.Messages.Types;
 using System.Runtime.InteropServices;
+
+// ReSharper disable UnassignedGetOnlyAutoProperty
 
 namespace Mavlink.Messages.Models
 {
+    /// <summary>
+    /// The heartbeat message shows that a system is present and responding.
+    /// The type of the MAV and Autopilot hardware allow the receiving system to treat further messages from this system appropriate
+    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct HeartbeatMessage : IMessage
     {
-        public HeartbeatMessage(MavType type, MavAutopilot autopilot, MavModeFlag baseMode, uint customMode, MavState systemStatus, byte mavlinkVersion)
-        {
-            Type = type;
-            Autopilot = autopilot;
-            BaseMode = baseMode;
-            CustomMode = customMode;
-            SystemStatus = systemStatus;
-            MavlinkVersion = mavlinkVersion;
-        }
-
         /// <summary>
-        /// Gets type of the message
+        /// Gets id of the message
         /// </summary>
         public MessageId Id => MessageId.Heartbeat;
 

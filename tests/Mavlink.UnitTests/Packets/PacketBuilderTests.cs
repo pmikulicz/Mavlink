@@ -1,4 +1,4 @@
-﻿using Mavlink.Messages.Types;
+﻿using Mavlink.Messages;
 using Mavlink.Packets;
 using Moq;
 using NUnit.Framework;

@@ -1,4 +1,5 @@
-﻿using Mavlink.Messages.Models;
+﻿using Mavlink.Messages;
+using Mavlink.Messages.Models;
 using System;
 using System.Runtime.InteropServices;
 

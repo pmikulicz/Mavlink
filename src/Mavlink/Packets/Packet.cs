@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages.Types;
+using Mavlink.Messages;
 
 namespace Mavlink.Packets
 {

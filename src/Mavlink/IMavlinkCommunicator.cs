@@ -8,7 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages;
-using Mavlink.Messages.Models;
 using System;
 using System.Threading.Tasks;
 

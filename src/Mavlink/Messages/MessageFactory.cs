@@ -7,8 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages.Models;
-using Mavlink.Messages.Types;
 using System;
 using System.Linq;
 using System.Reflection;

@@ -8,7 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages;
-using Mavlink.Messages.Models;
 using Mavlink.Packets;
 using System;
 using System.Collections.Concurrent;

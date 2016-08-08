@@ -1,8 +1,6 @@
 ﻿using Mavlink.Messages;
 using Mavlink.Messages.Models;
 using Mavlink.Messages.Types;
-using Mavlink.Packets;
-using Moq;
 using NUnit.Framework;
 using System;
 
