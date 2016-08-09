@@ -7,7 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-// ReSharper disable UnassignedGetOnlyAutoProperty
 namespace Mavlink.Messages.Models
 {
     /// <summary>
@@ -16,18 +15,18 @@ namespace Mavlink.Messages.Models
     public struct SystemTimeMessage : IMessage
     {
         /// <summary>
-        /// Gets id of the message
+        /// Gets or sets autopilot-specific errors id of the message
         /// </summary>
         public MessageId Id => MessageId.SystemTime;
 
         /// <summary>
-        /// Gets timestamp of the master clock in microseconds since UNIX epoch
+        /// Gets or sets timestamp of the master clock in microseconds since UNIX epoch
         /// </summary>
-        public ulong TimeUnixUsec { get; }
+        public ulong TimeUnixUsec { get; internal set; }
 
         /// <summary>
-        /// Gets timestamp of the component clock since boot time in milliseconds
+        /// Gets or sets timestamp of the component clock since boot time in milliseconds
         /// </summary>
-        public uint TimeBootMs { get; }
+        public uint TimeBootMs { get; internal set; }
     }
 }

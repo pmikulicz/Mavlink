@@ -28,8 +28,9 @@ namespace Mavlink
         /// <summary>
         /// Sends message via mavlink protocol asynchronously
         /// </summary>
-        /// <param name="message">Message to be sent asynchronously</param>
+        /// <param name="message">Message to be sent</param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        Task<bool> SendMessageAsync(IMessage message);
+        Task<bool> SendMessageAsync<TMessage>(TMessage message)
+            where TMessage : struct, IMessage;
     }
 }

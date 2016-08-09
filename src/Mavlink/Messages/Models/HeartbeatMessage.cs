@@ -11,8 +11,6 @@
 using Mavlink.Messages.Types;
 using System.Runtime.InteropServices;
 
-// ReSharper disable UnassignedGetOnlyAutoProperty
-
 namespace Mavlink.Messages.Models
 {
     /// <summary>
@@ -28,33 +26,33 @@ namespace Mavlink.Messages.Models
         public MessageId Id => MessageId.Heartbeat;
 
         /// <summary>
-        /// A bitfield for use for autopilot-specific flags
+        /// Gets or sets a bitfield for use for autopilot-specific flags
         /// </summary>
-        public uint CustomMode { get; }
+        public uint CustomMode { get; set; }
 
         /// <summary>
-        /// Type of the mavlink
+        /// Gets or sets type of the mavlink
         /// </summary>
-        public MavType Type { get; }
+        public MavType Type { get; set; }
 
         /// <summary>
-        /// Autopilot type
+        /// Gets or sets autopilot type
         /// </summary>
-        public MavAutopilot Autopilot { get; }
+        public MavAutopilot Autopilot { get; set; }
 
         /// <summary>
-        /// System mode bitfield
+        /// Gets or sets system mode bitfield
         /// </summary>
-        public MavModeFlag BaseMode { get; }
+        public MavModeFlag BaseMode { get; set; }
 
         /// <summary>
-        /// System status flag
+        /// Gets or sets system status flag
         /// </summary>
-        public MavState SystemStatus { get; }
+        public MavState SystemStatus { get; set; }
 
         /// <summary>
-        /// Mavlink version
+        /// Gets or sets mavlink version
         /// </summary>
-        public byte MavlinkVersion { get; }
+        public byte MavlinkVersion { get; set; }
     }
 }

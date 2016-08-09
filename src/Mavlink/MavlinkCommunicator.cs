@@ -75,11 +75,12 @@ namespace Mavlink
         /// <summary>
         /// Sends message via mavlink protocol asynchronously
         /// </summary>
-        /// <param name="message">Message to be sent asynchronously</param>
+        /// <param name="message">Message to be sent</param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        public async Task<bool> SendMessageAsync(IMessage message)
+        public Task<bool> SendMessageAsync<TMessage>(TMessage message)
+            where TMessage : struct, IMessage
         {
-            return await Task.FromResult(true);
+            return Task.FromResult(true);
         }
 
         public void Dispose()

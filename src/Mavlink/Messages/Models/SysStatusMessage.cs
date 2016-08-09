@@ -16,8 +16,6 @@
 using Mavlink.Messages.Types;
 using System.Runtime.InteropServices;
 
-// ReSharper disable UnassignedGetOnlyAutoProperty
-
 namespace Mavlink.Messages.Models
 {
     /// <summary>
@@ -38,79 +36,79 @@ namespace Mavlink.Messages.Models
         public MessageId Id => MessageId.SysStatus;
 
         /// <summary>
-        /// Gets onboard controllers and sensors which are present.
+        /// Gets or sets onboard controllers and sensors which are present.
         /// Value of 0: not present. Value of 1: present.
         /// Indices defined by ENUM MAV_SYS_STATUS_SENSOR onboard controllers and sensors are present
         /// </summary>
-        public MavSysStatusSensor SensorsPresent { get; }
+        public MavSysStatusSensor SensorsPresent { get; set; }
 
         /// <summary>
-        /// Gets onboard controllers and sensors which are enabled.
+        /// Gets or sets onboard controllers and sensors which are enabled.
         /// Value of 0: not present. Value of 1: present.
         /// Indices defined by ENUM MAV_SYS_STATUS_SENSOR onboard controllers and sensors are present
         /// </summary>
-        public MavSysStatusSensor SensorsEnabled { get; }
+        public MavSysStatusSensor SensorsEnabled { get; set; }
 
         /// <summary>
-        /// Gets onboard controllers and sensors which are operational or have an error.
+        /// Gets or sets onboard controllers and sensors which are operational or have an error.
         /// Value of 0: not present. Value of 1: present.
         /// Indices defined by ENUM MAV_SYS_STATUS_SENSOR onboard controllers and sensors are present
         /// </summary>
-        public MavSysStatusSensor SensorsHealth { get; }
+        public MavSysStatusSensor SensorsHealth { get; set; }
 
         /// <summary>
-        /// Gets maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000).
+        /// Gets or sets maximum usage in percent of the mainloop time, (0%: 0, 100%: 1000).
         /// Should be always below 1000
         /// </summary>
-        public ushort Load { get; }
+        public ushort Load { get; set; }
 
         /// <summary>
-        /// Gets battery voltage, in millivolts (1 = 1 millivolt)
+        /// Gets or sets battery voltage, in millivolts (1 = 1 millivolt)
         /// </summary>
-        public ushort VoltageBattery { get; }
+        public ushort VoltageBattery { get; set; }
 
         /// <summary>
-        /// Gets battery current, in 10*milliamperes (1 = 10 milliampere).
+        /// Gets or sets battery current, in 10*milliamperes (1 = 10 milliampere).
         /// -1: autopilot does not measure the curren
         /// </summary>
-        public short CurrentBattery { get; }
+        public short CurrentBattery { get; set; }
 
         /// <summary>
-        /// Gets remaining battery energy: (0%: 0, 100%: 100).
+        /// Gets or sets remaining battery energy: (0%: 0, 100%: 100).
         /// -1: autopilot estimate the remaining battery
         /// </summary>
-        public sbyte BatteryRemaining { get; }
+        public sbyte BatteryRemaining { get; set; }
 
         /// <summary>
-        /// Gets communication drops in percent, (0%: 0, 100%: 10'000), (UART, I2C, SPI, CAN),
+        /// Gets or sets communication drops in percent, (0%: 0, 100%: 10'000), (UART, I2C, SPI, CAN),
         /// dropped packets on all links (packets that were corrupted on reception on the MAV)
         /// </summary>
-        public ushort DropRateComm { get; }
+        public ushort DropRateComm { get; set; }
 
         /// <summary>
-        /// Gets communication errors (UART, I2C, SPI, CAN),
+        /// Gets or sets communication errors (UART, I2C, SPI, CAN),
         /// dropped packets on all links (packets that were corrupted on reception on the MAV)
         /// </summary>
-        public ushort ErrorsComm { get; }
+        public ushort ErrorsComm { get; set; }
 
         /// <summary>
-        /// Autopilot-specific errors
+        /// Gets or sets autopilot-specific errors
         /// </summary>
-        public ushort ErrorsFirstCount { get; }
+        public ushort ErrorsFirstCount { get; set; }
 
         /// <summary>
-        /// Autopilot-specific errors
+        /// Gets or sets autopilot-specific errors
         /// </summary>
-        public ushort ErrorsSecondCount { get; }
+        public ushort ErrorsSecondCount { get; set; }
 
         /// <summary>
-        /// Autopilot-specific errors
+        /// Gets or sets autopilot-specific errors
         /// </summary>
-        public ushort ErrorsThirdCount { get; }
+        public ushort ErrorsThirdCount { get; set; }
 
         /// <summary>
-        /// Autopilot-specific errors
+        /// Gets or sets autopilot-specific errors
         /// </summary>
-        public ushort ErrorsFourthCount { get; }
+        public ushort ErrorsFourthCount { get; set; }
     }
 }
