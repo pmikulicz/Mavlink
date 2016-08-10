@@ -44,8 +44,12 @@ namespace Mavlink.Packets
 
             foreach (var packetByte in bytes)
             {
-                if (_packetBuilder.AddByte(packetByte))
-                    yield return _packetBuilder.Build();
+                if (!_packetBuilder.AddByte(packetByte)) continue;
+
+                Packet packet = _packetBuilder.Build();
+
+                if (packet != null)
+                    yield return packet;
             }
         }
     }

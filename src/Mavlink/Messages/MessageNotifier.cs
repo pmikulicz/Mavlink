@@ -21,6 +21,10 @@ namespace Mavlink.Messages
         /// </summary>
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
+        /// <summary>
+        /// Invokes MessageReceived event
+        /// </summary>
+        /// <param name="args"></param>
         internal void OnMessageReceived(MessageReceivedEventArgs args)
         {
             MessageReceived?.Invoke(this, args);
