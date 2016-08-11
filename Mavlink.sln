@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.Playground", "src\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.UnitTests", "tests\Mavlink.UnitTests\Mavlink.UnitTests.csproj", "{7BF290BC-399C-4672-B820-6C5EC2FC5457}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.IntegrationTests", "tests\Mavlink.IntegrationTests\Mavlink.IntegrationTests.csproj", "{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{7BF290BC-399C-4672-B820-6C5EC2FC5457}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BF290BC-399C-4672-B820-6C5EC2FC5457}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BF290BC-399C-4672-B820-6C5EC2FC5457}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,5 +45,6 @@ Global
 		{6258B144-7715-47D2-9631-4A44E69465C2} = {D08E1349-D1AC-4E25-BC9B-F316EF1F505A}
 		{ECC9FBF4-4CFA-4FE1-96E9-3F855A0454EA} = {D08E1349-D1AC-4E25-BC9B-F316EF1F505A}
 		{7BF290BC-399C-4672-B820-6C5EC2FC5457} = {88ABBC3D-7642-44AE-8616-92011C12C395}
+		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09} = {88ABBC3D-7642-44AE-8616-92011C12C395}
 	EndGlobalSection
 EndGlobal

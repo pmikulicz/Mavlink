@@ -35,6 +35,18 @@ namespace Mavlink.Packets
                    ((byte)(crc >> 8) == packet.Checksum[1]);
         }
 
+        /// <summary>
+        /// Gets packet cyclic redundancy check value
+        /// </summary>
+        /// <param name="packet">Packet for which redundancy check value is created</param>
+        /// <returns>Cyclic redundancy check</returns>
+        public byte[] GetChecksum(Packet packet)
+        {
+            int crc = GetPacketCrc(packet);
+
+            return new[] { (byte)(crc & 0xFF), (byte)(crc >> 8) };
+        }
+
         private static int GetPacketCrc(Packet packet)
         {
             int crc = X25CrcSeed;
@@ -58,6 +70,7 @@ namespace Mavlink.Packets
             }
         }
 
+        // TODO: change it !!
         private static byte GetCrcForMessageId(byte messageId)
         {
             switch (messageId)

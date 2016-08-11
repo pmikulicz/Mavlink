@@ -9,7 +9,6 @@
 
 using Mavlink.Messages;
 using System;
-using System.Threading.Tasks;
 
 namespace Mavlink
 {
@@ -29,8 +28,10 @@ namespace Mavlink
         /// Sends message via mavlink protocol asynchronously
         /// </summary>
         /// <param name="message">Message to be sent</param>
+        /// <param name="systemId">Id of a system which is sending message</param>
+        /// <param name="componentId">Id of a component which is sending message</param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        Task<bool> SendMessageAsync<TMessage>(TMessage message)
+        bool SendMessage<TMessage>(TMessage message, byte systemId, byte componentId)
             where TMessage : struct, IMessage;
     }
 }

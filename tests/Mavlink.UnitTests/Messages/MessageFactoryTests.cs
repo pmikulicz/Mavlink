@@ -14,7 +14,7 @@ namespace Mavlink.UnitTests.Messages
         protected readonly byte[] HeartbeatMessagePayload =
         {
             0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03
-            };
+        };
 
         protected MessageId MessageId = MessageId.Heartbeat;
 
@@ -25,22 +25,22 @@ namespace Mavlink.UnitTests.Messages
         }
 
         [TestFixture]
-        public sealed class CreateTests : MessageFactoryTests
+        public sealed class CreateMethodTests : MessageFactoryTests
         {
             [Test]
             public void CreateThrowArgumentNullException()
             {
-                Assert.Throws<ArgumentNullException>(() => MessageFactory.Create(null, MessageId));
+                Assert.Throws<ArgumentNullException>(() => MessageFactory.CreateMessage(null, MessageId));
             }
 
             [Test]
             public void CreateThrowArgumentOutOfRangeException()
             {
-                Assert.Throws<ArgumentOutOfRangeException>(() => MessageFactory.Create(new byte[] { }, (MessageId)254));
+                Assert.Throws<ArgumentOutOfRangeException>(() => MessageFactory.CreateMessage(new byte[] { }, (MessageId)254));
             }
 
             [Test]
-            public void CreateReturnMessage()
+            public void CreateReturnsMessage()
             {
                 var expectedType = MavType.Quadrotor;
                 var expectedAutopilot = MavAutopilot.Ardupilotmega;
@@ -49,7 +49,7 @@ namespace Mavlink.UnitTests.Messages
                 var expectedSystemStatus = MavState.Active;
                 byte expectedMavlinkVersion = 3;
 
-                HeartbeatMessage message = (HeartbeatMessage)MessageFactory.Create(HeartbeatMessagePayload, MessageId);
+                HeartbeatMessage message = (HeartbeatMessage)MessageFactory.CreateMessage(HeartbeatMessagePayload, MessageId);
 
                 Assert.AreNotEqual(null, message);
                 Assert.AreEqual(expectedAutopilot, message.Autopilot);

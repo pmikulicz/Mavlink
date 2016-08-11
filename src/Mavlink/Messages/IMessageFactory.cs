@@ -20,6 +20,15 @@ namespace Mavlink.Messages
         /// <param name="payload">Payload from which message will be created</param>
         /// <param name="messageId">Id of created message</param>
         /// <returns>Mavlink message</returns>
-        IMessage Create(byte[] payload, MessageId messageId);
+        IMessage CreateMessage(byte[] payload, MessageId messageId);
+
+        /// <summary>
+        /// Creates array of bytes based on passed mavlink message
+        /// </summary>
+        /// <typeparam name="TMessage">Mavlink message</typeparam>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        byte[] CreateBytes<TMessage>(TMessage message)
+            where TMessage : struct, IMessage;
     }
 }

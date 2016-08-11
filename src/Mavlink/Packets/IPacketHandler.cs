@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Messages;
 using System.Collections.Generic;
 
 namespace Mavlink.Packets
@@ -22,5 +23,16 @@ namespace Mavlink.Packets
         /// <param name="bytes">Bytes array from which mavlink packets will be handled</param>
         /// <returns>Collection of mavlink packets</returns>
         IEnumerable<Packet> HandlePackets(byte[] bytes);
+
+        /// <summary>
+        /// Gets newly created packet
+        /// </summary>
+        /// <param name="systemId">System id</param>
+        /// <param name="componentId">Component id</param>
+        /// <param name="sequenceNumber">Number of a sequence</param>
+        /// <param name="messageId">Message id</param>
+        /// <param name="packetPayload">Message as a byte array</param>
+        /// <returns></returns>
+        Packet GetPacket(byte systemId, byte componentId, byte sequenceNumber, MessageId messageId, byte[] packetPayload);
     }
 }

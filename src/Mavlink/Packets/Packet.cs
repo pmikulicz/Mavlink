@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages;
+using System.Collections.Generic;
 
 namespace Mavlink.Packets
 {
@@ -27,61 +28,72 @@ namespace Mavlink.Packets
         internal const int ChecksumLength = 2;
         internal const int MetadataLength = 6;
 
-        public Packet(byte payloadLength, byte sequenceNumber, byte systemId, byte componentId, byte messageId, byte[] payload, byte[] checksum)
-        {
-            Header = HeaderValue;
-            PayloadLength = payloadLength;
-            SequenceNumber = sequenceNumber;
-            SystemId = systemId;
-            ComponentId = componentId;
-            MessageId = (MessageId)messageId;
-            Payload = payload;
-            Checksum = checksum;
-        }
-
         /// <summary>
         /// Gets start of frame transmission
         /// </summary>
-        public byte Header { get; }
+        public byte Header { get; } = HeaderValue;
 
         /// <summary>
-        /// Gets length of payload
+        /// Gets or sets length of payload
         /// </summary>
-        public byte PayloadLength { get; }
+        public byte PayloadLength { get; set; }
 
         /// <summary>
-        /// Gets sequence number. Each component counts up his send sequence.
+        /// Gets or sets sequence number. Each component counts up his send sequence.
         /// Allows to detect packet loss
         /// </summary>
-        public byte SequenceNumber { get; }
+        public byte SequenceNumber { get; set; }
 
         /// <summary>
-        /// Gets identification of the sending system.
+        /// Gets or sets identification of the sending system.
         /// Allows to differentiate different systems on the same network
         /// </summary>
-        public byte SystemId { get; }
+        public byte SystemId { get; set; }
 
         /// <summary>
-        /// Gets identification of the sending component.
+        /// Gets or sets identification of the sending component.
         /// Allows to differentiate different components of the same system,
         /// e.g. the IMU and the autopilot
         /// </summary>
-        public byte ComponentId { get; }
+        public byte ComponentId { get; set; }
 
         /// <summary>
-        /// Gets identification of the message.
+        /// Gets or sets identification of the message.
         /// The id defines what the payload "means" and how it should be correctly decoded
         /// </summary>
-        public MessageId MessageId { get; }
+        public MessageId MessageId { get; set; }
 
         /// <summary>
-        /// Gets the data of the message, depends on the message id
+        /// Gets or sets the data of the message, depends on the message id
         /// </summary>
-        public byte[] Payload { get; }
+        public byte[] Payload { get; set; }
 
         /// <summary>
-        /// Gets checksum of the entire packet, excluding the packet start sign
+        /// Gets or sets checksum of the entire packet, excluding the packet start sign
         /// </summary>
-        public byte[] Checksum { get; }
+        public byte[] Checksum { get; set; }
+
+        /// <summary>
+        /// Gets packet array of raw bytes
+        /// </summary>
+        public byte[] RawBytes
+        {
+            get
+            {
+                var rawBytes = new List<byte>
+                {
+                    HeaderValue,
+                    PayloadLength,
+                    SequenceNumber,
+                    SystemId,
+                    ComponentId,
+                    (byte) MessageId
+                };
+                rawBytes.AddRange(Payload);
+                rawBytes.AddRange(Checksum);
+
+                return rawBytes.ToArray();
+            }
+        }
     }
 }

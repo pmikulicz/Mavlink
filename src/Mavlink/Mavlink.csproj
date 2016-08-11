@@ -45,6 +45,7 @@
     <Compile Include="Messages\Models\SysStatusMessage.cs" />
     <Compile Include="Messages\Models\SystemTimeMessage.cs" />
     <Compile Include="Messages\Types\MavSysStatusSensor.cs" />
+    <Compile Include="Packets\BuildType.cs" />
     <Compile Include="Packets\IPacketBuilder.cs" />
     <Compile Include="Packets\IPacketHandler.cs" />
     <Compile Include="Messages\IMessageFactory.cs" />

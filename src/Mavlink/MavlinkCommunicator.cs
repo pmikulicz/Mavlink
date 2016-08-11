@@ -76,11 +76,28 @@ namespace Mavlink
         /// Sends message via mavlink protocol asynchronously
         /// </summary>
         /// <param name="message">Message to be sent</param>
+        /// <param name="systemId">Id of a system which is sending message</param>
+        /// <param name="componentId">Id of a component which is sending message</param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        public Task<bool> SendMessageAsync<TMessage>(TMessage message)
+        public bool SendMessage<TMessage>(TMessage message, byte systemId, byte componentId)
             where TMessage : struct, IMessage
         {
-            return Task.FromResult(true);
+            const byte sequenceNumber = 1;
+            byte[] packetPayload = _messageFactory.CreateBytes(message);
+            Packet packet = _packetHandler.GetPacket(systemId, componentId, sequenceNumber, message.Id, packetPayload);
+
+            if (packet == null)
+                return false;
+
+            try
+            {
+                _binaryWriter.Write(packet.RawBytes);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public void Dispose()
@@ -112,7 +129,7 @@ namespace Mavlink
 
                 foreach (Packet packet in packets)
                 {
-                    IMessage message = _messageFactory.Create(packet.Payload, packet.MessageId);
+                    IMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
                     NotifyForMessage(message);
                 }
             }

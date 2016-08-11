@@ -20,5 +20,12 @@ namespace Mavlink.Packets
         /// <param name="packet"></param>
         /// <returns></returns>
         bool Validate(Packet packet);
+
+        /// <summary>
+        /// Gets packet cyclic redundancy check value
+        /// </summary>
+        /// <param name="packet">Packet for which redundancy check value is created</param>
+        /// <returns>Cyclic redundancy check</returns>
+        byte[] GetChecksum(Packet packet);
     }
 }

@@ -16,7 +16,7 @@ namespace Mavlink.Playground
             var mavlinkcommunicatorFactory = new MavlinkCommunicatorFactory();
 
             IMavlinkCommunicator mavlinkCommunicator = mavlinkcommunicatorFactory.Create(file);
-            mavlinkCommunicator.SendMessageAsync(new HeartbeatMessage
+            mavlinkCommunicator.SendMessage(new HeartbeatMessage
             {
                 Autopilot = MavAutopilot.Aerob,
                 BaseMode = MavModeFlag.AutoEnabled,
@@ -24,7 +24,7 @@ namespace Mavlink.Playground
                 MavlinkVersion = 2,
                 SystemStatus = MavState.Active,
                 Type = MavType.Airship
-            });
+            }, 1, 1);
 
             // 00  00  00  00  02  03  51  04  03
             var bytes = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03 };

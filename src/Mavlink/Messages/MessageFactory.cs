@@ -25,7 +25,7 @@ namespace Mavlink.Messages
         /// <param name="payload">Payload from which message will be created</param>
         /// <param name="messageId">Id of created message</param>
         /// <returns>Mavlink message</returns>
-        public IMessage Create(byte[] payload, MessageId messageId)
+        public IMessage CreateMessage(byte[] payload, MessageId messageId)
         {
             if (payload == null)
                 throw new ArgumentNullException(nameof(payload));
@@ -50,6 +50,25 @@ namespace Mavlink.Messages
             Type messageType = messageStructAttribute.Type;
 
             return CastAsMessage(payload, messageType);
+        }
+
+        /// <summary>
+        /// Creates array of bytes based on passed mavlink message
+        /// </summary>
+        /// <typeparam name="TMessage">Mavlink message</typeparam>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public byte[] CreateBytes<TMessage>(TMessage message) where TMessage
+            : struct, IMessage
+        {
+            int structureSize = Marshal.SizeOf(typeof(TMessage));
+            byte[] messageBytes = new byte[structureSize];
+
+            IntPtr pointerToStructure = Marshal.AllocHGlobal(structureSize);
+            Marshal.StructureToPtr(message, pointerToStructure, true);
+            Marshal.Copy(pointerToStructure, messageBytes, 0, structureSize);
+            Marshal.FreeHGlobal(pointerToStructure);
+            return messageBytes;
         }
 
         private static IMessage CastAsMessage(byte[] payload, Type messageType)

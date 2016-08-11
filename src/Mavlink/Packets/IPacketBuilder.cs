@@ -21,13 +21,24 @@ namespace Mavlink.Packets
         /// <returns>value indicating whether all packet bytes were collected and are ready to build</returns>
         bool AddByte(byte packetByte);
 
+        //        /// <summary>
+        //        /// Add array of packet bytes
+        //        /// </summary>
+        //        /// <param name="packetBytes">Array of packet bytes</param>
+        //        /// <returns>value indicating whether all packet bytes were collected and are ready to build</returns>
+        //        bool AddBytes(byte[] packetBytes);
+
         /// <summary>
         /// Builds mavlink packet from aggregated bytes
         /// </summary>
+        /// <param name="buildType">
+        /// Type of a build.
+        /// Builder can build packet with crc or without crc
+        /// </param>
         /// <returns>
         /// New packet from aggregated bytes.
         /// If packet is not valid it returns null
         /// </returns>
-        Packet Build();
+        Packet Build(BuildType buildType = BuildType.WithCrc);
     }
 }
