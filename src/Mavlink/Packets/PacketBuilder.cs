@@ -50,25 +50,6 @@ namespace Mavlink.Packets
                 IsPacketComplete(_packetBuffer.ToArray());
         }
 
-        //        /// <summary>
-        //        /// Add array of packet bytes
-        //        /// </summary>
-        //        /// <param name="packetBytes">Array of packet bytes</param>
-        //        /// <returns>value indicating whether all packet bytes were collected and are ready to build</returns>
-        //        public bool AddBytes(byte[] packetBytes)
-        //        {
-        //            if (packetBytes.Length == 0)
-        //                return false;
-        //
-        //            if (packetBytes[0] == Packet.HeaderValue)
-        //                _packetBuffer.Clear();
-        //
-        //            _packetBuffer.AddRange(packetBytes);
-        //
-        //            return HasPacketMetadata(_packetBuffer.ToArray()) &&
-        //                IsPacketComplete(_packetBuffer.ToArray());
-        //        }
-
         /// <summary>
         /// Builds mavlink packet from aggregated bytes
         /// </summary>

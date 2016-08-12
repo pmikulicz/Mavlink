@@ -65,46 +65,46 @@ namespace Mavlink.IntegrationTests
                 mavlinkCommunicator.Dispose();
                 Thread.Sleep(1000);
             }
-        }
 
-        [Test]
-        public void GetTheSameMessageCountAsSend()
-        {
-            int messagesToSend = 20;
-            int messagesReceived = 0;
-            int messagesSuccessfullySent = 0;
-            IMavlinkCommunicator mavlinkCommunicator = MavlinkCommunicatorFactory.Create(Stream);
-            IMessageNotifier messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
-            messageNotifier.MessageReceived += (s, e) =>
+            [Test]
+            public void GetTheSameMessageCountAsSend()
             {
-                Interlocked.Increment(ref messagesReceived);
-            };
+                int messagesToSend = 20;
+                int messagesReceived = 0;
+                int messagesSuccessfullySent = 0;
+                IMavlinkCommunicator mavlinkCommunicator = MavlinkCommunicatorFactory.Create(Stream);
+                IMessageNotifier messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
+                messageNotifier.MessageReceived += (s, e) =>
+                {
+                    Interlocked.Increment(ref messagesReceived);
+                };
 
-            HeartbeatMessage sentHeartbeat = new HeartbeatMessage
-            {
-                Autopilot = MavAutopilot.Ardupilotmega,
-                BaseMode =
-                    MavModeFlag.CustomModeEnabled | MavModeFlag.StabilizeEnabled | MavModeFlag.ManualInputEnabled,
-                MavlinkVersion = 3,
-                Type = MavType.Quadrotor,
-                SystemStatus = MavState.Active,
-                CustomMode = 0
-            };
+                HeartbeatMessage sentHeartbeat = new HeartbeatMessage
+                {
+                    Autopilot = MavAutopilot.Ardupilotmega,
+                    BaseMode =
+                        MavModeFlag.CustomModeEnabled | MavModeFlag.StabilizeEnabled | MavModeFlag.ManualInputEnabled,
+                    MavlinkVersion = 3,
+                    Type = MavType.Quadrotor,
+                    SystemStatus = MavState.Active,
+                    CustomMode = 0
+                };
 
-            for (int i = 0; i < messagesToSend; i++)
-            {
-                bool result = mavlinkCommunicator.SendMessage(sentHeartbeat, 1, 1);
-                if (result)
-                    messagesSuccessfullySent++;
+                for (int i = 0; i < messagesToSend; i++)
+                {
+                    bool result = mavlinkCommunicator.SendMessage(sentHeartbeat, 1, 1);
+                    if (result)
+                        messagesSuccessfullySent++;
+                }
+
+                Stream.Seek(0, SeekOrigin.Begin);
+
+                Thread.Sleep(8000);
+                Assert.AreEqual(messagesSuccessfullySent, messagesReceived, 0,
+                    $"Successfully sent {messagesSuccessfullySent}. Successfully received {messagesReceived}");
+                mavlinkCommunicator.Dispose();
+                Thread.Sleep(1000);
             }
-
-            Stream.Seek(0, SeekOrigin.Begin);
-
-            Thread.Sleep(8000);
-            Assert.AreEqual(messagesSuccessfullySent, messagesReceived, 0,
-                $"Successfully sent {messagesSuccessfullySent}. Successfully received {messagesReceived}");
-            mavlinkCommunicator.Dispose();
-            Thread.Sleep(1000);
         }
 
         [TestFixture]
@@ -145,86 +145,46 @@ namespace Mavlink.IntegrationTests
                 mavlinkCommunicator.Dispose();
                 Thread.Sleep(1000);
             }
-        }
 
-        [Test]
-        public async Task GetTheSameMessageCountAsSendAsync()
-        {
-            int messagesToSend = 20;
-            int messagesReceived = 0;
-            int messagesSuccessfullySent = 0;
-            IMavlinkCommunicator mavlinkCommunicator = MavlinkCommunicatorFactory.Create(Stream);
-            IMessageNotifier messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
-            messageNotifier.MessageReceived += (s, e) =>
+            [Test]
+            public async Task GetTheSameMessageCountAsSendAsync()
             {
-                Interlocked.Increment(ref messagesReceived);
-            };
+                int messagesToSend = 20;
+                int messagesReceived = 0;
+                int messagesSuccessfullySent = 0;
+                IMavlinkCommunicator mavlinkCommunicator = MavlinkCommunicatorFactory.Create(Stream);
+                IMessageNotifier messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
+                messageNotifier.MessageReceived += (s, e) =>
+                {
+                    Interlocked.Increment(ref messagesReceived);
+                };
 
-            HeartbeatMessage sentHeartbeat = new HeartbeatMessage
-            {
-                Autopilot = MavAutopilot.Ardupilotmega,
-                BaseMode =
-                    MavModeFlag.CustomModeEnabled | MavModeFlag.StabilizeEnabled | MavModeFlag.ManualInputEnabled,
-                MavlinkVersion = 3,
-                Type = MavType.Quadrotor,
-                SystemStatus = MavState.Active,
-                CustomMode = 0
-            };
+                HeartbeatMessage sentHeartbeat = new HeartbeatMessage
+                {
+                    Autopilot = MavAutopilot.Ardupilotmega,
+                    BaseMode =
+                        MavModeFlag.CustomModeEnabled | MavModeFlag.StabilizeEnabled | MavModeFlag.ManualInputEnabled,
+                    MavlinkVersion = 3,
+                    Type = MavType.Quadrotor,
+                    SystemStatus = MavState.Active,
+                    CustomMode = 0
+                };
 
-            for (int i = 0; i < messagesToSend; i++)
-            {
-                bool result = await mavlinkCommunicator.SendMessageAsync(sentHeartbeat, 1, 1);
-                if (result)
-                    messagesSuccessfullySent++;
+                for (int i = 0; i < messagesToSend; i++)
+                {
+                    bool result = await mavlinkCommunicator.SendMessageAsync(sentHeartbeat, 1, 1);
+                    if (result)
+                        messagesSuccessfullySent++;
+                }
+
+                Stream.Seek(0, SeekOrigin.Begin);
+
+                Thread.Sleep(8000);
+                Assert.AreEqual(messagesSuccessfullySent, messagesReceived, 0,
+                    $"Successfully sent {messagesSuccessfullySent}. Successfully received {messagesReceived}");
+                mavlinkCommunicator.Dispose();
+                Thread.Sleep(1000);
             }
-
-            Stream.Seek(0, SeekOrigin.Begin);
-
-            Thread.Sleep(8000);
-            Assert.AreEqual(messagesSuccessfullySent, messagesReceived, 0,
-                $"Successfully sent {messagesSuccessfullySent}. Successfully received {messagesReceived}");
-            mavlinkCommunicator.Dispose();
-            Thread.Sleep(1000);
-        }
-
-        [Test]
-        public void SubscribeForReceiveGetTheSameMessageCountAsSend()
-        {
-            int messagesToSend = 20;
-            int messagesReceived = 0;
-            int messagesSuccessfullySent = 0;
-            IMavlinkCommunicator mavlinkCommunicator = MavlinkCommunicatorFactory.Create(Stream);
-            IMessageNotifier messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
-            messageNotifier.MessageReceived += (s, e) =>
-            {
-                Interlocked.Increment(ref messagesReceived);
-            };
-
-            HeartbeatMessage sentHeartbeat = new HeartbeatMessage
-            {
-                Autopilot = MavAutopilot.Ardupilotmega,
-                BaseMode =
-                    MavModeFlag.CustomModeEnabled | MavModeFlag.StabilizeEnabled | MavModeFlag.ManualInputEnabled,
-                MavlinkVersion = 3,
-                Type = MavType.Quadrotor,
-                SystemStatus = MavState.Active,
-                CustomMode = 0
-            };
-
-            for (int i = 0; i < messagesToSend; i++)
-            {
-                bool result = mavlinkCommunicator.SendMessage(sentHeartbeat, 1, 1);
-                if (result)
-                    messagesSuccessfullySent++;
-            }
-
-            Stream.Seek(0, SeekOrigin.Begin);
-
-            Thread.Sleep(8000);
-            Assert.AreEqual(messagesSuccessfullySent, messagesReceived, 0,
-                $"Successfully sent {messagesSuccessfullySent}. Successfully received {messagesReceived}");
-            mavlinkCommunicator.Dispose();
-            Thread.Sleep(1000);
         }
     }
 }
