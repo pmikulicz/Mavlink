@@ -27,10 +27,9 @@ namespace Mavlink
         private readonly IMessageFactory _messageFactory;
         private readonly IDictionary<Func<IMessage, bool>, MessageNotifier> _messageNotifiers;
         private readonly Stream _stream;
-        private readonly BinaryReader _binaryReader;
-        private readonly BinaryWriter _binaryWriter;
         private readonly Task _streamReadingTaks;
         private readonly CancellationTokenSource _cancellationTokenSource;
+        private readonly object _syncRoot = new object();
         private bool _disposed;
         private const int BufferSize = 1024;
 
@@ -46,8 +45,8 @@ namespace Mavlink
             _stream = stream;
             _packetHandler = packetHandler;
             _messageFactory = messageFactory;
-            _binaryReader = new BinaryReader(stream);
-            _binaryWriter = new BinaryWriter(stream);
+            //            _binaryReader = new BinaryReader(stream);
+            //            _binaryWriter = new BinaryWriter(stream);
             _messageNotifiers = new ConcurrentDictionary<Func<IMessage, bool>, MessageNotifier>();
             _cancellationTokenSource = new CancellationTokenSource();
             _streamReadingTaks = Task.Factory.StartNew(ProcessReading, _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
@@ -83,21 +82,33 @@ namespace Mavlink
             where TMessage : struct, IMessage
         {
             const byte sequenceNumber = 1;
-            byte[] packetPayload = _messageFactory.CreateBytes(message);
-            Packet packet = _packetHandler.GetPacket(systemId, componentId, sequenceNumber, message.Id, packetPayload);
 
-            if (packet == null)
-                return false;
+            return ProcessSendMessage(message, systemId, componentId, sequenceNumber);
+        }
 
-            try
-            {
-                _binaryWriter.Write(packet.RawBytes);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+        public bool SendMessages<TMessage>(IEnumerable<TMessage> messages, byte systemId, byte componentId) where TMessage : struct, IMessage
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Sends message via mavlink protocol asynchronously
+        /// </summary>
+        /// <param name="message">Message to be sent</param>
+        /// <param name="systemId">Id of a system which is sending message</param>
+        /// <param name="componentId">Id of a component which is sending message</param>
+        /// <returns>Value which indicates whether operation completed successfully</returns>
+        public async Task<bool> SendMessageAsync<TMessage>(TMessage message, byte systemId, byte componentId)
+            where TMessage : struct, IMessage
+        {
+            const byte sequenceNumber = 1;
+
+            return await ProcessSendMessageAsync(message, systemId, componentId, sequenceNumber);
+        }
+
+        public Task<bool> SendMessagesAsync<TMessage>(IEnumerable<TMessage> messages, byte systemId, byte componentId) where TMessage : struct, IMessage
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()
@@ -113,19 +124,73 @@ namespace Mavlink
             if (disposing)
             {
                 _cancellationTokenSource.Cancel();
-                _stream.Dispose();
-                _binaryReader.Dispose();
-                _binaryWriter.Dispose();
+
+                lock (_syncRoot)
+                    _stream.Dispose();
             }
             _disposed = true;
+        }
+
+        private bool ProcessSendMessage<TMessage>(TMessage message, byte systemId, byte componentId, byte sequenceNumber)
+         where TMessage : struct, IMessage
+        {
+            byte[] packetPayload = _messageFactory.CreateBytes(message);
+            Packet packet = _packetHandler.GetPacket(systemId, componentId, sequenceNumber, message.Id, packetPayload);
+
+            if (packet == null)
+                return false;
+
+            try
+            {
+                lock (_syncRoot)
+                    _stream.Write(packet.RawBytes, 0, packet.RawBytes.Length);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private async Task<bool> ProcessSendMessageAsync<TMessage>(TMessage message, byte systemId, byte componentId, byte sequenceNumber)
+            where TMessage : struct, IMessage
+        {
+            byte[] packetPayload = _messageFactory.CreateBytes(message);
+            Packet packet = _packetHandler.GetPacket(systemId, componentId, sequenceNumber, message.Id, packetPayload);
+
+            if (packet == null)
+                return await Task.FromResult(false);
+
+            try
+            {
+                // ReSharper disable once InconsistentlySynchronizedField
+                await _stream.WriteAsync(packet.RawBytes, 0, packet.RawBytes.Length);
+
+                return await Task.FromResult(true);
+            }
+            catch
+            {
+                return await Task.FromResult(false);
+            }
         }
 
         private void ProcessReading()
         {
             while (true)
             {
-                byte[] bytesRead = _binaryReader.ReadBytes(BufferSize);
-                IEnumerable<Packet> packets = _packetHandler.HandlePackets(bytesRead);
+                byte[] buffer = new byte[BufferSize];
+                int bytesRead;
+
+                lock (_syncRoot)
+                    bytesRead = _stream.Read(buffer, 0, BufferSize);
+
+                if (bytesRead == 0)
+                    continue;
+
+                byte[] packetBytes = new byte[bytesRead];
+                Array.Copy(buffer, 0, packetBytes, 0, bytesRead);
+                IEnumerable<Packet> packets = _packetHandler.HandlePackets(packetBytes);
 
                 foreach (Packet packet in packets)
                 {
