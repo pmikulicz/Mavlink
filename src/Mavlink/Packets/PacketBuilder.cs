@@ -19,7 +19,7 @@ namespace Mavlink.Packets
     internal sealed class PacketBuilder : IPacketBuilder
     {
         private readonly IPacketValidator _packetValidator;
-        private readonly List<byte> _packetBuffer = new List<byte>(20);
+        private readonly List<byte> _packetBuffer = new List<byte>(50);
 
         public PacketBuilder(IPacketValidator packetValidator)
         {
@@ -45,9 +45,9 @@ namespace Mavlink.Packets
                 _packetBuffer.Clear();
 
             _packetBuffer.Add(packetByte);
+            byte[] packetBytes = _packetBuffer.ToArray();
 
-            return HasPacketMetadata(_packetBuffer.ToArray()) &&
-                IsPacketComplete(_packetBuffer.ToArray());
+            return HasPacketMetadata(packetBytes) && IsPacketComplete(packetBytes);
         }
 
         /// <summary>

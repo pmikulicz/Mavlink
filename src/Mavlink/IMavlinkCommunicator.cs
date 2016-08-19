@@ -32,18 +32,9 @@ namespace Mavlink
         /// <param name="message">Message to be sent</param>
         /// <param name="systemId">Id of a system which is sending message</param>
         /// <param name="componentId">Id of a component which is sending message</param>
+        /// <param name="sequenceNumber"></param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        bool SendMessage<TMessage>(TMessage message, byte systemId, byte componentId)
-            where TMessage : struct, IMessage;
-
-        /// <summary>
-        /// Sends message via mavlink protocol
-        /// </summary>
-        /// <param name="messages">Collection of messages to be sent</param>
-        /// <param name="systemId">Id of a system which is sending message</param>
-        /// <param name="componentId">Id of a component which is sending message</param>
-        /// <returns>Value which indicates whether operation completed successfully</returns>
-        bool SendMessages<TMessage>(IEnumerable<TMessage> messages, byte systemId, byte componentId)
+        bool SendMessage<TMessage>(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
             where TMessage : struct, IMessage;
 
         /// <summary>
@@ -52,18 +43,9 @@ namespace Mavlink
         /// <param name="message">Message to be sent</param>
         /// <param name="systemId">Id of a system which is sending message</param>
         /// <param name="componentId">Id of a component which is sending message</param>
+        /// <param name="sequenceNumber"></param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        Task<bool> SendMessageAsync<TMessage>(TMessage message, byte systemId, byte componentId)
-            where TMessage : struct, IMessage;
-
-        /// <summary>
-        /// Sends message via mavlink protocol asynchronously
-        /// </summary>
-        /// <param name="messages">Collection of messages to be sent</param>
-        /// <param name="systemId">Id of a system which is sending message</param>
-        /// <param name="componentId">Id of a component which is sending message</param>
-        /// <returns>Value which indicates whether operation completed successfully</returns>
-        Task<bool> SendMessagesAsync<TMessage>(IEnumerable<TMessage> messages, byte systemId, byte componentId)
+        Task<bool> SendMessageAsync<TMessage>(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
             where TMessage : struct, IMessage;
     }
 }

@@ -17,7 +17,8 @@ namespace Mavlink.Packets
     /// </summary>
     internal sealed class PacketValidator : IPacketValidator
     {
-        private const int X25CrcSeed = 0xFFFF;
+        private const int X25InitCrc = 0xFFFF;
+        private const int X25ValidateCrc = 0xF0B8;
 
         /// <summary>
         /// Validates packet performing cyclic redundancy check
@@ -49,7 +50,7 @@ namespace Mavlink.Packets
 
         private static int GetPacketCrc(Packet packet)
         {
-            int crc = X25CrcSeed;
+            int crc = X25InitCrc;
             crc = X25CrcAccumulate(packet.PayloadLength, crc);
             crc = X25CrcAccumulate(packet.SequenceNumber, crc);
             crc = X25CrcAccumulate(packet.SystemId, crc);
@@ -60,11 +61,11 @@ namespace Mavlink.Packets
             return X25CrcAccumulate(GetCrcForMessageId((byte)packet.MessageId), crc);
         }
 
-        private static int X25CrcAccumulate(byte packetByte, int crc)
+        private static int X25CrcAccumulate(byte crcByte, int crc)
         {
             unchecked
             {
-                byte b = (byte)(packetByte ^ (byte)(crc & 0x00FF));
+                byte b = (byte)(crcByte ^ (byte)(crc & 0x00FF));
                 b = (byte)(b ^ (b << 4));
                 return (crc >> 8) ^ (b << 8) ^ (b << 3) ^ (b >> 4);
             }

@@ -31,8 +31,9 @@ namespace Mavlink.Messages
                 throw new ArgumentNullException(nameof(payload));
 
             if (!Enum.IsDefined(typeof(MessageId), messageId))
-                throw new ArgumentOutOfRangeException(nameof(messageId),
-                    "Value should be defined in the MessageId enum.");
+                return null;
+            //                throw new ArgumentOutOfRangeException(nameof(messageId),
+            //                    "Value should be defined in the MessageId enum.");
 
             TypeInfo typeInfo = typeof(MessageId).GetTypeInfo();
             MemberInfo enumField = typeInfo.DeclaredMembers.FirstOrDefault(m => m.Name.Equals(messageId.ToString()));
