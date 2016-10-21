@@ -1,5 +1,6 @@
 ﻿using Mavlink.Messages;
-using Mavlink.Messages.Models;
+using Mavlink.Messages.Definitions;
+using Mavlink.Messages.Implementations.Common;
 using System;
 using System.IO.Ports;
 
@@ -13,8 +14,8 @@ namespace Mavlink.SerialPortTest
             serialPort.Open();
 
             MavlinkCommunicatorFactory mavlinkCommunicatorFactory = new MavlinkCommunicatorFactory();
-            IMavlinkCommunicator mavlinkCommunicator = mavlinkCommunicatorFactory.Create(serialPort.BaseStream);
-            IMessageNotifier heartbeatNotifier =
+            IMavlinkCommunicator<ICommonMessage> mavlinkCommunicator = mavlinkCommunicatorFactory.Create<ICommonMessage>(serialPort.BaseStream);
+            IMessageNotifier<ICommonMessage> heartbeatNotifier =
                 mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
 
             //            IMessageNotifier systemTimeNotifier =
@@ -35,7 +36,7 @@ namespace Mavlink.SerialPortTest
             //            {
             //                SystemTimeMessage heartbeatMessage = (SystemTimeMessage)eventArgs.Message;
             //                Console.WriteLine($"TimeBootMs: {heartbeatMessage.TimeBootMs}");
-            //                Console.WriteLine($"Time Unix uSec: {heartbeatMessage.TimeUnixUsec}");
+            //                Console.WriteLine($"Time Unix uSec: {heartbeatMessage.TimeUnixUSec}");
             //            };
             //
             //            sysStatusNotifier.MessageReceived += (sender, eventArgs) =>

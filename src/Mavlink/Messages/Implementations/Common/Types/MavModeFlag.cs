@@ -9,7 +9,7 @@
 
 using System;
 
-namespace Mavlink.Messages.Types
+namespace Mavlink.Messages.Implementations.Common.Types
 {
     /// <summary>
     /// Defines flags which encodes the mavlink mode

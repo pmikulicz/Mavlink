@@ -13,10 +13,11 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages.Types;
+using Mavlink.Messages.Definitions;
+using Mavlink.Messages.Implementations.Common.Types;
 using System.Runtime.InteropServices;
 
-namespace Mavlink.Messages.Models
+namespace Mavlink.Messages.Implementations.Common
 {
     /// <summary>
     /// The general system state. If the system is following the MAVLink standard, the system state is mainly defined by three orthogonal states/modes:
@@ -28,7 +29,7 @@ namespace Mavlink.Messages.Models
     /// After a failure occured it should first move from active to critical to allow manual intervention and then move to emergency after a certain timeout
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct SysStatusMessage : IMessage
+    public struct SysStatusMessage : ICommonMessage
     {
         /// <summary>
         /// Gets id of the message
@@ -38,21 +39,24 @@ namespace Mavlink.Messages.Models
         /// <summary>
         /// Gets or sets onboard controllers and sensors which are present.
         /// Value of 0: not present. Value of 1: present.
-        /// Indices defined by ENUM MAV_SYS_STATUS_SENSOR onboard controllers and sensors are present
+        /// Indices defined by ENUM MAV_SYS_STATUS_SENSOR onboard controllers and sensors are present.
+        /// See also <seealso cref="MavSysStatusSensor"/>
         /// </summary>
         public MavSysStatusSensor SensorsPresent { get; set; }
 
         /// <summary>
         /// Gets or sets onboard controllers and sensors which are enabled.
         /// Value of 0: not present. Value of 1: present.
-        /// Indices defined by ENUM MAV_SYS_STATUS_SENSOR onboard controllers and sensors are present
+        /// Indices defined by ENUM MAV_SYS_STATUS_SENSOR onboard controllers and sensors are present.
+        /// See also <seealso cref="MavSysStatusSensor"/>
         /// </summary>
         public MavSysStatusSensor SensorsEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets onboard controllers and sensors which are operational or have an error.
         /// Value of 0: not present. Value of 1: present.
-        /// Indices defined by ENUM MAV_SYS_STATUS_SENSOR onboard controllers and sensors are present
+        /// Indices defined by ENUM MAV_SYS_STATUS_SENSOR onboard controllers and sensors are present.
+        /// See also <seealso cref="MavSysStatusSensor"/>
         /// </summary>
         public MavSysStatusSensor SensorsHealth { get; set; }
 

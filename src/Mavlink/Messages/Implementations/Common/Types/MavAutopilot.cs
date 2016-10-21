@@ -1,4 +1,4 @@
-﻿namespace Mavlink.Messages.Types
+﻿namespace Mavlink.Messages.Implementations.Common.Types
 {
     /// <summary>
     /// Defines micro air vehicles/autopilots. This identifies the individual model

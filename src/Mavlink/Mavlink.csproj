@@ -40,11 +40,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IMavlinkCommunicatorFactory.cs" />
-    <Compile Include="Messages\MessageStructAttribute.cs" />
+    <Compile Include="MavlinkVersion.cs" />
+    <Compile Include="Messages\Definitions\IArdupilotMessage.cs" />
+    <Compile Include="Messages\Definitions\IAslUavMessage.cs" />
+    <Compile Include="Messages\Definitions\IAutoquadMessage.cs" />
+    <Compile Include="Messages\Definitions\IMatrixPilotMessage.cs" />
+    <Compile Include="Messages\Definitions\IMessage.cs" />
+    <Compile Include="Messages\Definitions\IPaparazziMessage.cs" />
+    <Compile Include="Messages\Definitions\ISlugsMessage.cs" />
+    <Compile Include="Messages\Definitions\IUAlbertaMessage.cs" />
+    <Compile Include="Messages\Definitions\IUAvionixMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\AuthKeyMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\ChangeOperatorControlAckMessage .cs" />
+    <Compile Include="Messages\Implementations\Common\ChangeOperatorControlMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\HeartbeatMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\ParamRequestListMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\ParamRequestReadMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\ParamSetMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\ParamValueMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\PingMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\SysStatusMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\SystemTimeMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\Types\MavAutopilot.cs" />
+    <Compile Include="Messages\Implementations\Common\Types\MavModeFlag.cs" />
+    <Compile Include="Messages\Implementations\Common\Types\MavParamType.cs" />
+    <Compile Include="Messages\Implementations\Common\Types\MavState.cs" />
+    <Compile Include="Messages\Implementations\Common\Types\MavSysStatusSensor.cs" />
+    <Compile Include="Messages\Implementations\Common\Types\MavType.cs" />
     <Compile Include="Messages\MessageId.cs" />
-    <Compile Include="Messages\Models\SysStatusMessage.cs" />
-    <Compile Include="Messages\Models\SystemTimeMessage.cs" />
-    <Compile Include="Messages\Types\MavSysStatusSensor.cs" />
+    <Compile Include="Messages\MessageStructAttribute.cs" />
     <Compile Include="Packets\BuildType.cs" />
     <Compile Include="Packets\IPacketBuilder.cs" />
     <Compile Include="Packets\IPacketHandler.cs" />
@@ -56,18 +80,23 @@
     <Compile Include="Messages\MessageFactory.cs" />
     <Compile Include="Messages\MessageNotifier.cs" />
     <Compile Include="Messages\MessageReceivedEventArgs.cs" />
-    <Compile Include="Messages\Models\HeartbeatMessage.cs" />
-    <Compile Include="Messages\IMessage.cs" />
-    <Compile Include="Messages\Types\MavAutopilot.cs" />
-    <Compile Include="Messages\Types\MavModeFlag.cs" />
-    <Compile Include="Messages\Types\MavState.cs" />
-    <Compile Include="Messages\Types\MavType.cs" />
+    <Compile Include="Messages\Definitions\ICommonMessage.cs" />
     <Compile Include="Packets\IPacketValidator.cs" />
     <Compile Include="Packets\Packet.cs" />
     <Compile Include="Packets\PacketBuilder.cs" />
     <Compile Include="Packets\PacketHandler.cs" />
     <Compile Include="Packets\PacketValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Messages\Implementations\Ardupilot\" />
+    <Folder Include="Messages\Implementations\AslUav\" />
+    <Folder Include="Messages\Implementations\Autoquad\" />
+    <Folder Include="Messages\Implementations\MatrixPilot\" />
+    <Folder Include="Messages\Implementations\Paparazzi\" />
+    <Folder Include="Messages\Implementations\Slugs\" />
+    <Folder Include="Messages\Implementations\UAlberta\" />
+    <Folder Include="Messages\Implementations\UAvionix\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

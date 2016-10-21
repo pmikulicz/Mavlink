@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Messages.Definitions;
 using System;
 
 namespace Mavlink.Messages
@@ -14,19 +15,16 @@ namespace Mavlink.Messages
     /// <summary>
     /// Represents event argument that is used to provide data for the MessageReceived event
     /// </summary>
-    public sealed class MessageReceivedEventArgs : EventArgs
+    public sealed class MessageReceivedEventArgs<TMessageStruct> : EventArgs where TMessageStruct : ICommonMessage
     {
-        public MessageReceivedEventArgs(IMessage message)
+        public MessageReceivedEventArgs(TMessageStruct message)
         {
-            if (message == null)
-                throw new ArgumentNullException(nameof(message));
-
             Message = message;
         }
 
         /// <summary>
         /// Gets the message which was received from mavlink
         /// </summary>
-        public IMessage Message { get; }
+        public TMessageStruct Message { get; }
     }
 }

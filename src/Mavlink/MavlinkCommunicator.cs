@@ -8,9 +8,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages;
+using Mavlink.Messages.Definitions;
 using Mavlink.Packets;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -21,19 +21,20 @@ namespace Mavlink
     /// <summary>
     /// Component which is responsible for communication via mavlink protocol
     /// </summary>
-    internal sealed class MavlinkCommunicator : IMavlinkCommunicator
+    internal sealed class MavlinkCommunicator<TMessage> : IMavlinkCommunicator<TMessage> where TMessage : ICommonMessage
     {
         private readonly IPacketHandler _packetHandler;
-        private readonly IMessageFactory _messageFactory;
-        private readonly IDictionary<Func<IMessage, bool>, MessageNotifier> _messageNotifiers;
+        private readonly IMessageFactory<TMessage> _messageFactory;
+        private readonly Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>> _messageNotifiers;
         private readonly Stream _stream;
+
         private readonly Task _streamReadingTaks;
         private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly object _syncRoot = new object();
         private bool _disposed;
         private const int BufferSize = 1024;
 
-        internal MavlinkCommunicator(Stream stream, IPacketHandler packetHandler, IMessageFactory messageFactory)
+        internal MavlinkCommunicator(Stream stream, IPacketHandler packetHandler, IMessageFactory<TMessage> messageFactory)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
@@ -45,9 +46,7 @@ namespace Mavlink
             _stream = stream;
             _packetHandler = packetHandler;
             _messageFactory = messageFactory;
-            //            _binaryReader = new BinaryReader(stream);
-            //            _binaryWriter = new BinaryWriter(stream);
-            _messageNotifiers = new ConcurrentDictionary<Func<IMessage, bool>, MessageNotifier>();
+            _messageNotifiers = new Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>>();
             _cancellationTokenSource = new CancellationTokenSource();
             _streamReadingTaks = Task.Factory.StartNew(ProcessReading, _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
@@ -57,7 +56,7 @@ namespace Mavlink
         /// </summary>
         /// <param name="condition">A condition which must meet the message</param>
         /// <returns>Component which will notify an incoming message</returns>
-        public IMessageNotifier SubscribeForReceive(Func<IMessage, bool> condition)
+        public IMessageNotifier<TMessage> SubscribeForReceive(Func<TMessage, bool> condition)
         {
             if (condition == null)
                 throw new ArgumentNullException(nameof(condition));
@@ -65,7 +64,7 @@ namespace Mavlink
             if (_messageNotifiers.ContainsKey(condition))
                 return _messageNotifiers[condition];
 
-            MessageNotifier messageNotifier = new MessageNotifier();
+            MessageNotifier<TMessage> messageNotifier = new MessageNotifier<TMessage>();
             _messageNotifiers.Add(condition, messageNotifier);
 
             return messageNotifier;
@@ -79,8 +78,7 @@ namespace Mavlink
         /// <param name="componentId">Id of a component which is sending message</param>
         /// <param name="sequenceNumber"></param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        public bool SendMessage<TMessage>(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
-            where TMessage : struct, IMessage
+        public bool SendMessage(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
         {
             byte[] packetPayload = _messageFactory.CreateBytes(message);
             Packet packet = _packetHandler.GetPacket(systemId, componentId, sequenceNumber, message.Id, packetPayload);
@@ -109,8 +107,7 @@ namespace Mavlink
         /// <param name="componentId">Id of a component which is sending message</param>
         /// <param name="sequenceNumber">Sequence number of a message</param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        public async Task<bool> SendMessageAsync<TMessage>(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
-            where TMessage : struct, IMessage
+        public async Task<bool> SendMessageAsync(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
         {
             byte[] packetPayload = _messageFactory.CreateBytes(message);
             Packet packet = _packetHandler.GetPacket(systemId, componentId, sequenceNumber, message.Id, packetPayload);
@@ -131,7 +128,7 @@ namespace Mavlink
             }
         }
 
-        public Task<bool> SendMessagesAsync<TMessage>(IEnumerable<TMessage> messages, byte systemId, byte componentId) where TMessage : struct, IMessage
+        public Task<bool> SendMessagesAsync(IEnumerable<TMessage> messages, byte systemId, byte componentId)
         {
             throw new NotImplementedException();
         }
@@ -175,20 +172,18 @@ namespace Mavlink
 
                 foreach (Packet packet in packets)
                 {
-                    IMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
-
-                    if (message != null)
-                        NotifyForMessage(message);
+                    TMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
+                    NotifyForMessage(message);
                 }
             }
         }
 
-        private void NotifyForMessage(IMessage message)
+        private void NotifyForMessage(TMessage message)
         {
             foreach (var messageNotifier in _messageNotifiers)
             {
                 if (messageNotifier.Key(message))
-                    messageNotifier.Value.OnMessageReceived(new MessageReceivedEventArgs(message));
+                    messageNotifier.Value.OnMessageReceived(new MessageReceivedEventArgs<TMessage>(message));
             }
         }
 

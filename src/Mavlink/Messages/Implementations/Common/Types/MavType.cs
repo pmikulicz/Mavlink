@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Mavlink.Messages.Types
+namespace Mavlink.Messages.Implementations.Common.Types
 {
     /// <summary>
     /// Defines types of micro air vehicles

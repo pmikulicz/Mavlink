@@ -8,8 +8,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages;
+using Mavlink.Messages.Definitions;
 using System;
-using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Mavlink
@@ -17,14 +18,14 @@ namespace Mavlink
     /// <summary>
     /// Interface of component which is responsible for communication via mavlink protocol
     /// </summary>
-    public interface IMavlinkCommunicator : IDisposable
+    public interface IMavlinkCommunicator<TMessage> : IDisposable where TMessage : ICommonMessage
     {
         /// <summary>
         /// Subscribes for notification of received message from mavlink protocol
         /// </summary>
         /// <param name="condition">A condition which must meet the message</param>
         /// <returns>Component which will notify an incoming message</returns>
-        IMessageNotifier SubscribeForReceive(Func<IMessage, bool> condition);
+        IMessageNotifier<TMessage> SubscribeForReceive(Func<TMessage, bool> condition);
 
         /// <summary>
         /// Sends message via mavlink protocol
@@ -34,8 +35,7 @@ namespace Mavlink
         /// <param name="componentId">Id of a component which is sending message</param>
         /// <param name="sequenceNumber"></param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        bool SendMessage<TMessage>(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
-            where TMessage : struct, IMessage;
+        bool SendMessage(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1);
 
         /// <summary>
         /// Sends message via mavlink protocol asynchronously
@@ -45,7 +45,6 @@ namespace Mavlink
         /// <param name="componentId">Id of a component which is sending message</param>
         /// <param name="sequenceNumber"></param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
-        Task<bool> SendMessageAsync<TMessage>(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
-            where TMessage : struct, IMessage;
+        Task<bool> SendMessageAsync(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1);
     }
 }

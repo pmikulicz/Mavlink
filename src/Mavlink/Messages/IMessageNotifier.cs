@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Messages.Definitions;
 using System;
 
 namespace Mavlink.Messages
@@ -14,11 +15,11 @@ namespace Mavlink.Messages
     /// <summary>
     /// Interface of a component which is responsible for notifying about an incoming messages
     /// </summary>
-    public interface IMessageNotifier
+    public interface IMessageNotifier<TMessage> where TMessage : ICommonMessage
     {
         /// <summary>
         /// Occurs when a message is received from a mavlink
         /// </summary>
-        event EventHandler<MessageReceivedEventArgs> MessageReceived;
+        event EventHandler<MessageReceivedEventArgs<TMessage>> MessageReceived;
     }
 }

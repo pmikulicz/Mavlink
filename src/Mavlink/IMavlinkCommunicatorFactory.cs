@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Messages.Definitions;
 using System.IO;
 
 namespace Mavlink
@@ -21,6 +22,6 @@ namespace Mavlink
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        IMavlinkCommunicator Create(Stream stream);
+        IMavlinkCommunicator<TMessage> Create<TMessage>(Stream stream) where TMessage : ICommonMessage;
     }
 }

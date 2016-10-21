@@ -1,8 +1,10 @@
 ﻿using Mavlink.Messages;
-using Mavlink.Messages.Models;
-using Mavlink.Messages.Types;
+using Mavlink.Messages.Definitions;
+using Mavlink.Messages.Implementations.Common;
+using Mavlink.Messages.Implementations.Common.Types;
 using NUnit.Framework;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,8 +36,8 @@ namespace Mavlink.IntegrationTests
             public void GetTheSameMessageAsSend()
             {
                 HeartbeatMessage receivedHeartbeat = default(HeartbeatMessage);
-                IMavlinkCommunicator mavlinkCommunicator = MavlinkCommunicatorFactory.Create(Stream);
-                IMessageNotifier messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
+                IMavlinkCommunicator<ICommonMessage> mavlinkCommunicator = MavlinkCommunicatorFactory.Create<ICommonMessage>(Stream);
+                IMessageNotifier<ICommonMessage> messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
                 messageNotifier.MessageReceived += (s, e) =>
                 {
                     receivedHeartbeat = (HeartbeatMessage)e.Message;
@@ -72,8 +74,8 @@ namespace Mavlink.IntegrationTests
                 int messagesToSend = 20;
                 int messagesReceived = 0;
                 int messagesSuccessfullySent = 0;
-                IMavlinkCommunicator mavlinkCommunicator = MavlinkCommunicatorFactory.Create(Stream);
-                IMessageNotifier messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
+                IMavlinkCommunicator<ICommonMessage> mavlinkCommunicator = MavlinkCommunicatorFactory.Create<ICommonMessage>(Stream);
+                IMessageNotifier<ICommonMessage> messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
                 messageNotifier.MessageReceived += (s, e) =>
                 {
                     Interlocked.Increment(ref messagesReceived);
@@ -114,8 +116,8 @@ namespace Mavlink.IntegrationTests
             public async Task GetTheSameMessageAsSendAsync()
             {
                 HeartbeatMessage receivedHeartbeat = default(HeartbeatMessage);
-                IMavlinkCommunicator mavlinkCommunicator = MavlinkCommunicatorFactory.Create(Stream);
-                IMessageNotifier messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
+                IMavlinkCommunicator<ICommonMessage> mavlinkCommunicator = MavlinkCommunicatorFactory.Create<ICommonMessage>(Stream);
+                IMessageNotifier<ICommonMessage> messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
                 messageNotifier.MessageReceived += (s, e) =>
                 {
                     receivedHeartbeat = (HeartbeatMessage)e.Message;
@@ -152,8 +154,8 @@ namespace Mavlink.IntegrationTests
                 int messagesToSend = 20;
                 int messagesReceived = 0;
                 int messagesSuccessfullySent = 0;
-                IMavlinkCommunicator mavlinkCommunicator = MavlinkCommunicatorFactory.Create(Stream);
-                IMessageNotifier messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
+                IMavlinkCommunicator<ICommonMessage> mavlinkCommunicator = MavlinkCommunicatorFactory.Create<ICommonMessage>(Stream);
+                IMessageNotifier<ICommonMessage> messageNotifier = mavlinkCommunicator.SubscribeForReceive(m => m.Id == MessageId.Heartbeat);
                 messageNotifier.MessageReceived += (s, e) =>
                 {
                     Interlocked.Increment(ref messagesReceived);

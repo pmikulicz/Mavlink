@@ -1,22 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IMessage.cs" company="Patryk Mikulicz">
+// <copyright file="IAutoquadMessage.cs" company="Patryk Mikulicz">
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Common interface of all mavlink messages
+//   Interface for the Autoquad autopilot (http://autoquad.org)
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Mavlink.Messages
+namespace Mavlink.Messages.Definitions
 {
     /// <summary>
-    /// Common interface of all mavlink messages
+    /// Interface for the Autoquad autopilot (http://autoquad.org)
     /// </summary>
-    public interface IMessage
+    public interface IAutoquadMessage : ICommonMessage
     {
-        /// <summary>
-        /// Gets id of the message
-        /// </summary>
-        MessageId Id { get; }
     }
 }

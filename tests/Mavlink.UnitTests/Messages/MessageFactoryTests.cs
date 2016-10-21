@@ -1,6 +1,7 @@
 ﻿using Mavlink.Messages;
-using Mavlink.Messages.Models;
-using Mavlink.Messages.Types;
+using Mavlink.Messages.Definitions;
+using Mavlink.Messages.Implementations.Common;
+using Mavlink.Messages.Implementations.Common.Types;
 using NUnit.Framework;
 using System;
 
@@ -9,7 +10,7 @@ namespace Mavlink.UnitTests.Messages
     [TestFixture]
     internal class MessageFactoryTests
     {
-        protected IMessageFactory MessageFactory;
+        protected IMessageFactory<ICommonMessage> MessageFactory;
 
         protected readonly byte[] HeartbeatMessagePayload =
         {
@@ -21,7 +22,7 @@ namespace Mavlink.UnitTests.Messages
         [SetUp]
         public void SetUp()
         {
-            MessageFactory = new MessageFactory();
+            MessageFactory = new MessageFactory<ICommonMessage>();
         }
 
         [TestFixture]
@@ -34,9 +35,9 @@ namespace Mavlink.UnitTests.Messages
             }
 
             [Test]
-            public void CreateThrowArgumentOutOfRangeException()
+            public void CreateThrowInvalidOperationExceptionWhenEnumNotDefined()
             {
-                Assert.Throws<ArgumentOutOfRangeException>(() => MessageFactory.CreateMessage(new byte[] { }, (MessageId)254));
+                Assert.Throws<InvalidOperationException>(() => MessageFactory.CreateMessage(new byte[] { }, (MessageId)254));
             }
 
             [Test]

@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Messages.Definitions;
 using System;
 
 namespace Mavlink.Messages
@@ -14,18 +15,18 @@ namespace Mavlink.Messages
     /// <summary>
     /// Component which is responsible for notifying about an incoming messages
     /// </summary>
-    internal sealed class MessageNotifier : IMessageNotifier
+    internal sealed class MessageNotifier<TMessage> : IMessageNotifier<TMessage> where TMessage : ICommonMessage
     {
         /// <summary>
         /// Occurs when a message is received from a mavlink
         /// </summary>
-        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+        public event EventHandler<MessageReceivedEventArgs<TMessage>> MessageReceived;
 
         /// <summary>
         /// Invokes MessageReceived event
         /// </summary>
         /// <param name="args"></param>
-        internal void OnMessageReceived(MessageReceivedEventArgs args)
+        internal void OnMessageReceived(MessageReceivedEventArgs<TMessage> args)
         {
             MessageReceived?.Invoke(this, args);
         }

@@ -9,7 +9,7 @@
 
 using System;
 
-namespace Mavlink.Messages.Types
+namespace Mavlink.Messages.Implementations.Common.Types
 {
     /// <summary>
     /// Defines encode the sensors whose status is sent as part of the SYS_STATUS message

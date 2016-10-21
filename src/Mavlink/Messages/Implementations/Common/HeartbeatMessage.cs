@@ -8,17 +8,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages.Types;
+using Mavlink.Messages.Definitions;
+using Mavlink.Messages.Implementations.Common.Types;
 using System.Runtime.InteropServices;
 
-namespace Mavlink.Messages.Models
+namespace Mavlink.Messages.Implementations.Common
 {
     /// <summary>
     /// The heartbeat message shows that a system is present and responding.
     /// The type of the MAV and Autopilot hardware allow the receiving system to treat further messages from this system appropriate
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct HeartbeatMessage : IMessage
+    public struct HeartbeatMessage : ICommonMessage
     {
         /// <summary>
         /// Gets id of the message
@@ -31,22 +32,22 @@ namespace Mavlink.Messages.Models
         public uint CustomMode { get; set; }
 
         /// <summary>
-        /// Gets or sets type of the mavlink
+        /// Gets or sets type of the mavlink. See also <seealso cref="MavType"/>
         /// </summary>
         public MavType Type { get; set; }
 
         /// <summary>
-        /// Gets or sets autopilot type
+        /// Gets or sets autopilot type. See also <seealso cref="MavAutopilot"/>
         /// </summary>
         public MavAutopilot Autopilot { get; set; }
 
         /// <summary>
-        /// Gets or sets system mode bitfield
+        /// Gets or sets system mode bitfield. See also <seealso cref="MavModeFlag"/>
         /// </summary>
         public MavModeFlag BaseMode { get; set; }
 
         /// <summary>
-        /// Gets or sets system status flag
+        /// Gets or sets system status flag. See also <seealso cref="MavState"/>
         /// </summary>
         public MavState SystemStatus { get; set; }
 
