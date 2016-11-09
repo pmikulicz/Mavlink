@@ -4,7 +4,6 @@ using Mavlink.Messages.Implementations.Common;
 using Mavlink.Messages.Implementations.Common.Types;
 using NUnit.Framework;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -14,10 +14,34 @@ namespace Mavlink.UnitTests.Messages
 
         protected readonly byte[] HeartbeatMessagePayload =
         {
-            0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03
+            0x0, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03
         };
 
-        protected MessageId MessageId = MessageId.Heartbeat;
+        protected readonly byte[] ChangeOperatorControlMessagePayload =
+        {
+            0x01, 0x00, 0x00,
+            0x74, 0x74, 0x74, 0x65, 0x65, 0x65, 0x73, 0x73, 0x73, 0x74, 0x74, 0x74, 0x74, 0x74, 0x74, 0x65, 0x65, 0x65, 0x73, 0x73, 0x73, 0x74, 0x74, 0x74, 0x31
+        };
+
+        protected readonly byte[] GpsStatusMessagePayload =
+        {
+            // SatellitesVisible
+            0x01,
+            // SatellitePrn
+            0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+            // SatelliteUsed
+            0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
+            // SatelliteElevation
+            0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
+            // SatelliteAzimuth
+            0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+            // SatelliteSnr
+            0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06
+        };
+
+        protected MessageId HeartbeatMessageId = MessageId.Heartbeat;
+        protected MessageId ChangeOperatorControlMessageId = MessageId.ChangeOperatorControl;
+        protected MessageId GpsStatusMessageId = MessageId.GpsStatus;
 
         [SetUp]
         public void SetUp()
@@ -31,7 +55,7 @@ namespace Mavlink.UnitTests.Messages
             [Test]
             public void CreateThrowArgumentNullException()
             {
-                Assert.Throws<ArgumentNullException>(() => MessageFactory.CreateMessage(null, MessageId));
+                Assert.Throws<ArgumentNullException>(() => MessageFactory.CreateMessage(null, HeartbeatMessageId));
             }
 
             [Test]
@@ -50,7 +74,7 @@ namespace Mavlink.UnitTests.Messages
                 var expectedSystemStatus = MavState.Active;
                 byte expectedMavlinkVersion = 3;
 
-                HeartbeatMessage message = (HeartbeatMessage)MessageFactory.CreateMessage(HeartbeatMessagePayload, MessageId);
+                HeartbeatMessage message = (HeartbeatMessage)MessageFactory.CreateMessage(HeartbeatMessagePayload, HeartbeatMessageId);
 
                 Assert.AreNotEqual(null, message);
                 Assert.AreEqual(expectedAutopilot, message.Autopilot);
@@ -59,6 +83,70 @@ namespace Mavlink.UnitTests.Messages
                 Assert.AreEqual(expectedBaseMode, message.BaseMode);
                 Assert.AreEqual(expectedSystemStatus, message.SystemStatus);
                 Assert.AreEqual(expectedMavlinkVersion, message.MavlinkVersion);
+            }
+
+            [Test]
+            public void CreateReturnsMessageWithFixedArray()
+            {
+                byte expectedTargetSystem = 0x01;
+                byte expectedControlRequest = 0x00;
+                byte expectedVersion = 0x00;
+                char[] expectedPasskey =
+                {
+                    't', 't', 't', 'e', 'e', 'e', 's', 's', 's', 't', 't', 't', 't', 't', 't', 'e',
+                    'e', 'e', 's', 's', 's', 't', 't', 't', '1'
+                };
+
+                ChangeOperatorControlMessage message = (ChangeOperatorControlMessage)MessageFactory.CreateMessage(ChangeOperatorControlMessagePayload, ChangeOperatorControlMessageId);
+
+                Assert.AreNotEqual(null, message);
+                Assert.AreEqual(expectedTargetSystem, message.TargetSystem);
+                Assert.AreEqual(expectedControlRequest, message.ControlRequest);
+                Assert.AreEqual(expectedVersion, message.Version);
+                Assert.AreEqual(expectedPasskey, message.Passkey);
+            }
+
+            [Test]
+            public void CreateReturnsMessageWithMultipleFixedArray()
+            {
+                byte satellitesVisible = 0x01;
+                byte[] satellitePrn =
+                {
+                    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+                    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02
+                };
+                byte[] satelliteUsed =
+                {
+                    0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
+                    0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03
+                };
+
+                byte[] satelliteElevation =
+                {
+                    0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
+                    0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04
+                };
+                byte[] satelliteAzimuth =
+                {
+                    0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
+                    0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05
+                };
+
+                byte[] satelliteSnr =
+                {
+                    0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06,
+                    0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06
+                };
+
+                GpsStatusMessage message = (GpsStatusMessage)MessageFactory.CreateMessage(GpsStatusMessagePayload, GpsStatusMessageId);
+
+                Assert.AreNotEqual(null, message);
+                Assert.AreEqual(satellitesVisible, message.SatellitesVisible);
+                Assert.AreEqual(satellitePrn, message.SatellitePrn);
+                Assert.AreEqual(satelliteUsed, message.SatelliteUsed);
+                Assert.AreEqual(satelliteElevation, message.SatelliteElevation);
+                Assert.AreEqual(satelliteAzimuth, message.SatelliteAzimuth);
+                Assert.AreEqual(satelliteSnr, message.SatelliteSnr);
             }
         }
     }

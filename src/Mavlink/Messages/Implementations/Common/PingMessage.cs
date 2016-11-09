@@ -16,7 +16,7 @@ namespace Mavlink.Messages.Implementations.Common
     /// A ping message either requesting or responding to a ping.
     /// This allows to measure the system latencies, including serial port, radio modem and UDP connections
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct PingMessage : ICommonMessage
     {
         /// <summary>

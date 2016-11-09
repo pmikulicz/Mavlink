@@ -15,7 +15,7 @@ namespace Mavlink.Messages.Implementations.Common
     /// <summary>
     /// Request all parameters of this component. After this request, all parameters are emitted
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ParamRequestListMessage : ICommonMessage
     {
         /// <summary>

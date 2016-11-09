@@ -53,6 +53,8 @@
     <Compile Include="Messages\Implementations\Common\AuthKeyMessage.cs" />
     <Compile Include="Messages\Implementations\Common\ChangeOperatorControlAckMessage .cs" />
     <Compile Include="Messages\Implementations\Common\ChangeOperatorControlMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\GpsRawIntMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\GpsStatusMessage.cs" />
     <Compile Include="Messages\Implementations\Common\HeartbeatMessage.cs" />
     <Compile Include="Messages\Implementations\Common\ParamRequestListMessage.cs" />
     <Compile Include="Messages\Implementations\Common\ParamRequestReadMessage.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Messages\Implementations\Common\PingMessage.cs" />
     <Compile Include="Messages\Implementations\Common\SysStatusMessage.cs" />
     <Compile Include="Messages\Implementations\Common\SystemTimeMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\Types\GpsFixType.cs" />
     <Compile Include="Messages\Implementations\Common\Types\MavAutopilot.cs" />
     <Compile Include="Messages\Implementations\Common\Types\MavModeFlag.cs" />
     <Compile Include="Messages\Implementations\Common\Types\MavParamType.cs" />

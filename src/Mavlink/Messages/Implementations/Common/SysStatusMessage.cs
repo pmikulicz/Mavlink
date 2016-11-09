@@ -28,7 +28,7 @@ namespace Mavlink.Messages.Implementations.Common
     /// During the CRITICAL and EMERGENCY states the MAV is still considered to be active, but should start emergency procedures autonomously.
     /// After a failure occured it should first move from active to critical to allow manual intervention and then move to emergency after a certain timeout
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct SysStatusMessage : ICommonMessage
     {
         /// <summary>

@@ -36,7 +36,7 @@ namespace Mavlink.SerialPortTest
             //            {
             //                SystemTimeMessage heartbeatMessage = (SystemTimeMessage)eventArgs.Message;
             //                Console.WriteLine($"TimeBootMs: {heartbeatMessage.TimeBootMs}");
-            //                Console.WriteLine($"Time Unix uSec: {heartbeatMessage.TimeUnixUSec}");
+            //                Console.WriteLine($"Time Unix uSec: {heartbeatMessage.TimeUnixUsec}");
             //            };
             //
             //            sysStatusNotifier.MessageReceived += (sender, eventArgs) =>

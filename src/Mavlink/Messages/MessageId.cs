@@ -94,6 +94,21 @@ namespace Mavlink.Messages
         /// If the sending GCS did not receive a PARAM_VALUE message within its timeout time, it should re-send the PARAM_SET message
         /// </summary>
         [MessageStruct(typeof(ParamSetMessage))]
-        ParamSet = 23
+        ParamSet = 23,
+
+        /// <summary>
+        /// The global position, as returned by the Global Positioning System (GPS).
+        /// This is NOT the global position estimate of the system, but rather a RAW sensor value.
+        /// See message GLOBAL_POSITION for the global position estimate. Coordinate frame is right-handed, Z-axis up (GPS frame)
+        /// </summary>
+        [MessageStruct(typeof(GpsRawIntMessage))]
+        GpsRawInt = 24,
+
+        /// <summary>
+        /// The positioning status, as reported by GPS. This message is intended to display status information about each satellite visible to the receiver.
+        /// See message GLOBAL_POSITION for the global position estimate. This message can contain information for up to 20 satellites
+        /// </summary>
+        [MessageStruct(typeof(GpsStatusMessage))]
+        GpsStatus = 25
     }
 }

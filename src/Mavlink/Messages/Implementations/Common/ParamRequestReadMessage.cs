@@ -24,7 +24,7 @@ namespace Mavlink.Messages.Implementations.Common
     //   Thus the same GCS can store different parameters for different autopilots.
     //   See also http://qgroundcontrol.org/parameter_interface for a full documentation of QGroundControl and IMU code.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ParamRequestReadMessage : ICommonMessage
     {
         /// <summary>
@@ -42,11 +42,20 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public byte TargetComponent { get; set; }
 
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+        private char[] paramId;
+
         /// <summary>
         /// Gets or sets onboard parameter id, terminated by NULL.
-        /// If the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
+        /// If the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte
+        /// if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
         /// </summary>
-        public char[] ParamId { get; set; }
+        public char[] ParamId
+        {
+            get { return paramId; }
+
+            set { paramId = value; }
+        }
 
         /// <summary>
         /// Gets or sets parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)

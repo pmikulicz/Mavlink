@@ -18,7 +18,7 @@ namespace Mavlink.Messages.Implementations.Common
     /// The heartbeat message shows that a system is present and responding.
     /// The type of the MAV and Autopilot hardware allow the receiving system to treat further messages from this system appropriate
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct HeartbeatMessage : ICommonMessage
     {
         /// <summary>

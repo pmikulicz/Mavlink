@@ -15,7 +15,7 @@ namespace Mavlink.Messages.Implementations.Common
     /// <summary>
     /// Accept or deny control of this MAV
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ChangeOperatorControlAckMessage : ICommonMessage
     {
         /// <summary>

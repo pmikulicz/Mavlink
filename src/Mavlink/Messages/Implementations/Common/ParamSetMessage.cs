@@ -13,6 +13,7 @@
 
 using Mavlink.Messages.Definitions;
 using Mavlink.Messages.Implementations.Common.Types;
+using System.Runtime.InteropServices;
 
 namespace Mavlink.Messages.Implementations.Common
 {
@@ -23,6 +24,7 @@ namespace Mavlink.Messages.Implementations.Common
     /// This will also ensure that multiple GCS all have an up-to-date list of all parameters.
     /// If the sending GCS did not receive a PARAM_VALUE message within its timeout time, it should re-send the PARAM_SET message
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ParamSetMessage : ICommonMessage
     {
         /// <summary>
@@ -40,15 +42,23 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public byte TargetComponent { get; set; }
 
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+        private char[] paramId;
+
         /// <summary>
         /// Gets or sets onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and
         /// without null termination (NULL) byte if the length is exactly 16 chars.
         /// Applications have to provide 16+1 bytes storage if the ID is stored as string
         /// </summary>
-        public char[] ParamId { get; set; }
+        public char[] ParamId
+        {
+            get { return paramId; }
+
+            set { paramId = value; }
+        }
 
         /// <summary>
-        /// Gets or sets onboard parameter type
+        /// Gets or sets onboard parameter type. See also <seealso cref="MavParamType"/>
         /// </summary>
         public MavParamType ParamType { get; set; }
     }

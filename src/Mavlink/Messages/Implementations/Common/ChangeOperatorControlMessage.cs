@@ -15,7 +15,7 @@ namespace Mavlink.Messages.Implementations.Common
     /// <summary>
     /// Request to control this MAV
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ChangeOperatorControlMessage : ICommonMessage
     {
         /// <summary>
@@ -26,6 +26,7 @@ namespace Mavlink.Messages.Implementations.Common
         /// <summary>
         /// Gets or sets system the GCS requests control for
         /// </summary>
+
         public byte TargetSystem { get; set; }
 
         /// <summary>
@@ -42,10 +43,18 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public byte Version { get; set; }
 
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 25)]
+        private char[] passkey;
+
         /// <summary>
         /// Gets or sets password or key. Password or key, depending on version plaintext or encrypted.
         /// 25 or less characters, NULL terminated. The characters may involve A-Z, a-z, 0-9, and "!?,.-"
         /// </summary>
-        public char[] Passkey { get; set; }
+        public char[] Passkey
+        {
+            get { return passkey; }
+
+            set { passkey = value; }
+        }
     }
 }

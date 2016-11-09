@@ -20,7 +20,7 @@ namespace Mavlink.Messages.Implementations.Common
     //  The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and
     //  allows him to re-request missing parameters after a loss or timeout.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ParamValueMessage : ICommonMessage
     {
         /// <summary>
@@ -28,12 +28,20 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public MessageId Id => MessageId.ParamValue;
 
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+        private char[] paramId;
+
         /// <summary>
         /// Gets or sets onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and
         /// without null termination (NULL) byte if the length is exactly 16 chars.
         /// Applications have to provide 16+1 bytes storage if the ID is stored as string
         /// </summary>
-        public char[] ParamId { get; set; }
+        public char[] ParamId
+        {
+            get { return paramId; }
+
+            set { paramId = value; }
+        }
 
         /// <summary>
         /// Gets or sets onboard parameter value
