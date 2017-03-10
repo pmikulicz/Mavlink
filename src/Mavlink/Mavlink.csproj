@@ -39,6 +39,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\ICommunicationService.cs" />
+    <Compile Include="Communication\SocketService.cs" />
     <Compile Include="IMavlinkCommunicatorFactory.cs" />
     <Compile Include="MavlinkVersion.cs" />
     <Compile Include="Messages\Definitions\IArdupilotMessage.cs" />
@@ -56,22 +58,27 @@
     <Compile Include="Messages\Implementations\Common\GpsRawIntMessage.cs" />
     <Compile Include="Messages\Implementations\Common\GpsStatusMessage.cs" />
     <Compile Include="Messages\Implementations\Common\HeartbeatMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\MessageIntervalMessage.cs" />
     <Compile Include="Messages\Implementations\Common\ParamRequestListMessage.cs" />
     <Compile Include="Messages\Implementations\Common\ParamRequestReadMessage.cs" />
     <Compile Include="Messages\Implementations\Common\ParamSetMessage.cs" />
     <Compile Include="Messages\Implementations\Common\ParamValueMessage.cs" />
     <Compile Include="Messages\Implementations\Common\PingMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\RawPressureMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\ScaledImuMessage.cs" />
+    <Compile Include="Messages\Implementations\Common\StatusTextMessage.cs" />
     <Compile Include="Messages\Implementations\Common\SysStatusMessage.cs" />
     <Compile Include="Messages\Implementations\Common\SystemTimeMessage.cs" />
     <Compile Include="Messages\Implementations\Common\Types\GpsFixType.cs" />
     <Compile Include="Messages\Implementations\Common\Types\MavAutopilot.cs" />
     <Compile Include="Messages\Implementations\Common\Types\MavModeFlag.cs" />
     <Compile Include="Messages\Implementations\Common\Types\MavParamType.cs" />
+    <Compile Include="Messages\Implementations\Common\Types\MavServerity.cs" />
     <Compile Include="Messages\Implementations\Common\Types\MavState.cs" />
     <Compile Include="Messages\Implementations\Common\Types\MavSysStatusSensor.cs" />
     <Compile Include="Messages\Implementations\Common\Types\MavType.cs" />
     <Compile Include="Messages\MessageId.cs" />
-    <Compile Include="Messages\MessageStructAttribute.cs" />
+    <Compile Include="Messages\MessageDefinitionAttribute.cs" />
     <Compile Include="Packets\BuildType.cs" />
     <Compile Include="Packets\IPacketBuilder.cs" />
     <Compile Include="Packets\IPacketHandler.cs" />

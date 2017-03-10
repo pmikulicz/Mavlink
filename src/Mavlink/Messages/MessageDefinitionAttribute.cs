@@ -1,9 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageStructAttribute.cs" company="Patryk Mikulicz">
+// <copyright file="MessageDefinitionAttribute.cs" company="Patryk Mikulicz">
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//  Specifies a mavlink message structure with appropriate structure type
+//  Defines a mavlink message structure with appropriate structure type
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,12 +12,12 @@ using System;
 namespace Mavlink.Messages
 {
     /// <summary>
-    /// Specifies a mavlink message structure with appropriate structure type
+    /// Defines a mavlink message structure with appropriate structure type
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    internal class MessageStructAttribute : Attribute
+    internal class MessageDefinitionAttribute : Attribute
     {
-        public MessageStructAttribute(Type type)
+        public MessageDefinitionAttribute(Type type)
         {
             if (type == null)
                 throw new ArgumentNullException(nameof(type));

@@ -28,6 +28,21 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public MessageId Id => MessageId.ParamValue;
 
+        /// <summary>
+        /// Gets or sets onboard parameter value
+        /// </summary>
+        public float ParamValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets total number of onboard parameters
+        /// </summary>
+        public ushort ParamCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets index of this onboard parameter
+        /// </summary>
+        public ushort ParamIndex { get; set; }
+
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
         private char[] paramId;
 
@@ -44,24 +59,9 @@ namespace Mavlink.Messages.Implementations.Common
         }
 
         /// <summary>
-        /// Gets or sets onboard parameter value
-        /// </summary>
-        public float ParamValue { get; set; }
-
-        /// <summary>
         /// Gets or sets onboard parameter type. See also <seealso cref="MavParamType"/>
         /// </summary>
 
         public MavParamType ParamType { get; set; }
-
-        /// <summary>
-        /// Gets or sets total number of onboard parameters
-        /// </summary>
-        public ushort ParamCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets index of this onboard parameter
-        /// </summary>
-        public ushort ParamIndex { get; set; }
     }
 }

@@ -28,7 +28,6 @@ namespace Mavlink
         private readonly Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>> _messageNotifiers;
         private readonly Stream _stream;
 
-        private readonly Task _streamReadingTaks;
         private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly object _syncRoot = new object();
         private bool _disposed;
@@ -48,7 +47,7 @@ namespace Mavlink
             _messageFactory = messageFactory;
             _messageNotifiers = new Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>>();
             _cancellationTokenSource = new CancellationTokenSource();
-            _streamReadingTaks = Task.Factory.StartNew(ProcessReading, _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            Task.Factory.StartNew(ProcessReading, _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
         /// <summary>
@@ -71,7 +70,7 @@ namespace Mavlink
         }
 
         /// <summary>
-        /// Sends message via mavlink protocol asynchronously
+        /// Sends message via mavlink protocol
         /// </summary>
         /// <param name="message">Message to be sent</param>
         /// <param name="systemId">Id of a system which is sending message</param>
@@ -97,40 +96,6 @@ namespace Mavlink
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Sends message via mavlink protocol asynchronously
-        /// </summary>
-        /// <param name="message">Message to be sent</param>
-        /// <param name="systemId">Id of a system which is sending message</param>
-        /// <param name="componentId">Id of a component which is sending message</param>
-        /// <param name="sequenceNumber">Sequence number of a message</param>
-        /// <returns>Value which indicates whether operation completed successfully</returns>
-        public async Task<bool> SendMessageAsync(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
-        {
-            byte[] packetPayload = _messageFactory.CreateBytes(message);
-            Packet packet = _packetHandler.GetPacket(systemId, componentId, sequenceNumber, message.Id, packetPayload);
-
-            if (packet == null)
-                return await Task.FromResult(false);
-
-            try
-            {
-                // ReSharper disable once InconsistentlySynchronizedField
-                await _stream.WriteAsync(packet.RawBytes, 0, packet.RawBytes.Length);
-
-                return await Task.FromResult(true);
-            }
-            catch
-            {
-                return await Task.FromResult(false);
-            }
-        }
-
-        public Task<bool> SendMessagesAsync(IEnumerable<TMessage> messages, byte systemId, byte componentId)
-        {
-            throw new NotImplementedException();
         }
 
         public void Dispose()
@@ -173,17 +138,18 @@ namespace Mavlink
                 foreach (Packet packet in packets)
                 {
                     TMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
-                    NotifyForMessage(message);
+                    NotifyForMessage(message, packet.ComponentId, packet.SystemId);
                 }
             }
         }
 
-        private void NotifyForMessage(TMessage message)
+        private void NotifyForMessage(TMessage message, int componentId, int systemId)
         {
             foreach (var messageNotifier in _messageNotifiers)
             {
                 if (messageNotifier.Key(message))
-                    messageNotifier.Value.OnMessageReceived(new MessageReceivedEventArgs<TMessage>(message));
+                    messageNotifier.Value.OnMessageReceived(new MessageReceivedEventArgs<TMessage>(message, componentId,
+                        systemId));
             }
         }
 

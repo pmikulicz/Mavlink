@@ -44,7 +44,7 @@ namespace Mavlink.Messages.Implementations.Common
         public byte Version { get; set; }
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 25)]
-        private char[] passkey;
+        private char[] _passkey;
 
         /// <summary>
         /// Gets or sets password or key. Password or key, depending on version plaintext or encrypted.
@@ -52,9 +52,9 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public char[] Passkey
         {
-            get { return passkey; }
+            get { return _passkey; }
 
-            set { passkey = value; }
+            set { _passkey = value; }
         }
     }
 }

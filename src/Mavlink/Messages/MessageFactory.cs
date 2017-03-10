@@ -38,13 +38,13 @@ namespace Mavlink.Messages
                 throw new InvalidOperationException(
                     $"Cannot find field of {typeof(MessageId).Name} type with name {messageId}");
 
-            MessageStructAttribute messageStructAttribute = enumField.GetCustomAttribute<MessageStructAttribute>();
+            MessageDefinitionAttribute messageDefinitionAttribute = enumField.GetCustomAttribute<MessageDefinitionAttribute>();
 
-            if (messageStructAttribute == null)
+            if (messageDefinitionAttribute == null)
                 throw new InvalidOperationException(
-                    $"Message id {messageId} is not decorated with attribute {typeof(MessageStructAttribute).Name}");
+                    $"Message id {messageId} is not decorated with attribute {typeof(MessageDefinitionAttribute).Name}");
 
-            Type messageType = messageStructAttribute.Type;
+            Type messageType = messageDefinitionAttribute.Type;
             return CastAsMessage(payload, messageType);
         }
 
