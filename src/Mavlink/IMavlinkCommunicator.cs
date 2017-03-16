@@ -10,7 +10,6 @@
 using Mavlink.Messages;
 using Mavlink.Messages.Definitions;
 using System;
-using System.Threading.Tasks;
 
 namespace Mavlink
 {
@@ -24,7 +23,7 @@ namespace Mavlink
         /// </summary>
         /// <param name="condition">A condition which must meet the message</param>
         /// <returns>Component which will notify an incoming message</returns>
-        IMessageNotifier<TMessage> SubscribeForReceive(Func<TMessage, bool> condition);
+        IMessageNotifier<TMessage> SubscribeMessage(Func<TMessage, bool> condition);
 
         /// <summary>
         /// Sends message via mavlink protocol

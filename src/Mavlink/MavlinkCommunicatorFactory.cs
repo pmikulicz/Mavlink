@@ -10,7 +10,7 @@
 using Mavlink.Messages;
 using Mavlink.Messages.Definitions;
 using Mavlink.Packets;
-using System.IO;
+using Mavlink.Connection;
 
 namespace Mavlink
 {
@@ -22,11 +22,11 @@ namespace Mavlink
         /// <summary>
         /// Creates new instance of mavlink communicator
         /// </summary>
-        /// <param name="stream"></param>
+        /// <param name="connectionService"></param>
         /// <returns></returns>
-        public IMavlinkCommunicator<TMessage> Create<TMessage>(Stream stream) where TMessage : ICommonMessage
+        public IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService) where TMessage : ICommonMessage
         {
-            return new MavlinkCommunicator<TMessage>(stream, new PacketHandler(), new MessageFactory<TMessage>());
+            return new MavlinkCommunicator<TMessage>(connectionService, new PacketHandler(), new MessageFactory<TMessage>());
         }
     }
 }

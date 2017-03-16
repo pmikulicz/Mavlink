@@ -1,23 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D08E1349-D1AC-4E25-BC9B-F316EF1F505A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{88ABBC3D-7642-44AE-8616-92011C12C395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink", "src\Mavlink\Mavlink.csproj", "{6258B144-7715-47D2-9631-4A44E69465C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink", "src\Mavlink\Mavlink.csproj", "{DDFFE2EF-369D-4413-8DC8-ABEE153C8373}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.Playground", "src\Mavlink.Playground\Mavlink.Playground.csproj", "{ECC9FBF4-4CFA-4FE1-96E9-3F855A0454EA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.UnitTests", "tests\Mavlink.UnitTests\Mavlink.UnitTests.csproj", "{7BF290BC-399C-4672-B820-6C5EC2FC5457}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.IntegrationTests", "tests\Mavlink.IntegrationTests\Mavlink.IntegrationTests.csproj", "{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{10CD8F1F-6CFC-4BF2-B458-128B13598CDA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.SerialPortTest", "tests\other\Mavlink.SerialPortTest\Mavlink.SerialPortTest.csproj", "{6755E412-E018-469E-8273-4E2DA32D925A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mavlink.UnitTests", "tests\Mavlink.UnitTests\Mavlink.UnitTests.csproj", "{C0EFE826-3C37-4644-BA45-21947959577E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,36 +17,20 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6258B144-7715-47D2-9631-4A44E69465C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6258B144-7715-47D2-9631-4A44E69465C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6258B144-7715-47D2-9631-4A44E69465C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6258B144-7715-47D2-9631-4A44E69465C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECC9FBF4-4CFA-4FE1-96E9-3F855A0454EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECC9FBF4-4CFA-4FE1-96E9-3F855A0454EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECC9FBF4-4CFA-4FE1-96E9-3F855A0454EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECC9FBF4-4CFA-4FE1-96E9-3F855A0454EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BF290BC-399C-4672-B820-6C5EC2FC5457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BF290BC-399C-4672-B820-6C5EC2FC5457}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BF290BC-399C-4672-B820-6C5EC2FC5457}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BF290BC-399C-4672-B820-6C5EC2FC5457}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6755E412-E018-469E-8273-4E2DA32D925A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6755E412-E018-469E-8273-4E2DA32D925A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6755E412-E018-469E-8273-4E2DA32D925A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6755E412-E018-469E-8273-4E2DA32D925A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDFFE2EF-369D-4413-8DC8-ABEE153C8373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDFFE2EF-369D-4413-8DC8-ABEE153C8373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDFFE2EF-369D-4413-8DC8-ABEE153C8373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDFFE2EF-369D-4413-8DC8-ABEE153C8373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0EFE826-3C37-4644-BA45-21947959577E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0EFE826-3C37-4644-BA45-21947959577E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0EFE826-3C37-4644-BA45-21947959577E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0EFE826-3C37-4644-BA45-21947959577E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{6258B144-7715-47D2-9631-4A44E69465C2} = {D08E1349-D1AC-4E25-BC9B-F316EF1F505A}
-		{ECC9FBF4-4CFA-4FE1-96E9-3F855A0454EA} = {D08E1349-D1AC-4E25-BC9B-F316EF1F505A}
-		{7BF290BC-399C-4672-B820-6C5EC2FC5457} = {88ABBC3D-7642-44AE-8616-92011C12C395}
-		{F0C8A117-5A2B-45EB-A3FA-C6B987A2EA09} = {88ABBC3D-7642-44AE-8616-92011C12C395}
-		{10CD8F1F-6CFC-4BF2-B458-128B13598CDA} = {88ABBC3D-7642-44AE-8616-92011C12C395}
-		{6755E412-E018-469E-8273-4E2DA32D925A} = {10CD8F1F-6CFC-4BF2-B458-128B13598CDA}
+		{DDFFE2EF-369D-4413-8DC8-ABEE153C8373} = {D08E1349-D1AC-4E25-BC9B-F316EF1F505A}
+		{C0EFE826-3C37-4644-BA45-21947959577E} = {88ABBC3D-7642-44AE-8616-92011C12C395}
 	EndGlobalSection
 EndGlobal

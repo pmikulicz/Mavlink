@@ -7,7 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Runtime.CompilerServices;
 using Mavlink.Messages.Definitions;
+
+[assembly: InternalsVisibleTo("Mavlink.UnitTests")]
 
 namespace Mavlink.Messages
 {

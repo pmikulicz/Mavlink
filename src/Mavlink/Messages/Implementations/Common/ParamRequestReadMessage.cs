@@ -12,7 +12,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages.Definitions;
-using System;
 using System.Runtime.InteropServices;
 
 namespace Mavlink.Messages.Implementations.Common

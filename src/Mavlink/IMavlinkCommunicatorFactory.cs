@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages.Definitions;
-using System.IO;
+using Mavlink.Connection;
 
 namespace Mavlink
 {
@@ -20,8 +20,9 @@ namespace Mavlink
         /// <summary>
         /// Creates new instance of mavlink communicator
         /// </summary>
-        /// <param name="stream"></param>
+        /// <param name="connectionService"></param>
         /// <returns></returns>
-        IMavlinkCommunicator<TMessage> Create<TMessage>(Stream stream) where TMessage : ICommonMessage;
+        IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService)
+            where TMessage : ICommonMessage;
     }
 }

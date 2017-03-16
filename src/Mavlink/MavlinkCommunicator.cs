@@ -12,9 +12,9 @@ using Mavlink.Messages.Definitions;
 using Mavlink.Packets;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Mavlink.Connection;
 
 namespace Mavlink
 {
@@ -26,23 +26,23 @@ namespace Mavlink
         private readonly IPacketHandler _packetHandler;
         private readonly IMessageFactory<TMessage> _messageFactory;
         private readonly Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>> _messageNotifiers;
-        private readonly Stream _stream;
-
+        private readonly IConnectionService _connectionService;
         private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly object _syncRoot = new object();
         private bool _disposed;
         private const int BufferSize = 1024;
+        
 
-        internal MavlinkCommunicator(Stream stream, IPacketHandler packetHandler, IMessageFactory<TMessage> messageFactory)
+        internal MavlinkCommunicator(IConnectionService connectionService, IPacketHandler packetHandler, IMessageFactory<TMessage> messageFactory)
         {
-            if (stream == null)
-                throw new ArgumentNullException(nameof(stream));
+            if (connectionService == null)
+                throw new ArgumentNullException(nameof(connectionService));
             if (packetHandler == null)
                 throw new ArgumentNullException(nameof(packetHandler));
             if (messageFactory == null)
                 throw new ArgumentNullException(nameof(messageFactory));
 
-            _stream = stream;
+            _connectionService = connectionService;
             _packetHandler = packetHandler;
             _messageFactory = messageFactory;
             _messageNotifiers = new Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>>();
@@ -55,7 +55,7 @@ namespace Mavlink
         /// </summary>
         /// <param name="condition">A condition which must meet the message</param>
         /// <returns>Component which will notify an incoming message</returns>
-        public IMessageNotifier<TMessage> SubscribeForReceive(Func<TMessage, bool> condition)
+        public IMessageNotifier<TMessage> SubscribeMessage(Func<TMessage, bool> condition)
         {
             if (condition == null)
                 throw new ArgumentNullException(nameof(condition));
@@ -88,7 +88,7 @@ namespace Mavlink
             try
             {
                 lock (_syncRoot)
-                    _stream.Write(packet.RawBytes, 0, packet.RawBytes.Length);
+                    _connectionService.Write(packet.RawBytes);
 
                 return true;
             }
@@ -113,7 +113,7 @@ namespace Mavlink
                 _cancellationTokenSource.Cancel();
 
                 lock (_syncRoot)
-                    _stream.Dispose();
+                    _connectionService.Dispose();
             }
             _disposed = true;
         }
@@ -126,7 +126,7 @@ namespace Mavlink
                 int bytesRead;
 
                 lock (_syncRoot)
-                    bytesRead = _stream.Read(buffer, 0, BufferSize);
+                    bytesRead = _connectionService.Read(buffer, BufferSize);
 
                 if (bytesRead == 0)
                     continue;
