@@ -13,4 +13,8 @@
     <ProjectReference Include="..\..\src\Mavlink\Mavlink.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Connection\" />
+  </ItemGroup>
+
 </Project>
