@@ -1,57 +1,44 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SocketConnection.cs" company="Patryk Mikulicz">
+//   Copyright (c) 2017 Patryk Mikulicz.
+// </copyright>
+// <summary>
+//   Implementation of service which makes use of socket connection
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.Net.Sockets;
 
 namespace Mavlink.Connection
 {
-    internal sealed class SocketConnection : IConnectionService
+    /// <summary>
+    /// Implementation of service which makes use of socket connection
+    /// </summary>
+    public sealed class SocketConnection : ConnectionService
     {
         private readonly Socket _socket;
-        private bool _disposed;
 
         public SocketConnection(Socket socket)
         {
-            if (socket == null)
-                throw new ArgumentNullException(nameof(socket));
-
-            _socket = socket;
+            _socket = socket ?? throw new ArgumentNullException(nameof(socket));
         }
 
-        
-        public void Write(byte[] buffer)
+        protected override void ProcessWrite(byte[] buffer)
         {
-            if (buffer == null)
-                throw new ArgumentNullException(nameof(buffer));
-
             _socket.Send(buffer);
         }
 
-        public int Read(byte[] buffer, int bufferSize)
+        protected override int ProcessRead(byte[] buffer)
         {
-            _socket.ReceiveBufferSize = bufferSize;
+            _socket.ReceiveBufferSize = BufferSize;
 
             return _socket.Receive(buffer);
         }
 
-        public void Dispose()
+        protected override void ProcessDispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-
-            if (disposing)
-
-                _socket.Dispose();
-
-            _disposed = true;
-        }
-
-        ~SocketConnection()
-        {
-            Dispose(false);
+            _socket.Dispose();
         }
     }
 }

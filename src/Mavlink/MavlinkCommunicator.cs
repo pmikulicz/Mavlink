@@ -30,8 +30,6 @@ namespace Mavlink
         private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly object _syncRoot = new object();
         private bool _disposed;
-        private const int BufferSize = 1024;
-        
 
         internal MavlinkCommunicator(IConnectionService connectionService, IPacketHandler packetHandler, IMessageFactory<TMessage> messageFactory)
         {
@@ -122,11 +120,11 @@ namespace Mavlink
         {
             while (true)
             {
-                byte[] buffer = new byte[BufferSize];
+                byte[] buffer = new byte[_connectionService.BufferSize];
                 int bytesRead;
 
                 lock (_syncRoot)
-                    bytesRead = _connectionService.Read(buffer, BufferSize);
+                    bytesRead = _connectionService.Read(buffer);
 
                 if (bytesRead == 0)
                     continue;
@@ -137,6 +135,8 @@ namespace Mavlink
 
                 foreach (Packet packet in packets)
                 {
+                    if (packet.MessageId != 0)
+                        continue;
                     TMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
                     NotifyForMessage(message, packet.ComponentId, packet.SystemId);
                 }

@@ -1,59 +1,42 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="StreamConnection.cs" company="Patryk Mikulicz">
+//   Copyright (c) 2017 Patryk Mikulicz.
+// </copyright>
+// <summary>
+//   Implementation of service which makes use of stream connection
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.IO;
 
 namespace Mavlink.Connection
 {
-    public sealed class StreamConnection : IConnectionService
+    /// <summary>
+    /// Implementation of service which makes use of stream connection
+    /// </summary>
+    public sealed class StreamConnection : ConnectionService
     {
         private readonly Stream _stream;
-        private bool _disposed;
 
         public StreamConnection(Stream stream)
         {
-            if (stream == null)
-                throw new ArgumentNullException(nameof(stream));
-
-            _stream = stream;
+            _stream = stream ?? throw new ArgumentNullException(nameof(stream));
         }
 
-       
-
-        public void Write(byte[] buffer)
+        protected override void ProcessWrite(byte[] buffer)
         {
-            if (buffer == null)
-                throw new ArgumentNullException(nameof(buffer));
-
             _stream.Write(buffer, 0, buffer.Length);
         }
 
-        public int Read(byte[] buffer, int bufferSize)
+        protected override int ProcessRead(byte[] buffer)
         {
-            if (buffer == null)
-                throw new ArgumentNullException(nameof(buffer));
-
-            return  _stream.Read(buffer, 0, bufferSize);
+            return _stream.Read(buffer, 0, BufferSize);
         }
 
-        public void Dispose()
+        protected override void ProcessDispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-
-            if (disposing)
-                
-                _stream.Dispose();
-            
-            _disposed = true;
-        }
-
-        ~StreamConnection()
-        {
-            Dispose(false);
+            _stream.Dispose();
         }
     }
 }
