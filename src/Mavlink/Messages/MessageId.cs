@@ -125,6 +125,13 @@ namespace Mavlink.Messages
         RawPressure = 28,
 
         /// <summary>
+        /// Request the information of the mission item with the sequence number seq.
+        /// The response of the system to this message should be a MISSION_ITEM message. http://qgroundcontrol.org/mavlink/waypoint_protocol
+        /// </summary>
+        [MessageDefinition(typeof(MissionRequestMessage))]
+        MissionRequest = 40,
+
+        /// <summary>
         /// This interface replaces data DATA_STREAM
         /// </summary>
         [MessageDefinition(typeof(MessageIntervalMessage))]
@@ -136,6 +143,6 @@ namespace Mavlink.Messages
         /// If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz).
         /// </summary>
         [MessageDefinition(typeof(StatusTextMessage))]
-        StatusText = 253
+        StatusText = 253,
     }
 }

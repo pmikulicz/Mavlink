@@ -26,9 +26,7 @@ namespace Mavlink.Messages.Implementations.Common
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ParamRequestReadMessage : ICommonMessage
     {
-        /// <summary>
-        /// Gets id of the message
-        /// </summary>
+        /// <inheritdoc />
         public MessageId Id => MessageId.ParamRequestRead;
 
         /// <summary>

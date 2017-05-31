@@ -20,11 +20,7 @@ namespace Mavlink.Packets
         private const int X25InitCrc = 0xFFFF;
         private const int X25ValidateCrc = 0xF0B8;
 
-        /// <summary>
-        /// Validates packet performing cyclic redundancy check
-        /// </summary>
-        /// <param name="packet"></param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public bool Validate(Packet packet)
         {
             if (packet == null)
@@ -36,11 +32,7 @@ namespace Mavlink.Packets
                    (byte)(crc >> 8) == packet.Checksum[1];
         }
 
-        /// <summary>
-        /// Gets packet cyclic redundancy check value
-        /// </summary>
-        /// <param name="packet">Packet for which redundancy check value is created</param>
-        /// <returns>Cyclic redundancy check</returns>
+        /// <inheritdoc />
         public byte[] GetChecksum(Packet packet)
         {
             int crc = GetPacketCrc(packet);

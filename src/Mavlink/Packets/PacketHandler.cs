@@ -34,11 +34,7 @@ namespace Mavlink.Packets
         {
         }
 
-        /// <summary>
-        /// Handles a packet based on passed bytes array
-        /// </summary>
-        /// <param name="bytes">Bytes array from which mavlink packets will be handled</param>
-        /// <returns>Collection of mavlink packets</returns>
+        /// <inheritdoc />
         public IEnumerable<Packet> HandlePackets(byte[] bytes)
         {
             if (bytes == null)
@@ -57,15 +53,7 @@ namespace Mavlink.Packets
             }
         }
 
-        /// <summary>
-        /// Gets newly created packet
-        /// </summary>
-        /// <param name="systemId">System id</param>
-        /// <param name="componentId">Component id</param>
-        /// <param name="sequenceNumber">Number of a sequence</param>
-        /// <param name="messageId">Message id</param>
-        /// <param name="packetPayload">Message as a byte array</param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public Packet GetPacket(byte systemId, byte componentId, byte sequenceNumber, MessageId messageId, byte[] packetPayload)
         {
             PacketBuilder packetBuilder = new PacketBuilder();
@@ -100,6 +88,7 @@ namespace Mavlink.Packets
                 packetBuilder.Build(BuildType.WithoutCrc);
         }
 
+        /// <inheritdoc />
         public event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
 
         private void OnInvalidPacketReceived(InvalidPacketReceivedEventArgs e)

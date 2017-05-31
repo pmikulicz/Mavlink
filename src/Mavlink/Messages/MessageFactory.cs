@@ -20,12 +20,7 @@ namespace Mavlink.Messages
     /// </summary>
     internal sealed class MessageFactory<TMessage> : IMessageFactory<TMessage> where TMessage : ICommonMessage
     {
-        /// <summary>
-        /// Creates mavlink message based on passed payload and message id
-        /// </summary>
-        /// <param name="payload">Payload from which message will be created</param>
-        /// <param name="messageId">Id of created message</param>
-        /// <returns>Mavlink message</returns>
+        /// <inheritdoc />
         public TMessage CreateMessage(byte[] payload, MessageId messageId)
         {
             if (payload == null)
@@ -48,12 +43,7 @@ namespace Mavlink.Messages
             return CastAsMessage(payload, messageType);
         }
 
-        /// <summary>
-        /// Creates array of bytes based on passed mavlink message
-        /// </summary>
-        /// <typeparam name="TMessage">Mavlink message</typeparam>
-        /// <param name="message"></param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public byte[] CreateBytes(TMessage message)
         {
             int structureSize = Marshal.SizeOf(message.GetType());
