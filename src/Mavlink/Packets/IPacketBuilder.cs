@@ -21,13 +21,6 @@ namespace Mavlink.Packets
         /// <returns>value indicating whether all packet bytes were collected and are ready to build</returns>
         bool AddByte(byte packetByte);
 
-        //        /// <summary>
-        //        /// Add array of packet bytes
-        //        /// </summary>
-        //        /// <param name="packetBytes">Array of packet bytes</param>
-        //        /// <returns>value indicating whether all packet bytes were collected and are ready to build</returns>
-        //        bool AddBytes(byte[] packetBytes);
-
         /// <summary>
         /// Builds mavlink packet from aggregated bytes
         /// </summary>

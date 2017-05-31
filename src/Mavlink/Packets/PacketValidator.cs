@@ -32,8 +32,8 @@ namespace Mavlink.Packets
 
             int crc = GetPacketCrc(packet);
 
-            return ((byte)(crc & 0xFF) == packet.Checksum[0]) &&
-                   ((byte)(crc >> 8) == packet.Checksum[1]);
+            return (byte)(crc & 0xFF) == packet.Checksum[0] &&
+                   (byte)(crc >> 8) == packet.Checksum[1];
         }
 
         /// <summary>

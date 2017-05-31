@@ -46,6 +46,9 @@ namespace Mavlink
             _messageNotifiers = new Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>>();
             _cancellationTokenSource = new CancellationTokenSource();
             Task.Factory.StartNew(ProcessReading, _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            _packetHandler.InvalidPacketReceived += (sender, args) =>
+            {
+            }
         }
 
         /// <summary>
@@ -135,8 +138,6 @@ namespace Mavlink
 
                 foreach (Packet packet in packets)
                 {
-                    if (packet.MessageId != 0)
-                        continue;
                     TMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
                     NotifyForMessage(message, packet.ComponentId, packet.SystemId);
                 }

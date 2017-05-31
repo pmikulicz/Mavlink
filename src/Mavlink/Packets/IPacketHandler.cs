@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using Mavlink.Messages;
 using System.Collections.Generic;
 
@@ -34,5 +35,10 @@ namespace Mavlink.Packets
         /// <param name="packetPayload">Message as a byte array</param>
         /// <returns></returns>
         Packet GetPacket(byte systemId, byte componentId, byte sequenceNumber, MessageId messageId, byte[] packetPayload);
+
+        /// <summary>
+        /// Occurs when an invalid packet has been received
+        /// </summary>
+        event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
     }
 }

@@ -52,6 +52,8 @@ namespace Mavlink.Packets
 
                 if (packet != null)
                     yield return packet;
+                else
+                    InvalidPacketReceived?.Invoke(this, new InvalidPacketReceivedEventArgs(bytes));
             }
         }
 
@@ -96,6 +98,13 @@ namespace Mavlink.Packets
             return !packetBuilder.AddByte(emptyChecksum[1]) ?
                 null :
                 packetBuilder.Build(BuildType.WithoutCrc);
+        }
+
+        public event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
+
+        private void OnInvalidPacketReceived(InvalidPacketReceivedEventArgs e)
+        {
+            InvalidPacketReceived?.Invoke(this, e);
         }
     }
 }
