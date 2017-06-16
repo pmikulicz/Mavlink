@@ -18,9 +18,7 @@ namespace Mavlink.Messages.Implementations.Common
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct MessageIntervalMessage : ICommonMessage
     {
-        /// <summary>
-        /// Gets id of the message
-        /// </summary>
+        /// <inheritdoc />
         public MessageId Id => Messages.MessageId.MessageInterval;
 
         /// <summary>

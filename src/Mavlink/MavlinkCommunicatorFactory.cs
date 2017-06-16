@@ -19,11 +19,7 @@ namespace Mavlink
     /// </summary>
     public sealed class MavlinkCommunicatorFactory : IMavlinkCommunicatorFactory
     {
-        /// <summary>
-        /// Creates new instance of mavlink communicator
-        /// </summary>
-        /// <param name="connectionService"></param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService) where TMessage : ICommonMessage
         {
             return new MavlinkCommunicator<TMessage>(connectionService, new PacketHandler(), new MessageFactory<TMessage>());

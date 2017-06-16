@@ -18,9 +18,7 @@ namespace Mavlink.Messages.Implementations.Common
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct SystemTimeMessage : ICommonMessage
     {
-        /// <summary>
-        /// Gets or sets autopilot-specific errors id of the message
-        /// </summary>
+        /// <inheritdoc />
         public MessageId Id => MessageId.SystemTime;
 
         /// <summary>

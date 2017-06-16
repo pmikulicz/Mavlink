@@ -34,11 +34,7 @@ namespace Mavlink.Packets
         {
         }
 
-        /// <summary>
-        /// Add single packet byte
-        /// </summary>
-        /// <param name="packetByte">Single packet byte</param>
-        /// <returns>value indicating whether all packet bytes were collected and are ready to build</returns>
+        /// <inheritdoc />
         public bool AddByte(byte packetByte)
         {
             if (packetByte == Packet.HeaderValue)
@@ -50,17 +46,7 @@ namespace Mavlink.Packets
             return HasPacketMetadata(packetBytes) && IsPacketComplete(packetBytes);
         }
 
-        /// <summary>
-        /// Builds mavlink packet from aggregated bytes
-        /// </summary>
-        /// <param name="buildType">
-        /// Type of a build.
-        /// Builder can build packet with crc or without crc
-        /// </param>
-        /// <returns>
-        /// New packet from aggregated bytes.
-        /// If packet is not valid it returns null
-        ///  </returns>
+        /// <inheritdoc />
         public Packet Build(BuildType buildType = BuildType.WithCrc)
         {
             byte[] packetBytes = _packetBuffer.ToArray();

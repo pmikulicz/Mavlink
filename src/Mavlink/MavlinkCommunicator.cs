@@ -48,11 +48,7 @@ namespace Mavlink
             Task.Factory.StartNew(ProcessReading, _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
-        /// <summary>
-        /// Subscribes for notification of received message from mavlink protocol
-        /// </summary>
-        /// <param name="condition">A condition which must meet the message</param>
-        /// <returns>Component which will notify an incoming message</returns>
+        /// <inheritdoc />
         public IMessageNotifier<TMessage> SubscribeMessage(Func<TMessage, bool> condition)
         {
             if (condition == null)
@@ -67,14 +63,7 @@ namespace Mavlink
             return messageNotifier;
         }
 
-        /// <summary>
-        /// Sends message via mavlink protocol
-        /// </summary>
-        /// <param name="message">Message to be sent</param>
-        /// <param name="systemId">Id of a system which is sending message</param>
-        /// <param name="componentId">Id of a component which is sending message</param>
-        /// <param name="sequenceNumber"></param>
-        /// <returns>Value which indicates whether operation completed successfully</returns>
+        /// <inheritdoc />
         public bool SendMessage(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
         {
             byte[] packetPayload = _messageFactory.CreateBytes(message);
@@ -135,8 +124,6 @@ namespace Mavlink
 
                 foreach (Packet packet in packets)
                 {
-                    if (packet.MessageId != 0)
-                        continue;
                     TMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
                     NotifyForMessage(message, packet.ComponentId, packet.SystemId);
                 }

@@ -17,9 +17,7 @@ namespace Mavlink.Messages
     /// </summary>
     internal sealed class MessageNotifier<TMessage> : IMessageNotifier<TMessage> where TMessage : ICommonMessage
     {
-        /// <summary>
-        /// Occurs when a message is received from a mavlink
-        /// </summary>
+        /// <inheritdoc />
         public event EventHandler<MessageReceivedEventArgs<TMessage>> MessageReceived;
 
         /// <summary>
