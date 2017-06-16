@@ -18,7 +18,7 @@ namespace Mavlink.Connection
     public sealed class StreamConnection : ConnectionService
     {
         private readonly Stream _stream;
-
+            
         public StreamConnection(Stream stream)
         {
             _stream = stream ?? throw new ArgumentNullException(nameof(stream));

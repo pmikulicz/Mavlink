@@ -125,6 +125,26 @@ namespace Mavlink.Messages
         RawPressure = 28,
 
         /// <summary>
+        /// The pressure readings for the typical setup of one absolute and differential pressure sensor. 
+        /// The units are as specified in each field.
+        /// </summary>
+        [MessageDefinition(typeof(ScaledPressureMessage))]
+        ScaledPressure = 29,
+
+        /// <summary>
+        /// The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right)
+        /// </summary>
+        [MessageDefinition(typeof(AttitudeMessage))]
+        Attitude = 30,
+
+        /// <summary>
+        /// The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion. 
+        /// Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0).
+        /// </summary>
+        [MessageDefinition(typeof(AttitudeQuaternionMessage))]
+        AttitudeQuaternion = 31,
+
+        /// <summary>
         /// This interface replaces data DATA_STREAM
         /// </summary>
         [MessageDefinition(typeof(MessageIntervalMessage))]
@@ -136,6 +156,8 @@ namespace Mavlink.Messages
         /// If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz).
         /// </summary>
         [MessageDefinition(typeof(StatusTextMessage))]
-        StatusText = 253
+        StatusText = 253,
+
+        
     }
 }

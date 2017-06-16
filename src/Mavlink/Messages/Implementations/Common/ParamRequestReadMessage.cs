@@ -26,10 +26,17 @@ namespace Mavlink.Messages.Implementations.Common
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ParamRequestReadMessage : ICommonMessage
     {
+
         /// <summary>
         /// Gets id of the message
         /// </summary>
         public MessageId Id => MessageId.ParamRequestRead;
+
+        /// <summary>
+        /// Gets or sets parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)
+        /// </summary>
+        public short ParamIndex { get; set; }
+
 
         /// <summary>
         /// Gets or sets system id
@@ -51,14 +58,11 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public char[] ParamId
         {
-            get { return paramId; }
+            get => paramId;
 
-            set { paramId = value; }
+            set => paramId = value;
         }
 
-        /// <summary>
-        /// Gets or sets parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)
-        /// </summary>
-        public short ParamIndex { get; set; }
+       
     }
 }

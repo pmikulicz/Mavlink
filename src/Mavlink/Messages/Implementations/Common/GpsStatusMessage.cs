@@ -38,9 +38,9 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public byte[] SatellitePrn
         {
-            get { return satellitePrn; }
+            get => satellitePrn;
 
-            set { satellitePrn = value; }
+            set => satellitePrn = value;
         }
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
@@ -51,9 +51,9 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public byte[] SatelliteUsed
         {
-            get { return satelliteUsed; }
+            get => satelliteUsed;
 
-            set { satelliteUsed = value; }
+            set => satelliteUsed = value;
         }
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
@@ -64,8 +64,8 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public byte[] SatelliteElevation
         {
-            get { return satelliteElevation; }
-            set { satelliteElevation = value; }
+            get => satelliteElevation;
+            set => satelliteElevation = value;
         }
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
@@ -76,9 +76,9 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public byte[] SatelliteAzimuth
         {
-            get { return satelliteAzimuth; }
+            get => satelliteAzimuth;
 
-            set { satelliteAzimuth = value; }
+            set => satelliteAzimuth = value;
         }
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
@@ -89,9 +89,9 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public byte[] SatelliteSnr
         {
-            get { return satelliteSnr; }
+            get => satelliteSnr;
 
-            set { satelliteSnr = value; }
+            set => satelliteSnr = value;
         }
     }
 }

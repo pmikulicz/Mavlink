@@ -33,6 +33,11 @@ namespace Mavlink.Messages.Implementations.Common
         public MessageId Id => MessageId.ParamSet;
 
         /// <summary>
+        /// Gets or sets onboard parameter value
+        /// </summary>
+        public float ParamValue { get; set; }
+
+        /// <summary>
         /// Gets or sets target system
         /// </summary>
         public byte TargetSystem { get; set; }
@@ -52,9 +57,9 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public char[] ParamId
         {
-            get { return paramId; }
+            get => paramId;
 
-            set { paramId = value; }
+            set => paramId = value;
         }
 
         /// <summary>

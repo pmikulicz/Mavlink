@@ -40,9 +40,9 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public char[] Text
         {
-            get { return _text; }
+            get => _text;
 
-            set { _text = value; }
+            set => _text = value;
         }
     }
 }

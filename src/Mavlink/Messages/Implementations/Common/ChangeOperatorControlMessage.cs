@@ -52,9 +52,9 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public char[] Passkey
         {
-            get { return _passkey; }
+            get => _passkey;
 
-            set { _passkey = value; }
+            set => _passkey = value;
         }
     }
 }

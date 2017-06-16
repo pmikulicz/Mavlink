@@ -32,25 +32,20 @@ namespace Mavlink.Messages.Implementations.Common
         public ulong TimeUsec { get; set; }
 
         /// <summary>
-        /// Gets or sets GPS fix type. See also <seealso cref="GpsFixType"/>
-        /// </summary>
-        public GpsFixType FixType { get; set; }
-
-        /// <summary>
         /// Gets or sets latitude (WGS84), in degrees * 1E7
         /// </summary>
-        public int Lat { get; set; }
+        public int Latitude { get; set; }
 
         /// <summary>
-        /// Longitude (WGS84), in degrees * 1E7
+        /// Gets or sets longitude (WGS84), in degrees * 1E7
         /// </summary>
-        public int Lon { get; set; }
+        public int Longitude { get; set; }
 
         /// <summary>
         /// Gets or sets altitude (AMSL, NOT WGS84), in meters * 1000 (positive for up).
         /// Note that virtually all GPS modules provide the AMSL altitude in addition to the WGS84 altitude
         /// </summary>
-        public int Alt { get; set; }
+        public int Altitude { get; set; }
 
         /// <summary>
         /// Gets or sets GPS HDOP horizontal dilution of position (unitless). If unknown, set to: UINT16_MAX
@@ -72,6 +67,11 @@ namespace Mavlink.Messages.Implementations.Common
         /// If unknown, set to: UINT16_MAX
         /// </summary>
         public ushort Cog { get; set; }
+
+        /// <summary>
+        /// Gets or sets GPS fix type. See also <seealso cref="GpsFixType"/>
+        /// </summary>
+        public GpsFixType FixType { get; set; }
 
         /// <summary>
         /// Gets or sets number of satellites visible. If unknown, set to 255

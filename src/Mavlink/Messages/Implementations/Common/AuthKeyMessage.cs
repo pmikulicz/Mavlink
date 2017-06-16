@@ -34,9 +34,9 @@ namespace Mavlink.Messages.Implementations.Common
 
         public char[] Key
         {
-            get { return key; }
+            get => key;
 
-            set { key = value; }
+            set => key = value;
         }
     }
 }

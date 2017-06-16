@@ -77,11 +77,7 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public short CurrentBattery { get; set; }
 
-        /// <summary>
-        /// Gets or sets remaining battery energy: (0%: 0, 100%: 100).
-        /// -1: autopilot estimate the remaining battery
-        /// </summary>
-        public sbyte BatteryRemaining { get; set; }
+ 
 
         /// <summary>
         /// Gets or sets communication drops in percent, (0%: 0, 100%: 10'000), (UART, I2C, SPI, CAN),
@@ -114,5 +110,11 @@ namespace Mavlink.Messages.Implementations.Common
         /// Gets or sets autopilot-specific errors
         /// </summary>
         public ushort ErrorsFourthCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets remaining battery energy: (0%: 0, 100%: 100).
+        /// -1: autopilot estimate the remaining battery
+        /// </summary>
+        public sbyte BatteryRemaining { get; set; }
     }
 }

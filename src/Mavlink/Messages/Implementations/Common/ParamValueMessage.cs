@@ -53,9 +53,9 @@ namespace Mavlink.Messages.Implementations.Common
         /// </summary>
         public char[] ParamId
         {
-            get { return paramId; }
+            get => paramId;
 
-            set { paramId = value; }
+            set => paramId = value;
         }
 
         /// <summary>

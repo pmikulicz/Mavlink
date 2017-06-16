@@ -4,4 +4,5 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Mavlink.UnitTests")]
+[assembly: InternalsVisibleTo("MavlinkConnectionTest")]
 
