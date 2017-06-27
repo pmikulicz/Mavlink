@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Messages.Implementations;
 using Mavlink.Messages.Implementations.Common;
 
 namespace Mavlink.Messages
@@ -145,6 +146,63 @@ namespace Mavlink.Messages
         AttitudeQuaternion = 31,
 
         /// <summary>
+        /// The filtered local position (e.g. fused computer vision and accelerometers).
+        /// Coordinate frame is right-handed, Z-axis down (aeronautical frame, NED / north-east-down convention)
+        /// </summary>
+        [MessageDefinition(typeof(LocalPositionNedMessage))]
+        LocalPositionNed = 32,
+
+        /// <summary>
+        /// The filtered global position (e.g. fused GPS and accelerometers). 
+        /// The position is in GPS-frame (right-handed, Z-up). It is designed as scaled integer message since the resolution of float is not sufficient
+        /// </summary>
+        [MessageDefinition(typeof(GlobalPositionIntMessage))]
+        GlobalPositionInt = 33,
+
+        /// <summary>
+        /// The scaled values of the RC channels received. (-100%) -10000, (0%) 0, (100%) 10000. 
+        /// Channels that are inactive should be set to UINT16_MAX
+        /// </summary>
+        [MessageDefinition(typeof(RcChannelsScaledMessage))]
+        RcChannelsScaled = 34,
+
+        /// <summary>
+        /// The RAW values of the RC channels received. 
+        /// The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification.
+        /// </summary>
+        [MessageDefinition(typeof(RcChannelsRawMessage))]
+        RcChannelsRaw = 35,
+
+        /// <summary>
+        /// The RAW values of the servo outputs (for RC input from the remote, use the RC_CHANNELS messages). 
+        /// The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%
+        /// </summary>
+        [MessageDefinition(typeof(ServoOutputRawMessage))]
+        ServoOutputRaw = 36,
+
+        /// <summary>
+        /// Request a partial list of mission items from the system/component. http://qgroundcontrol.org/mavlink/waypoint_protocol. 
+        /// If start and end index are the same, just send one waypoint
+        /// </summary>
+        [MessageDefinition(typeof(MissionRequestPartialListMessage))]
+        MissionRequestPartialList = 37,
+
+        /// <summary>
+        /// Message encoding a mission item. This message is emitted to announce the presence of a mission item and to set a mission item on the system. 
+        /// The mission item can be either in x, y, z meters (type: LOCAL) or x: lat, y: lon, z: altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU).
+        /// See also http://qgroundcontrol.org/mavlink/waypoint_protocol
+        /// </summary>
+        [MessageDefinition(typeof(MissionItemMessage))]
+        MissionItem = 39,
+
+        /// <summary>
+        /// Request the information of the mission item with the sequence number seq.
+        /// The response of the system to this message should be a MISSION_ITEM message. http://qgroundcontrol.org/mavlink/waypoint_protocol
+        /// </summary>
+        [MessageDefinition(typeof(MissionRequestMessage))]
+        MissionRequest = 40,
+
+        /// <summary>
         /// This interface replaces data DATA_STREAM
         /// </summary>
         [MessageDefinition(typeof(MessageIntervalMessage))]
@@ -153,11 +211,9 @@ namespace Mavlink.Messages
         /// <summary>
         /// Status text message. WARNING: They consume quite some bandwidth,
         /// so use only for important status and error messages.
-        /// If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz).
+        /// If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz)
         /// </summary>
         [MessageDefinition(typeof(StatusTextMessage))]
         StatusText = 253,
-
-        
     }
 }

@@ -10,7 +10,7 @@
 namespace Mavlink.Messages.Implementations.Common.Types
 {
     /// <summary>
-    /// Defines type of mission items being requested/sent in mission protocol.
+    /// Defines type of mission items being requested/sent in mission protocol
     /// </summary>
     public enum MavMissionType : byte
     {

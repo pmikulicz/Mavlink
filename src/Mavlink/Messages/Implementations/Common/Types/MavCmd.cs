@@ -1,6 +1,6 @@
 ﻿namespace Mavlink.Messages.Implementations.Common.Types
 {
-    public enum MavCmd
+    public enum MavCmd : ushort
     {
         /// <summary>
         /// Navigate to MISSION
