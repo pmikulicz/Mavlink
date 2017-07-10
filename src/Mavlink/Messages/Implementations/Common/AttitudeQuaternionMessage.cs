@@ -3,18 +3,20 @@
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   
+//
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Runtime.InteropServices;
 using Mavlink.Messages.Definitions;
 
 namespace Mavlink.Messages.Implementations.Common
 {
     /// <summary>
-    /// The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion. 
+    /// The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion.
     /// Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0).
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct AttitudeQuaternionMessage : ICommonMessage
     {
         /// <summary>
@@ -61,6 +63,5 @@ namespace Mavlink.Messages.Implementations.Common
         /// Gets or sets yaw angular speed (rad/s)
         /// </summary>
         public float YawSpeed { get; set; }
-
     }
 }

@@ -7,7 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages.Implementations;
 using Mavlink.Messages.Implementations.Common;
 
 namespace Mavlink.Messages
@@ -126,7 +125,7 @@ namespace Mavlink.Messages
         RawPressure = 28,
 
         /// <summary>
-        /// The pressure readings for the typical setup of one absolute and differential pressure sensor. 
+        /// The pressure readings for the typical setup of one absolute and differential pressure sensor.
         /// The units are as specified in each field.
         /// </summary>
         [MessageDefinition(typeof(ScaledPressureMessage))]
@@ -139,7 +138,7 @@ namespace Mavlink.Messages
         Attitude = 30,
 
         /// <summary>
-        /// The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion. 
+        /// The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right), expressed as quaternion.
         /// Quaternion order is w, x, y, z and a zero rotation would be expressed as (1 0 0 0).
         /// </summary>
         [MessageDefinition(typeof(AttitudeQuaternionMessage))]
@@ -153,42 +152,42 @@ namespace Mavlink.Messages
         LocalPositionNed = 32,
 
         /// <summary>
-        /// The filtered global position (e.g. fused GPS and accelerometers). 
+        /// The filtered global position (e.g. fused GPS and accelerometers).
         /// The position is in GPS-frame (right-handed, Z-up). It is designed as scaled integer message since the resolution of float is not sufficient
         /// </summary>
         [MessageDefinition(typeof(GlobalPositionIntMessage))]
         GlobalPositionInt = 33,
 
         /// <summary>
-        /// The scaled values of the RC channels received. (-100%) -10000, (0%) 0, (100%) 10000. 
+        /// The scaled values of the RC channels received. (-100%) -10000, (0%) 0, (100%) 10000.
         /// Channels that are inactive should be set to UINT16_MAX
         /// </summary>
         [MessageDefinition(typeof(RcChannelsScaledMessage))]
         RcChannelsScaled = 34,
 
         /// <summary>
-        /// The RAW values of the RC channels received. 
+        /// The RAW values of the RC channels received.
         /// The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%. Individual receivers/transmitters might violate this specification.
         /// </summary>
         [MessageDefinition(typeof(RcChannelsRawMessage))]
         RcChannelsRaw = 35,
 
         /// <summary>
-        /// The RAW values of the servo outputs (for RC input from the remote, use the RC_CHANNELS messages). 
+        /// The RAW values of the servo outputs (for RC input from the remote, use the RC_CHANNELS messages).
         /// The standard PPM modulation is as follows: 1000 microseconds: 0%, 2000 microseconds: 100%
         /// </summary>
         [MessageDefinition(typeof(ServoOutputRawMessage))]
         ServoOutputRaw = 36,
 
         /// <summary>
-        /// Request a partial list of mission items from the system/component. http://qgroundcontrol.org/mavlink/waypoint_protocol. 
+        /// Request a partial list of mission items from the system/component. http://qgroundcontrol.org/mavlink/waypoint_protocol.
         /// If start and end index are the same, just send one waypoint
         /// </summary>
         [MessageDefinition(typeof(MissionRequestPartialListMessage))]
         MissionRequestPartialList = 37,
 
         /// <summary>
-        /// Message encoding a mission item. This message is emitted to announce the presence of a mission item and to set a mission item on the system. 
+        /// Message encoding a mission item. This message is emitted to announce the presence of a mission item and to set a mission item on the system.
         /// The mission item can be either in x, y, z meters (type: LOCAL) or x: lat, y: lon, z: altitude. Local frame is Z-down, right handed (NED), global frame is Z-up, right handed (ENU).
         /// See also http://qgroundcontrol.org/mavlink/waypoint_protocol
         /// </summary>
@@ -201,6 +200,45 @@ namespace Mavlink.Messages
         /// </summary>
         [MessageDefinition(typeof(MissionRequestMessage))]
         MissionRequest = 40,
+
+        /// <summary>
+        /// Set the mission item with sequence number seq as current item.
+        /// This means that the MAV will continue to this mission item on the shortest path (not following the mission items in-between)
+        /// </summary>
+        [MessageDefinition(typeof(MissionSetCurrentMessage))]
+        MissionSetCurrent = 41,
+
+        /// <summary>
+        /// Message that announces the sequence number of the current active mission item. The MAV will fly towards this mission item
+        /// </summary>
+        [MessageDefinition(typeof(MissionCurrentMessage))]
+        MissionCurrent = 42,
+
+        /// <summary>
+        /// Request the overall list of mission items from the system/component
+        /// </summary>
+        [MessageDefinition(typeof(MissionRequestListMessage))]
+        MissionRequestList = 43,
+
+        /// <summary>
+        /// This message is emitted as response to MISSION_REQUEST_LIST by the MAV and to initiate a write transaction.
+        /// The GCS can then request the individual mission item based on the knowledge of the total number of missions
+        /// </summary>
+        [MessageDefinition(typeof(MissionCountMessage))]
+        MissionCount = 44,
+
+        /// <summary>
+        /// Delete all mission items at once
+        /// </summary>
+        [MessageDefinition(typeof(MissionClearAllMessage))]
+        MissionClearAll = 45,
+
+        /// <summary>
+        /// A certain mission item has been reached.
+        /// The system will either hold this position (or circle on the orbit) or (if the autocontinue on the WP was set) continue to the next mission
+        /// </summary>
+        [MessageDefinition(typeof(MissionItemReachedMessage))]
+        MissionItemReached = 46,
 
         /// <summary>
         /// This interface replaces data DATA_STREAM

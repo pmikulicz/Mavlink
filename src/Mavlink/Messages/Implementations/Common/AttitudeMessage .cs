@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Runtime.InteropServices;
 using Mavlink.Messages.Definitions;
 
 namespace Mavlink.Messages.Implementations.Common
@@ -14,6 +15,7 @@ namespace Mavlink.Messages.Implementations.Common
     /// <summary>
     /// The attitude in the aeronautical frame (right-handed, Z-down, X-front, Y-right)
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct AttitudeMessage : ICommonMessage
     {
         /// <summary>
