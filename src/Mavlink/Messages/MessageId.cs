@@ -210,7 +210,7 @@ namespace Mavlink.Messages
 
         /// <summary>
         /// Message that announces the sequence number of the current active mission item. The MAV will fly towards this mission item
-        /// </summary>d
+        /// </summary>
         [MessageDefinition(typeof(MissionCurrentMessage))]
         MissionCurrent = 42,
 
