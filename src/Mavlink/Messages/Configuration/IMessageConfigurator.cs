@@ -3,14 +3,14 @@
 //   Copyright (c) 2017 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Interface of a component which configure message details
+//  Component which allows to configure message details
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Mavlink.Messages.Configuration
 {
     /// <summary>
-    /// Interface of a component which configure message details
+    /// Component which allows to configure message details
     /// </summary>
     public interface IMessageConfigurator
     {

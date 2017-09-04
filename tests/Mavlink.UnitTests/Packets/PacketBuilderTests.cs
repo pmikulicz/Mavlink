@@ -1,11 +1,10 @@
 ﻿using Mavlink.Messages;
 using Mavlink.Packets;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace Mavlink.UnitTests.Packets
 {
-    [TestFixture]
     internal class PacketBuilderTests
     {
         protected IPacketBuilder PacketBuilder;
@@ -16,7 +15,6 @@ namespace Mavlink.UnitTests.Packets
                 0x51, 0x04, 0x03, 0x1C, 0x7F
             };
 
-        [SetUp]
         public void SetUp()
         {
             Mock<IPacketValidator> mockPacketValidator = new Mock<IPacketValidator>();
@@ -29,18 +27,16 @@ namespace Mavlink.UnitTests.Packets
             PacketBuilder = new PacketBuilder(mockPacketValidator.Object);
         }
 
-        [TestFixture]
         public sealed class AddByteMethodTests : PacketBuilderTests
         {
-            [Test]
             public void AddByteReturnsFalse()
             {
                 bool result = PacketBuilder.AddByte(HeartbeatPacketBytes[0]);
 
-                Assert.AreEqual(false, result);
+                Assert.Equal(false, result);
             }
 
-            [Test]
+            [Fact]
             public void AddByteReturnsTrue()
             {
                 for (int i = 0; i < HeartbeatPacketBytes.Length - 1; i++)
@@ -50,24 +46,23 @@ namespace Mavlink.UnitTests.Packets
 
                 bool result = PacketBuilder.AddByte(HeartbeatPacketBytes[HeartbeatPacketBytes.Length - 1]);
 
-                Assert.AreEqual(true, result);
+                Assert.Equal(true, result);
             }
         }
 
-        [TestFixture]
         public sealed class BuildMethodTests : PacketBuilderTests
         {
-            [Test]
+            [Fact]
             public void BuildWithCrcReturnNull()
             {
                 PacketBuilder.AddByte(HeartbeatPacketBytes[0]);
 
                 Packet packet = PacketBuilder.Build();
 
-                Assert.AreEqual(null, packet);
+                Assert.Equal(null, packet);
             }
 
-            [Test]
+            [Fact]
             public void BuildWithCrcReturnPacket()
             {
                 foreach (byte packetByte in HeartbeatPacketBytes)
@@ -83,27 +78,27 @@ namespace Mavlink.UnitTests.Packets
 
                 Packet packet = PacketBuilder.Build();
 
-                Assert.AreNotEqual(null, packet);
-                Assert.AreEqual(expectedMessageId, packet.MessageId);
-                Assert.AreEqual(expectedPayloadLegth, packet.PayloadLength);
-                Assert.AreEqual(expectedSequenceNumber, packet.SequenceNumber);
-                Assert.AreEqual(expectedSystemId, packet.SystemId);
-                Assert.AreEqual(expectedHeader, packet.Header);
-                Assert.AreEqual(expectedChecksum, packet.Checksum);
-                Assert.AreEqual(expectedPayload, packet.Payload);
+                Assert.NotNull(packet);
+                Assert.Equal(expectedMessageId, packet.MessageId);
+                Assert.Equal(expectedPayloadLegth, packet.PayloadLength);
+                Assert.Equal(expectedSequenceNumber, packet.SequenceNumber);
+                Assert.Equal(expectedSystemId, packet.SystemId);
+                Assert.Equal(expectedHeader, packet.Header);
+                Assert.Equal(expectedChecksum, packet.Checksum);
+                Assert.Equal(expectedPayload, packet.Payload);
             }
 
-            [Test]
+            [Fact]
             public void BuildWithoutCrcReturnNull()
             {
                 PacketBuilder.AddByte(HeartbeatPacketBytes[0]);
 
                 Packet packet = PacketBuilder.Build();
 
-                Assert.AreEqual(null, packet);
+                Assert.Equal(null, packet);
             }
 
-            [Test]
+            [Fact]
             public void BuildWithoutCrcReturnPacket()
             {
                 for (int index = 0; index < HeartbeatPacketBytes.Length - 2; index++)
@@ -126,14 +121,14 @@ namespace Mavlink.UnitTests.Packets
 
                 Packet packet = PacketBuilder.Build(BuildType.WithoutCrc);
 
-                Assert.AreNotEqual(null, packet);
-                Assert.AreEqual(expectedMessageId, packet.MessageId);
-                Assert.AreEqual(expectedPayloadLegth, packet.PayloadLength);
-                Assert.AreEqual(expectedSequenceNumber, packet.SequenceNumber);
-                Assert.AreEqual(expectedSystemId, packet.SystemId);
-                Assert.AreEqual(expectedHeader, packet.Header);
-                Assert.AreEqual(expectedChecksum, packet.Checksum);
-                Assert.AreEqual(expectedPayload, packet.Payload);
+                Assert.NotNull(packet);
+                Assert.Equal(expectedMessageId, packet.MessageId);
+                Assert.Equal(expectedPayloadLegth, packet.PayloadLength);
+                Assert.Equal(expectedSequenceNumber, packet.SequenceNumber);
+                Assert.Equal(expectedSystemId, packet.SystemId);
+                Assert.Equal(expectedHeader, packet.Header);
+                Assert.Equal(expectedChecksum, packet.Checksum);
+                Assert.Equal(expectedPayload, packet.Payload);
             }
         }
     }

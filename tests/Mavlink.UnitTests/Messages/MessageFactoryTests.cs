@@ -2,15 +2,19 @@
 using Mavlink.Messages.Definitions;
 using Mavlink.Messages.Implementations.Common;
 using Mavlink.Messages.Implementations.Common.Types;
-using NUnit.Framework;
 using System;
+using Xunit;
 
 namespace Mavlink.UnitTests.Messages
 {
-    [TestFixture]
     internal class MessageFactoryTests
     {
         protected IMessageFactory<ICommonMessage> MessageFactory;
+
+        public MessageFactoryTests()
+        {
+            MessageFactory = new MessageFactory<ICommonMessage>();
+        }
 
         protected readonly byte[] HeartbeatMessagePayload =
         {
@@ -48,49 +52,42 @@ namespace Mavlink.UnitTests.Messages
         protected MessageId ChangeOperatorControlMessageId = MessageId.ChangeOperatorControl;
         protected MessageId GpsStatusMessageId = MessageId.GpsStatus;
 
-        [SetUp]
-        public void SetUp()
-        {
-            MessageFactory = new MessageFactory<ICommonMessage>();
-        }
-
-        [TestFixture]
         public sealed class CreateMethodTests : MessageFactoryTests
         {
-            [Test]
+            [Fact]
             public void CreateThrowArgumentNullException()
             {
                 Assert.Throws<ArgumentNullException>(() => MessageFactory.CreateMessage(null, HeartbeatMessageId));
             }
 
-            [Test]
+            [Fact]
             public void CreateThrowInvalidOperationExceptionWhenEnumNotDefined()
             {
                 Assert.Throws<InvalidOperationException>(() => MessageFactory.CreateMessage(new byte[] { }, (MessageId)254));
             }
 
-            [Test]
+            [Fact]
             public void CreateReturnsMessage()
             {
                 var expectedType = MavType.Quadrotor;
                 var expectedAutopilot = MavAutopilot.Ardupilotmega;
                 var expectedBaseMode = MavModeFlag.CustomModeEnabled | MavModeFlag.StabilizeEnabled | MavModeFlag.ManualInputEnabled;
-                int expectedCustomMode = 0;
+                uint expectedCustomMode = 0;
                 var expectedSystemStatus = MavState.Active;
                 byte expectedMavlinkVersion = 3;
 
                 HeartbeatMessage message = (HeartbeatMessage)MessageFactory.CreateMessage(HeartbeatMessagePayload, HeartbeatMessageId);
 
-                Assert.AreNotEqual(null, message);
-                Assert.AreEqual(expectedAutopilot, message.Autopilot);
-                Assert.AreEqual(expectedType, message.Type);
-                Assert.AreEqual(expectedCustomMode, message.CustomMode);
-                Assert.AreEqual(expectedBaseMode, message.BaseMode);
-                Assert.AreEqual(expectedSystemStatus, message.SystemStatus);
-                Assert.AreEqual(expectedMavlinkVersion, message.MavlinkVersion);
+                Assert.NotNull(message);
+                Assert.Equal(expectedAutopilot, message.Autopilot);
+                Assert.Equal(expectedType, message.Type);
+                Assert.Equal(expectedCustomMode, message.CustomMode);
+                Assert.Equal(expectedBaseMode, message.BaseMode);
+                Assert.Equal(expectedSystemStatus, message.SystemStatus);
+                Assert.Equal(expectedMavlinkVersion, message.MavlinkVersion);
             }
 
-            [Test]
+            [Fact]
             public void CreateReturnsMessageWithFixedArray()
             {
                 byte expectedTargetSystem = 0x01;
@@ -104,14 +101,14 @@ namespace Mavlink.UnitTests.Messages
 
                 ChangeOperatorControlMessage message = (ChangeOperatorControlMessage)MessageFactory.CreateMessage(ChangeOperatorControlMessagePayload, ChangeOperatorControlMessageId);
 
-                Assert.AreNotEqual(null, message);
-                Assert.AreEqual(expectedTargetSystem, message.TargetSystem);
-                Assert.AreEqual(expectedControlRequest, message.ControlRequest);
-                Assert.AreEqual(expectedVersion, message.Version);
-                Assert.AreEqual(expectedPasskey, message.Passkey);
+                Assert.NotNull(message);
+                Assert.Equal(expectedTargetSystem, message.TargetSystem);
+                Assert.Equal(expectedControlRequest, message.ControlRequest);
+                Assert.Equal(expectedVersion, message.Version);
+                Assert.Equal(expectedPasskey, message.Passkey);
             }
 
-            [Test]
+            [Fact]
             public void CreateReturnsMessageWithMultipleFixedArray()
             {
                 byte satellitesVisible = 0x01;
@@ -145,13 +142,13 @@ namespace Mavlink.UnitTests.Messages
 
                 GpsStatusMessage message = (GpsStatusMessage)MessageFactory.CreateMessage(GpsStatusMessagePayload, GpsStatusMessageId);
 
-                Assert.AreNotEqual(null, message);
-                Assert.AreEqual(satellitesVisible, message.SatellitesVisible);
-                Assert.AreEqual(satellitePrn, message.SatellitePrn);
-                Assert.AreEqual(satelliteUsed, message.SatelliteUsed);
-                Assert.AreEqual(satelliteElevation, message.SatelliteElevation);
-                Assert.AreEqual(satelliteAzimuth, message.SatelliteAzimuth);
-                Assert.AreEqual(satelliteSnr, message.SatelliteSnr);
+                Assert.NotNull(message);
+                Assert.Equal(satellitesVisible, message.SatellitesVisible);
+                Assert.Equal(satellitePrn, message.SatellitePrn);
+                Assert.Equal(satelliteUsed, message.SatelliteUsed);
+                Assert.Equal(satelliteElevation, message.SatelliteElevation);
+                Assert.Equal(satelliteAzimuth, message.SatelliteAzimuth);
+                Assert.Equal(satelliteSnr, message.SatelliteSnr);
             }
         }
     }

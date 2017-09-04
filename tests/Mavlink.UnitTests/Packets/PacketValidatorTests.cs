@@ -1,26 +1,23 @@
 ﻿using Mavlink.Messages;
 using Mavlink.Packets;
-using NUnit.Framework;
 using System;
+using Xunit;
 
 namespace Mavlink.UnitTests.Packets
 {
-    [TestFixture]
     internal class PacketValidatorTests
 
     {
         protected IPacketValidator PacketValidator;
 
-        [SetUp]
         public void SetUp()
         {
             PacketValidator = new PacketValidator();
         }
 
-        [TestFixture]
         public sealed class ValidateMethodTests : PacketValidatorTests
         {
-            [Test]
+            [Fact]
             public void PacketValidReturnsTrue()
             {
                 /*
@@ -41,10 +38,10 @@ namespace Mavlink.UnitTests.Packets
 
                 bool result = PacketValidator.Validate(validPacket);
 
-                Assert.AreEqual(true, result);
+                Assert.Equal(true, result);
             }
 
-            [Test]
+            [Fact]
             public void PacketInvalidReturnsFalse()
             {
                 /*
@@ -65,20 +62,19 @@ namespace Mavlink.UnitTests.Packets
 
                 bool result = PacketValidator.Validate(invalidPacket);
 
-                Assert.AreEqual(false, result);
+                Assert.Equal(false, result);
             }
 
-            [Test]
+            [Fact]
             public void PacketNullThrowsArgumentNullException()
             {
                 Assert.Throws<ArgumentNullException>(() => PacketValidator.Validate(null));
             }
         }
 
-        [TestFixture]
         public sealed class GetChecksumMethodTests : PacketValidatorTests
         {
-            [Test]
+            [Fact]
             public void GetChechsumReturnsCorrectCrc()
             {
                 /*
@@ -101,7 +97,7 @@ namespace Mavlink.UnitTests.Packets
 
                 byte[] checksum = PacketValidator.GetChecksum(packetWithoutChecksum);
 
-                Assert.AreEqual(expectedChecksum, checksum);
+                Assert.Equal(expectedChecksum, checksum);
             }
         }
     }

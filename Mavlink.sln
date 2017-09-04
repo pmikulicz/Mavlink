@@ -1,21 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D08E1349-D1AC-4E25-BC9B-F316EF1F505A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{88ABBC3D-7642-44AE-8616-92011C12C395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink", "src\Mavlink\Mavlink.csproj", "{DDFFE2EF-369D-4413-8DC8-ABEE153C8373}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mavlink", "src\Mavlink\Mavlink.csproj", "{DDFFE2EF-369D-4413-8DC8-ABEE153C8373}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mavlink.UnitTests", "tests\Mavlink.UnitTests\Mavlink.UnitTests.csproj", "{C0EFE826-3C37-4644-BA45-21947959577E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.Generator", "src\Mavlink.Generator\Mavlink.Generator.csproj", "{35D08816-A1F4-4792-8AA6-B1DCA20774A1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.Generator.Test", "src\Mavlink.Generator.Test\Mavlink.Generator.Test.csproj", "{63D2D101-C32F-42DD-BB09-9862BBC1D7DE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mavlink.Test", "src\Mavlink.Test\Mavlink.Test.csproj", "{43045E29-4D5A-41D3-8D5F-D06DDE5B409B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mavlink.Generator", "src\Mavlink.Generator\Mavlink.Generator.csproj", "{35D08816-A1F4-4792-8AA6-B1DCA20774A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +31,6 @@ Global
 		{35D08816-A1F4-4792-8AA6-B1DCA20774A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35D08816-A1F4-4792-8AA6-B1DCA20774A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35D08816-A1F4-4792-8AA6-B1DCA20774A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63D2D101-C32F-42DD-BB09-9862BBC1D7DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63D2D101-C32F-42DD-BB09-9862BBC1D7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63D2D101-C32F-42DD-BB09-9862BBC1D7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63D2D101-C32F-42DD-BB09-9862BBC1D7DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43045E29-4D5A-41D3-8D5F-D06DDE5B409B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43045E29-4D5A-41D3-8D5F-D06DDE5B409B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43045E29-4D5A-41D3-8D5F-D06DDE5B409B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43045E29-4D5A-41D3-8D5F-D06DDE5B409B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,7 +39,8 @@ Global
 		{DDFFE2EF-369D-4413-8DC8-ABEE153C8373} = {D08E1349-D1AC-4E25-BC9B-F316EF1F505A}
 		{C0EFE826-3C37-4644-BA45-21947959577E} = {88ABBC3D-7642-44AE-8616-92011C12C395}
 		{35D08816-A1F4-4792-8AA6-B1DCA20774A1} = {D08E1349-D1AC-4E25-BC9B-F316EF1F505A}
-		{63D2D101-C32F-42DD-BB09-9862BBC1D7DE} = {D08E1349-D1AC-4E25-BC9B-F316EF1F505A}
-		{43045E29-4D5A-41D3-8D5F-D06DDE5B409B} = {D08E1349-D1AC-4E25-BC9B-F316EF1F505A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34A1FCB6-6C56-4D52-AC0C-D075A2901CA5}
 	EndGlobalSection
 EndGlobal
