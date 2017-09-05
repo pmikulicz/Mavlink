@@ -3,7 +3,7 @@
 //   Copyright (c) 2017 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Component which allows to configure message details
+//   Component which allows to configure mavlink message metadata
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,30 +12,30 @@ using System;
 namespace Mavlink.Messages.Configuration
 {
     /// <inheritdoc />
-    internal sealed class MessageConfigurator : IMessageConfigurator
+    internal sealed class MessageMetadataMetadataConfigurator : IMessageMetadataConfigurator
     {
-        private readonly MessageDetails _messageDetails;
+        private readonly MessageMetadata _messageMetadata;
 
-        public MessageConfigurator(MessageDetails messageDetails)
+        public MessageMetadataMetadataConfigurator(MessageMetadata messageMetadata)
         {
-            _messageDetails = messageDetails ?? throw new ArgumentNullException(nameof(messageDetails));
+            _messageMetadata = messageMetadata ?? throw new ArgumentNullException(nameof(messageMetadata));
         }
 
         /// <inheritdoc />
-        public IMessageConfigurator SetName(string name)
+        public IMessageMetadataConfigurator SetName(string name)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentNullException(nameof(name));
 
-            _messageDetails.Name = name;
+            _messageMetadata.Name = name;
 
             return this;
         }
 
         /// <inheritdoc />
-        public IMessageConfigurator SetId(int id)
+        public IMessageMetadataConfigurator SetId(int id)
         {
-            _messageDetails.Id = id;
+            _messageMetadata.Id = id;
 
             return this;
         }

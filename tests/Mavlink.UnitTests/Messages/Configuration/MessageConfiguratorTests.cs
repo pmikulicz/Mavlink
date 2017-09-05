@@ -7,29 +7,29 @@ namespace Mavlink.UnitTests.Messages.Configuration
 {
     public class MessageConfiguratorTests
     {
-        private static IMessageConfigurator _messageConfigurator = new MessageConfigurator(new MessageDetails(typeof(HeartbeatMessage)));
+        private static IMessageMetadataConfigurator _messageMetadataConfigurator = new MessageMetadataMetadataConfigurator(new MessageMetadata(typeof(HeartbeatMessage)));
 
         public sealed class SetNameTests : MessageConfiguratorTests
         {
             [Fact]
             public void SetName_NullString_ThrowArgumentNullException()
             {
-                Assert.Throws<ArgumentNullException>(() => _messageConfigurator.SetName(null));
+                Assert.Throws<ArgumentNullException>(() => _messageMetadataConfigurator.SetName(null));
             }
 
             [Fact]
             public void SetName_EmptyString_ThrowArgumentNullException()
             {
-                Assert.Throws<ArgumentNullException>(() => _messageConfigurator.SetName(string.Empty));
+                Assert.Throws<ArgumentNullException>(() => _messageMetadataConfigurator.SetName(string.Empty));
             }
 
             [Fact]
             public void SetName_CorrectName_Ok()
             {
-                var messageDetails = new MessageDetails(typeof(HeartbeatMessage));
-                _messageConfigurator = new MessageConfigurator(messageDetails);
+                var messageDetails = new MessageMetadata(typeof(HeartbeatMessage));
+                _messageMetadataConfigurator = new MessageMetadataMetadataConfigurator(messageDetails);
                 var expectedMessageName = "HEARTBEAT";
-                _messageConfigurator.SetName(expectedMessageName);
+                _messageMetadataConfigurator.SetName(expectedMessageName);
 
                 Assert.Equal(expectedMessageName, messageDetails.Name);
             }
@@ -40,10 +40,10 @@ namespace Mavlink.UnitTests.Messages.Configuration
             [Fact]
             public void SetId_CorrectId_Ok()
             {
-                var messageDetails = new MessageDetails(typeof(HeartbeatMessage));
-                _messageConfigurator = new MessageConfigurator(messageDetails);
+                var messageDetails = new MessageMetadata(typeof(HeartbeatMessage));
+                _messageMetadataConfigurator = new MessageMetadataMetadataConfigurator(messageDetails);
                 var expectedMessageId = 1;
-                _messageConfigurator.SetId(expectedMessageId);
+                _messageMetadataConfigurator.SetId(expectedMessageId);
 
                 Assert.Equal(expectedMessageId, messageDetails.Id);
             }

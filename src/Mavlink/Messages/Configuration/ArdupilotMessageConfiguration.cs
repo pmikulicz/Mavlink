@@ -1,11 +1,8 @@
 ﻿using Mavlink.Messages.Dialects.Ardupilot;
-using System;
-using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Mavlink.Messages.Configuration
 {
-    public sealed class HeartbeatMessageConfiguration : MavlinkMessageConfiguration<HeartbeatMessage>
+    public sealed class HeartbeatMessageConfiguration : MessageConfiguration<HeartbeatMessage>
     {
         public override void Configure()
         {
@@ -17,7 +14,7 @@ namespace Mavlink.Messages.Configuration
         }
     }
 
-    public sealed class ParamRequestReadMessageConfiguration : MavlinkMessageConfiguration<ParamRequestReadMessage>
+    public sealed class ParamRequestReadMessageConfiguration : MessageConfiguration<ParamRequestReadMessage>
     {
         public override void Configure()
         {
@@ -25,40 +22,5 @@ namespace Mavlink.Messages.Configuration
 
             Property(p => p.ParamId).SetOrder(1).SetSize(14).SetName("fds");
         }
-    }
-
-    public abstract class MavlinkMessageConfiguration<T> : IMessageDetailsProvider where T : MavlinkMessage
-    {
-        private readonly MessageDetails _messageDetails = new MessageDetails(typeof(T));
-
-        public abstract void Configure();
-
-        protected IPropertyConfigurator Property<TY>(Expression<Func<T, TY>> selector)
-        {
-            var property = (PropertyInfo)((MemberExpression)selector.Body).Member;
-
-            if (_messageDetails.Properties.ContainsKey(property))
-                return new PropertyConfigurator(_messageDetails.Properties[property]);
-
-            var propertyConfiguration = new PropertyDetails();
-            _messageDetails.Properties.Add(property, propertyConfiguration);
-
-            return new PropertyConfigurator(propertyConfiguration);
-        }
-
-        protected IMessageConfigurator Message()
-        {
-            return new MessageConfigurator(_messageDetails);
-        }
-
-        MessageDetails IMessageDetailsProvider.Provide()
-        {
-            return _messageDetails;
-        }
-    }
-
-    internal interface IMessageDetailsProvider
-    {
-        MessageDetails Provide();
     }
 }

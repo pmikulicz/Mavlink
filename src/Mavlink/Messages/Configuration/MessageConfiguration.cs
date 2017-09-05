@@ -1,36 +1,63 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MessageConfiguration.cs" company="Patryk Mikulicz">
+//   Copyright (c) 2017 Patryk Mikulicz.
+// </copyright>
+// <summary>
+//  Abstract implementation of mavlink message configuration. It is base class which needs be be inherited in delivered
+//  configurations of all mavlink message types
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Mavlink.Messages.Configuration
 {
-    public abstract class MessageConfiguration<T> : IMessageDetailsProvider where T : MavlinkMessage
+    /// <summary>
+    /// Abstract implementation of mavlink message configuration. It is base class which needs be be inherited in delivered
+    /// configurations of all mavlink message types
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    // ReSharper disable once InheritdocConsiderUsage
+    public abstract class MessageConfiguration<T> : IMessageMetadataProvider where T : MavlinkMessage
     {
-        private readonly MessageDetails _messageDetails = new MessageDetails(typeof(T));
+        private readonly MessageMetadata _messageMetadata = new MessageMetadata(typeof(T));
 
         public abstract void Configure();
 
-        protected IPropertyConfigurator Property<TY>(Expression<Func<T, TY>> selector)
+        /// <summary>
+        /// Configures single property of mavlink message
+        /// </summary>
+        /// <typeparam name="TY">Type of property</typeparam>
+        /// <param name="selector">Selector which indicates which property is configured</param>
+        /// <returns>Instance of property metadata configurator for fluet api</returns>
+        protected IPropertyMetadataConfigurator Property<TY>(Expression<Func<T, TY>> selector)
         {
             var property = (PropertyInfo)((MemberExpression)selector.Body).Member;
 
-            if (_messageDetails.Properties.ContainsKey(property))
-                return new PropertyConfigurator(_messageDetails.Properties[property]);
+            if (_messageMetadata.Properties.ContainsKey(property))
+                return new PropertyMetadataConfigurator(_messageMetadata.Properties[property]);
 
-            var propertyConfiguration = new PropertyDetails();
-            _messageDetails.Properties.Add(property, propertyConfiguration);
+            var propertyConfiguration = new PropertyMetadata();
+            _messageMetadata.Properties.Add(property, propertyConfiguration);
 
-            return new PropertyConfigurator(propertyConfiguration);
+            return new PropertyMetadataConfigurator(propertyConfiguration);
         }
 
-        protected IMessageConfigurator Message()
+        /// <summary>
+        /// Configures mavlink message
+        /// </summary>
+        /// <returns>Instance of message metadata configurator for fluet api</returns>
+        protected IMessageMetadataConfigurator Message()
         {
-            return new MessageConfigurator(_messageDetails);
+            return new MessageMetadataMetadataConfigurator(_messageMetadata);
         }
 
-        MessageDetails IMessageDetailsProvider.Provide()
+        /// <inheritdoc />
+        MessageMetadata IMessageMetadataProvider.Provide()
         {
-            return _messageDetails;
+            return _messageMetadata;
         }
     }
 }

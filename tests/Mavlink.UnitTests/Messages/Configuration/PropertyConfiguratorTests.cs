@@ -6,7 +6,7 @@ namespace Mavlink.UnitTests.Messages.Configuration
 {
     public class PropertyConfiguratorTests
     {
-        private static IPropertyConfigurator _propertyConfigurator = new PropertyConfigurator(new PropertyDetails());
+        private static IPropertyMetadataConfigurator _propertyConfigurator = new PropertyMetadataConfigurator(new PropertyMetadata());
 
         public sealed class SetNameTests : PropertyConfiguratorTests
         {
@@ -25,8 +25,8 @@ namespace Mavlink.UnitTests.Messages.Configuration
             [Fact]
             public void SetName_CorrectName_Ok()
             {
-                var propertyDetails = new PropertyDetails();
-                _propertyConfigurator = new PropertyConfigurator(propertyDetails);
+                var propertyDetails = new PropertyMetadata();
+                _propertyConfigurator = new PropertyMetadataConfigurator(propertyDetails);
                 var expectedPropertyName = "type";
                 _propertyConfigurator.SetName(expectedPropertyName);
 
@@ -51,8 +51,8 @@ namespace Mavlink.UnitTests.Messages.Configuration
             [Fact]
             public void SetOrder_CorrectValue_Ok()
             {
-                var propertyDetails = new PropertyDetails();
-                _propertyConfigurator = new PropertyConfigurator(propertyDetails);
+                var propertyDetails = new PropertyMetadata();
+                _propertyConfigurator = new PropertyMetadataConfigurator(propertyDetails);
                 var expectedPropertyOrder = 1;
                 _propertyConfigurator.SetOrder(expectedPropertyOrder);
 
@@ -71,8 +71,8 @@ namespace Mavlink.UnitTests.Messages.Configuration
             [Fact]
             public void SetSize_CorrectValue_Ok()
             {
-                var propertyDetails = new PropertyDetails();
-                _propertyConfigurator = new PropertyConfigurator(propertyDetails);
+                var propertyDetails = new PropertyMetadata();
+                _propertyConfigurator = new PropertyMetadataConfigurator(propertyDetails);
                 var expectedPropertySize = 4;
                 _propertyConfigurator.SetSize(expectedPropertySize);
 
