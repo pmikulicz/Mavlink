@@ -17,7 +17,7 @@ namespace Mavlink.Messages
         /// <summary>
         /// Gets the value of message id
         /// </summary>
-        public abstract  int Value { get; }
+        public abstract int Value { get; }
 
         public override bool Equals(object obj)
         {
@@ -46,13 +46,7 @@ namespace Mavlink.Messages
 
         public static bool operator !=(MessageId first, MessageId second)
         {
-            if ((object)first == null && (object)second == null)
-                return false;
-
-            if ((object)first == null || (object)second == null)
-                return true;
-
-            return !first.Equals(second);
+            return !(first == second);
         }
     }
 }
