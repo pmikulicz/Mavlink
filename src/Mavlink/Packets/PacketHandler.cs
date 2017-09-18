@@ -53,39 +53,76 @@ namespace Mavlink.Packets
             }
         }
 
-        /// <inheritdoc />
-        public Packet GetPacket(byte systemId, byte componentId, byte sequenceNumber, MessageId messageId, byte[] packetPayload)
+        public Packet HandlePacket(byte systemId, byte componentId, byte sequenceNumber, int messageId, byte[] packetPayload)
         {
-            PacketBuilder packetBuilder = new PacketBuilder();
-            byte[] emptyChecksum = { 0x00, 0x00 };
+            return null;
+//            PacketBuilder packetBuilder = new PacketBuilder();
+//            byte[] emptyChecksum = { 0x00, 0x00 };
+//
+//            if (packetBuilder.AddByte(Packet.HeaderValue))
+//                return null;
+//
+//            if (packetBuilder.AddByte((byte)packetPayload.Length))
+//                return null;
+//
+//            if (packetBuilder.AddByte(sequenceNumber))
+//                return null;
+//
+//            if (packetBuilder.AddByte(systemId))
+//                return null;
+//
+//            if (packetBuilder.AddByte(componentId))
+//                return null;
+//
+//            if (packetBuilder.AddByte((byte)messageIdOld))
+//                return null;
+//
+//            if (packetPayload.Any(payloadByte => packetBuilder.AddByte(payloadByte)))
+//                return null;
+//
+//            if (packetBuilder.AddByte(emptyChecksum[0]))
+//                return null;
+//
+//            return !packetBuilder.AddByte(emptyChecksum[1]) ?
+//                null :
+//                packetBuilder.Build(BuildType.WithoutCrc);
+        }
 
-            if (packetBuilder.AddByte(Packet.HeaderValue))
-                return null;
+        /// <inheritdoc />
+        public Packet HandlePacket(byte systemId, byte componentId, byte sequenceNumber, MessageIdOld messageIdOld, byte[] packetPayload)
+        {
 
-            if (packetBuilder.AddByte((byte)packetPayload.Length))
-                return null;
-
-            if (packetBuilder.AddByte(sequenceNumber))
-                return null;
-
-            if (packetBuilder.AddByte(systemId))
-                return null;
-
-            if (packetBuilder.AddByte(componentId))
-                return null;
-
-            if (packetBuilder.AddByte((byte)messageId))
-                return null;
-
-            if (packetPayload.Any(payloadByte => packetBuilder.AddByte(payloadByte)))
-                return null;
-
-            if (packetBuilder.AddByte(emptyChecksum[0]))
-                return null;
-
-            return !packetBuilder.AddByte(emptyChecksum[1]) ?
-                null :
-                packetBuilder.Build(BuildType.WithoutCrc);
+            return null;
+//            PacketBuilder packetBuilder = new PacketBuilder();
+//            byte[] emptyChecksum = { 0x00, 0x00 };
+//
+//            if (packetBuilder.AddByte(Packet.HeaderValue))
+//                return null;
+//
+//            if (packetBuilder.AddByte((byte)packetPayload.Length))
+//                return null;
+//
+//            if (packetBuilder.AddByte(sequenceNumber))
+//                return null;
+//
+//            if (packetBuilder.AddByte(systemId))
+//                return null;
+//
+//            if (packetBuilder.AddByte(componentId))
+//                return null;
+//
+//            if (packetBuilder.AddByte((byte)messageIdOld))
+//                return null;
+//
+//            if (packetPayload.Any(payloadByte => packetBuilder.AddByte(payloadByte)))
+//                return null;
+//
+//            if (packetBuilder.AddByte(emptyChecksum[0]))
+//                return null;
+//
+//            return !packetBuilder.AddByte(emptyChecksum[1]) ?
+//                null :
+//                packetBuilder.Build(BuildType.WithoutCrc);
         }
 
         /// <inheritdoc />

@@ -19,7 +19,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct ChangeOperatorControlMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.ChangeOperatorControl;
+        public MessageIdOld Id => MessageIdOld.ChangeOperatorControl;
 
         /// <summary>
         /// Gets or sets system the GCS requests control for

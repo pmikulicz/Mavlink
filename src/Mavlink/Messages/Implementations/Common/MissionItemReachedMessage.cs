@@ -21,7 +21,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct MissionItemReachedMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.MissionItemReached;
+        public MessageIdOld Id => MessageIdOld.MissionItemReached;
 
         /// <summary>
         /// Gets or sets sequence

@@ -11,7 +11,9 @@ using System;
 
 namespace Mavlink.Messages.Configuration
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Component which allows to configure mavlink message metadata
+    /// </summary>
     internal sealed class MessageMetadataMetadataConfigurator : IMessageMetadataConfigurator
     {
         private readonly MessageMetadata _messageMetadata;

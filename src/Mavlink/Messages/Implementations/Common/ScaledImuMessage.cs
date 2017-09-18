@@ -19,7 +19,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct ScaledImuMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.ScaledImu;
+        public MessageIdOld Id => MessageIdOld.ScaledImu;
 
         /// <summary>
         /// Gets or sets timestamp (milliseconds since system boot)

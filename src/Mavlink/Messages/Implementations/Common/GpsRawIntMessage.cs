@@ -22,7 +22,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct GpsRawIntMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.GpsRawInt;
+        public MessageIdOld Id => MessageIdOld.GpsRawInt;
 
         /// <summary>
         /// Gets or sets timestamp (microseconds since UNIX epoch or microseconds since system boot)

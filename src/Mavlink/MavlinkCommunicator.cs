@@ -3,15 +3,13 @@
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Component which is responsible for communication via mavlink protocol
+//   Component which is responsible for handling communication via mavlink protocol
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages;
-using Mavlink.Messages.Definitions;
 using Mavlink.Packets;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Mavlink.Connection;
@@ -19,33 +17,26 @@ using Mavlink.Connection;
 namespace Mavlink
 {
     /// <summary>
-    /// Component which is responsible for communication via mavlink protocol
+    /// Component which is responsible for handling communication via mavlink protocol
     /// </summary>
-    internal sealed class MavlinkCommunicator<TMessage> : IMavlinkCommunicator<TMessage> where TMessage : ICommonMessage
+    internal sealed class MavlinkCommunicator<TMessage> : IMavlinkCommunicator<TMessage> where TMessage : MavlinkMessage 
     {
-        private readonly IPacketHandler _packetHandler;
-        private readonly IMessageFactory<TMessage> _messageFactory;
-        private readonly Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>> _messageNotifiers;
+        private readonly IMavlinkEngine<TMessage> _mavlinkEngine;
         private readonly IConnectionService _connectionService;
         private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly object _syncRoot = new object();
         private bool _disposed;
 
-        internal MavlinkCommunicator(IConnectionService connectionService, IPacketHandler packetHandler, IMessageFactory<TMessage> messageFactory)
+        internal MavlinkCommunicator(IConnectionService connectionService,  MavlinkVersion mavlinkVersion, IMavlinkEngineFactory mavlinkEngineFactory)
         {
-            if (connectionService == null)
-                throw new ArgumentNullException(nameof(connectionService));
-            if (packetHandler == null)
-                throw new ArgumentNullException(nameof(packetHandler));
-            if (messageFactory == null)
-                throw new ArgumentNullException(nameof(messageFactory));
+            if (mavlinkEngineFactory == null)
+                throw new ArgumentNullException(nameof(mavlinkEngineFactory));
 
-            _connectionService = connectionService;
-            _packetHandler = packetHandler;
-            _messageFactory = messageFactory;
-            _messageNotifiers = new Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>>();
+            _mavlinkEngine = mavlinkEngineFactory.Create<TMessage>();
+            _connectionService = connectionService ?? throw new ArgumentNullException(nameof(connectionService));
             _cancellationTokenSource = new CancellationTokenSource();
             Task.Factory.StartNew(ProcessReading, _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            MavlinkVersion = mavlinkVersion;
         }
 
         /// <inheritdoc />
@@ -54,20 +45,13 @@ namespace Mavlink
             if (condition == null)
                 throw new ArgumentNullException(nameof(condition));
 
-            if (_messageNotifiers.ContainsKey(condition))
-                return _messageNotifiers[condition];
-
-            MessageNotifier<TMessage> messageNotifier = new MessageNotifier<TMessage>();
-            _messageNotifiers.Add(condition, messageNotifier);
-
-            return messageNotifier;
+            return _mavlinkEngine.RegisterMessageSubscriber(condition);
         }
 
         /// <inheritdoc />
         public bool SendMessage(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1)
         {
-            byte[] packetPayload = _messageFactory.CreateBytes(message);
-            Packet packet = _packetHandler.GetPacket(systemId, componentId, sequenceNumber, message.Id, packetPayload);
+            Packet packet = _mavlinkEngine.CreatePacket(message, systemId, componentId, sequenceNumber);
 
             if (packet == null)
                 return false;
@@ -84,6 +68,8 @@ namespace Mavlink
                 return false;
             }
         }
+
+        public MavlinkVersion MavlinkVersion { get; }
 
         public void Dispose()
         {
@@ -120,23 +106,7 @@ namespace Mavlink
 
                 byte[] packetBytes = new byte[bytesRead];
                 Array.Copy(buffer, 0, packetBytes, 0, bytesRead);
-                IEnumerable<Packet> packets = _packetHandler.HandlePackets(packetBytes);
-
-                foreach (Packet packet in packets)
-                {
-                    TMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
-                    NotifyForMessage(message, packet.ComponentId, packet.SystemId);
-                }
-            }
-        }
-
-        private void NotifyForMessage(TMessage message, int componentId, int systemId)
-        {
-            foreach (var messageNotifier in _messageNotifiers)
-            {
-                if (messageNotifier.Key(message))
-                    messageNotifier.Value.OnMessageReceived(new MessageReceivedEventArgs<TMessage>(message, componentId,
-                        systemId));
+                _mavlinkEngine.ProcessBytes(packetBytes);
             }
         }
 

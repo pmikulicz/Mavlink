@@ -19,7 +19,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct MessageIntervalMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => Messages.MessageId.MessageInterval;
+        public MessageIdOld Id => Messages.MessageIdOld.MessageInterval;
 
         /// <summary>
         /// Gets or sets interval between two messages, in microseconds.

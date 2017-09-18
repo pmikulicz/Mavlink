@@ -3,19 +3,18 @@
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Component which is responsible for notifying about an incoming messages
+//   Component which is responsible for notifying about an incoming mavlink messages
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages.Definitions;
 using System;
 
 namespace Mavlink.Messages
 {
     /// <summary>
-    /// Component which is responsible for notifying about an incoming messages
+    /// Component which is responsible for notifying about an incoming mavlink messages
     /// </summary>
-    internal sealed class MessageNotifier<TMessage> : IMessageNotifier<TMessage> where TMessage : ICommonMessage
+    internal sealed class MessageNotifier<TMessage> : IMessageNotifier<TMessage> where TMessage : MavlinkMessage
     {
         /// <inheritdoc />
         public event EventHandler<MessageReceivedEventArgs<TMessage>> MessageReceived;
@@ -28,5 +27,8 @@ namespace Mavlink.Messages
         {
             MessageReceived?.Invoke(this, args);
         }
+
+
+        
     }
 }

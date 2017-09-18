@@ -21,7 +21,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct RawPressureMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.RawPressure;
+        public MessageIdOld Id => MessageIdOld.RawPressure;
 
         /// <summary>
         /// Gets or sets timestamp (microseconds since UNIX epoch or microseconds since system boot)

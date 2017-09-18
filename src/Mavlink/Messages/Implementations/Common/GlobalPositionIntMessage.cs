@@ -22,7 +22,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct GlobalPositionIntMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.GlobalPositionInt;
+        public MessageIdOld Id => MessageIdOld.GlobalPositionInt;
 
         /// <summary>
         /// Gets or sets timestamp (milliseconds since system boot)

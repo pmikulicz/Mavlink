@@ -30,7 +30,7 @@ namespace Mavlink.Messages.Implementations.Common
         /// <summary>
         /// Gets id of the message
         /// </summary>
-        public MessageId Id => MessageId.ParamRequestRead;
+        public MessageIdOld Id => MessageIdOld.ParamRequestRead;
 
         /// <summary>
         /// Gets or sets parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)

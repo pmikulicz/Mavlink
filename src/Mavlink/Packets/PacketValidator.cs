@@ -42,15 +42,16 @@ namespace Mavlink.Packets
 
         private static int GetPacketCrc(Packet packet)
         {
-            int crc = X25InitCrc;
-            crc = X25CrcAccumulate(packet.PayloadLength, crc);
-            crc = X25CrcAccumulate(packet.SequenceNumber, crc);
-            crc = X25CrcAccumulate(packet.SystemId, crc);
-            crc = X25CrcAccumulate(packet.ComponentId, crc);
-            crc = X25CrcAccumulate((byte)packet.MessageId, crc);
-            crc = packet.Payload.Aggregate(crc, (current, payloadByte) => X25CrcAccumulate(payloadByte, current));
-
-            return X25CrcAccumulate(GetCrcForMessageId((byte)packet.MessageId), crc);
+            return 0;
+//            int crc = X25InitCrc;
+//            crc = X25CrcAccumulate(packet.PayloadLength, crc);
+//            crc = X25CrcAccumulate(packet.SequenceNumber, crc);
+//            crc = X25CrcAccumulate(packet.SystemId, crc);
+//            crc = X25CrcAccumulate(packet.ComponentId, crc);
+//            crc = X25CrcAccumulate((byte)packet.MessageIdOld, crc);
+//            crc = packet.Payload.Aggregate(crc, (current, payloadByte) => X25CrcAccumulate(payloadByte, current));
+//
+//            return X25CrcAccumulate(GetCrcForMessageId((byte)packet.MessageIdOld), crc);
         }
 
         private static int X25CrcAccumulate(byte crcByte, int crc)

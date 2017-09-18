@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Connection\**" />
+    <EmbeddedResource Remove="Connection\**" />
+    <None Remove="Connection\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="Moq" Version="4.7.99" />
     <PackageReference Include="xunit" Version="2.2.0" />
@@ -14,10 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Mavlink\Mavlink.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Connection\" />
   </ItemGroup>
 
 </Project>

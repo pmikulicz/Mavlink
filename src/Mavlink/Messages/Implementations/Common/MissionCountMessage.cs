@@ -22,7 +22,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct MissionCountMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.MissionCount;
+        public MessageIdOld Id => MessageIdOld.MissionCount;
 
         /// <summary>
         /// Gets or sets number of mission items in the sequence

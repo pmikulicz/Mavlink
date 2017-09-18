@@ -17,6 +17,6 @@ namespace Mavlink.Messages.Definitions
         /// <summary>
         /// Gets id of the message
         /// </summary>
-        MessageId Id { get; }
+        MessageIdOld Id { get; }
     }
 }

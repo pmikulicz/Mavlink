@@ -21,7 +21,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct AuthKeyMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.AuthKey;
+        public MessageIdOld Id => MessageIdOld.AuthKey;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
         private char[] key;

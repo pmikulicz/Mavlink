@@ -21,7 +21,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct GpsStatusMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.GpsStatus;
+        public MessageIdOld Id => MessageIdOld.GpsStatus;
 
         /// <summary>
         /// Gets or sets number of satellites visible

@@ -22,7 +22,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct StatusTextMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.StatusText;
+        public MessageIdOld Id => MessageIdOld.StatusText;
 
         /// <summary>
         /// Gets or sets severity of status. Relies on the definitions within RFC-5424.

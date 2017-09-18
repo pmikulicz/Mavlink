@@ -2,6 +2,5 @@
 {
     public abstract class ArdupilotMessage : MavlinkMessage
     {
-        public abstract ArdupilotId Id { get; }
     }
 }

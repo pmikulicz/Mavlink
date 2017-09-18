@@ -19,7 +19,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct SystemTimeMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.SystemTime;
+        public MessageIdOld Id => MessageIdOld.SystemTime;
 
         /// <summary>
         /// Gets or sets timestamp of the master clock in microseconds since UNIX epoch

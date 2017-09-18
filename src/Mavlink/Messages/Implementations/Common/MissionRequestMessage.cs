@@ -22,7 +22,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct MissionRequestMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.MissionRequest;
+        public MessageIdOld Id => MessageIdOld.MissionRequest;
 
         /// <summary>
         /// Gets or sets sequence number

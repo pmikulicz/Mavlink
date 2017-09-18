@@ -20,7 +20,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct MissionRequestListMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.MissionRequestList;
+        public MessageIdOld Id => MessageIdOld.MissionRequestList;
 
         /// <summary>
         /// Gets or sets system id

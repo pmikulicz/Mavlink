@@ -18,11 +18,10 @@ namespace Mavlink.Messages.Configuration
     /// Abstract implementation of mavlink message configuration. It is base class which needs be be inherited in delivered
     /// configurations of all mavlink message types
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    // ReSharper disable once InheritdocConsiderUsage
-    public abstract class MessageConfiguration<T> : IMessageMetadataProvider where T : MavlinkMessage
+    /// <typeparam name="TMessage"></typeparam>
+    public abstract class MessageConfiguration<TMessage> : IMessageConfiguration, IMessageMetadataProvider where TMessage : MavlinkMessage
     {
-        private readonly MessageMetadata _messageMetadata = new MessageMetadata(typeof(T));
+        private readonly MessageMetadata _messageMetadata = new MessageMetadata(typeof(TMessage));
 
         public abstract void Configure();
 
@@ -32,7 +31,7 @@ namespace Mavlink.Messages.Configuration
         /// <typeparam name="TY">Type of property</typeparam>
         /// <param name="selector">Selector which indicates which property is configured</param>
         /// <returns>Instance of property metadata configurator for fluet api</returns>
-        protected IPropertyMetadataConfigurator Property<TY>(Expression<Func<T, TY>> selector)
+        protected IPropertyMetadataConfigurator Property<TY>(Expression<Func<TMessage, TY>> selector)
         {
             var property = (PropertyInfo)((MemberExpression)selector.Body).Member;
 

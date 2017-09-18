@@ -22,7 +22,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct HeartbeatMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.Heartbeat;
+        public MessageIdOld Id => MessageIdOld.Heartbeat;
 
         /// <summary>
         /// Gets or sets a bitfield for use for autopilot-specific flags

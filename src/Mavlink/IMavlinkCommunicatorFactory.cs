@@ -7,8 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages.Definitions;
 using Mavlink.Connection;
+using Mavlink.Messages;
 
 namespace Mavlink
 {
@@ -20,9 +20,10 @@ namespace Mavlink
         /// <summary>
         /// Creates new instance of mavlink communicator
         /// </summary>
-        /// <param name="connectionService"></param>
-        /// <returns></returns>
-        IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService)
-            where TMessage : ICommonMessage;
+        /// <param name="connectionService">Instance of connection service</param>
+        /// <param name="mavlinkVersion">Mavlink version to be used for communication</param>
+        /// <returns>New instance of mavlin communicator</returns>
+        IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService, MavlinkVersion mavlinkVersion)
+            where TMessage : MavlinkMessage;
     }
 }

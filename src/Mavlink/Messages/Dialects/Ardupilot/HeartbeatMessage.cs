@@ -8,6 +8,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Messages.Configuration;
 using Mavlink.Messages.Implementations.Common.Types;
 
 namespace Mavlink.Messages.Dialects.Ardupilot
@@ -18,7 +19,8 @@ namespace Mavlink.Messages.Dialects.Ardupilot
     /// </summary>
     public class HeartbeatMessage : ArdupilotMessage
     {
-        public override ArdupilotId Id => ArdupilotId.Heartbeat;
+        /// <inheritdoc />
+        public override MessageId Id => new ArdupilotMessageId(ArdupilotId.Heartbeat);
 
         /// <summary>
         /// Gets or sets a bitfield for use for autopilot-specific flags

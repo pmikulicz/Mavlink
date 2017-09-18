@@ -20,7 +20,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct PingMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.Ping;
+        public MessageIdOld Id => MessageIdOld.Ping;
 
         /// <summary>
         /// Gets or sets unix timestamp in microseconds or since system boot if smaller than MAVLink epoch (1.1.2009)

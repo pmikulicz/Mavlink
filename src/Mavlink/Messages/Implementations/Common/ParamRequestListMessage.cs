@@ -19,7 +19,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct ParamRequestListMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.ParamRequestList;
+        public MessageIdOld Id => MessageIdOld.ParamRequestList;
 
         /// <summary>
         /// Gets or sets system id

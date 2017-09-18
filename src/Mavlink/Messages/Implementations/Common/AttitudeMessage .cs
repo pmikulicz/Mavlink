@@ -21,7 +21,7 @@ namespace Mavlink.Messages.Implementations.Common
         /// <summary>
         /// Gets id of the message
         /// </summary>
-        public MessageId Id => MessageId.Attitude;
+        public MessageIdOld Id => MessageIdOld.Attitude;
 
         /// <summary>
         /// Gets or sets timestamp (milliseconds since system boot)

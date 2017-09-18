@@ -21,7 +21,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct MissionSetCurrentMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.MissionSetCurrent;
+        public MessageIdOld Id => MessageIdOld.MissionSetCurrent;
 
         /// <summary>
         /// Gets or sets sequence

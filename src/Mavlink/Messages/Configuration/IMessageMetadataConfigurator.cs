@@ -3,14 +3,14 @@
 //   Copyright (c) 2017 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//  Component which allows to configure mavlink message metadata
+//  Interface of component which allows to configure mavlink message metadata
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Mavlink.Messages.Configuration
 {
     /// <summary>
-    /// Component which allows to configure mavlink message metadata
+    /// Interface of component which allows to configure mavlink message metadata
     /// </summary>
     public interface IMessageMetadataConfigurator
     {

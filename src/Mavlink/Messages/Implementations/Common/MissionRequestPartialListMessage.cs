@@ -22,7 +22,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct MissionRequestPartialListMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.MissionRequestPartialList;
+        public MessageIdOld Id => MessageIdOld.MissionRequestPartialList;
 
         /// <summary>
         /// Gets or sets start index, 0 by default and smaller / equal to the largest index of the current onboard list

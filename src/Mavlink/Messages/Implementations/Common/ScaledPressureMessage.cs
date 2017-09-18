@@ -23,7 +23,7 @@ namespace Mavlink.Messages.Implementations.Common
         /// <summary>
         /// Gets id of the message
         /// </summary>
-        public MessageId Id => MessageId.ScaledPressure;
+        public MessageIdOld Id => MessageIdOld.ScaledPressure;
 
         /// <summary>
         /// Gets or sets timestamp (milliseconds since system boot)

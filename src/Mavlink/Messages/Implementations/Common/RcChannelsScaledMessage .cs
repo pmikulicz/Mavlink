@@ -21,7 +21,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct RcChannelsScaledMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.RcChannelsScaled;
+        public MessageIdOld Id => MessageIdOld.RcChannelsScaled;
 
         /// <summary>
         /// Gets or sets timestamp (milliseconds since system boot)

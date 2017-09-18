@@ -16,9 +16,9 @@ namespace Mavlink.Messages
     /// <summary>
     /// Represents event argument that is used to provide data for the MessageReceived event
     /// </summary>
-    public sealed class MessageReceivedEventArgs<TMessageStruct> : EventArgs where TMessageStruct : ICommonMessage
+    public sealed class MessageReceivedEventArgs<TMessage> : EventArgs where TMessage : MavlinkMessage
     {
-        public MessageReceivedEventArgs(TMessageStruct message, int componentId, int systemId)
+        public MessageReceivedEventArgs(TMessage message, int componentId, int systemId)
         {
             Message = message;
         }
@@ -26,7 +26,7 @@ namespace Mavlink.Messages
         /// <summary>
         /// Gets the message which was received from mavlink
         /// </summary>
-        public TMessageStruct Message { get; }
+        public TMessage Message { get; }
 
         /// <summary>
         /// Gets the id of the component from which the message was sent

@@ -18,7 +18,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct MissionClearAllMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.MissionClearAll;
+        public MessageIdOld Id => MessageIdOld.MissionClearAll;
 
         /// <summary>
         /// Gets or sets system id

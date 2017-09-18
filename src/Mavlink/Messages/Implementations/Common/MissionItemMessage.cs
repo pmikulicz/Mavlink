@@ -24,7 +24,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct MissionItemMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.MissionItem;
+        public MessageIdOld Id => MessageIdOld.MissionItem;
 
         /// <summary>
         /// Gets or sets first parameter. See also <seealso cref="MavCmd"/>

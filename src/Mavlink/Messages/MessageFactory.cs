@@ -18,26 +18,26 @@ namespace Mavlink.Messages
     /// <summary>
     /// Factory which is responsible for creating mavlink messages
     /// </summary>
-    internal sealed class MessageFactory<TMessage> : IMessageFactory<TMessage> where TMessage : ICommonMessage
+    internal sealed class MessageFactory<TMessage> : IMessageFactory<TMessage> where TMessage : MavlinkMessage
     {
         /// <inheritdoc />
-        public TMessage CreateMessage(byte[] payload, MessageId messageId)
+        public TMessage CreateMessage(byte[] payload, MessageIdOld messageIdOld)
         {
             if (payload == null)
                 throw new ArgumentNullException(nameof(payload));
 
-            TypeInfo typeInfo = typeof(MessageId).GetTypeInfo();
-            MemberInfo enumField = typeInfo.DeclaredMembers.FirstOrDefault(m => m.Name.Equals(messageId.ToString()));
+            TypeInfo typeInfo = typeof(MessageIdOld).GetTypeInfo();
+            MemberInfo enumField = typeInfo.DeclaredMembers.FirstOrDefault(m => m.Name.Equals(messageIdOld.ToString()));
 
             if (enumField == null)
                 throw new InvalidOperationException(
-                    $"Cannot find field of {typeof(MessageId).Name} type with name {messageId}");
+                    $"Cannot find field of {typeof(MessageIdOld).Name} type with name {messageIdOld}");
 
             MessageDefinitionAttribute messageDefinitionAttribute = enumField.GetCustomAttribute<MessageDefinitionAttribute>();
 
             if (messageDefinitionAttribute == null)
                 throw new InvalidOperationException(
-                    $"Message id {messageId} is not decorated with attribute {typeof(MessageDefinitionAttribute).Name}");
+                    $"Message id {messageIdOld} is not decorated with attribute {typeof(MessageDefinitionAttribute).Name}");
 
             Type messageType = messageDefinitionAttribute.Type;
             return CastAsMessage(payload, messageType);

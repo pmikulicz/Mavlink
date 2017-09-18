@@ -32,7 +32,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct SysStatusMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.SysStatus;
+        public MessageIdOld Id => MessageIdOld.SysStatus;
 
         /// <summary>
         /// Gets or sets onboard controllers and sensors which are present.

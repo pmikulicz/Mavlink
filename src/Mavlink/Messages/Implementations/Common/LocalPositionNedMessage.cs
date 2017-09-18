@@ -21,7 +21,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct LocalPositionNedMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.LocalPositionNed;
+        public MessageIdOld Id => MessageIdOld.LocalPositionNed;
 
         /// <summary>
         /// Gets or sets timestamp (milliseconds since system boot)

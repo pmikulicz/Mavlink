@@ -3,35 +3,24 @@
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Represents model of single mavlink packet
+//   Represents abstract model of mavlink packet
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-using Mavlink.Messages;
-using System.Collections.Generic;
 
 namespace Mavlink.Packets
 {
     /// <summary>
-    /// Represents model of single mavlink packet
+    /// Represents abstract model of mavlink packet
     /// </summary>
-    internal sealed class Packet
+    internal abstract class Packet
     {
-        internal const byte HeaderValue = 0xFE;
-        internal const int HeaderIndex = 0;
-        internal const int PayloadLengthIndex = 1;
-        internal const int PacketSequenceIndex = 2;
-        internal const int SystemIdIndex = 3;
-        internal const int ComponentIdIndex = 4;
-        internal const int MessageIdIndex = 5;
-        internal const int PayloadIndex = 6;
-        internal const int ChecksumLength = 2;
-        internal const int MetadataLength = 6;
+        protected const int HeaderIndex = 0;
+        protected const int PayloadLengthIndex = 1;
 
         /// <summary>
         /// Gets start of frame transmission
         /// </summary>
-        public byte Header { get; } = HeaderValue;
+        public abstract byte Header { get; }
 
         /// <summary>
         /// Gets or sets length of payload
@@ -39,7 +28,7 @@ namespace Mavlink.Packets
         public byte PayloadLength { get; set; }
 
         /// <summary>
-        /// Gets or sets sequence number. Each component counts up his send sequence.
+        /// Gets or sets sequence number. Each component counts up its send sequence.
         /// Allows to detect packet loss
         /// </summary>
         public byte SequenceNumber { get; set; }
@@ -58,12 +47,6 @@ namespace Mavlink.Packets
         public byte ComponentId { get; set; }
 
         /// <summary>
-        /// Gets or sets identification of the message.
-        /// The id defines what the payload "means" and how it should be correctly decoded
-        /// </summary>
-        public MessageId MessageId { get; set; }
-
-        /// <summary>
         /// Gets or sets the data of the message, depends on the message id
         /// </summary>
         public byte[] Payload { get; set; }
@@ -76,24 +59,6 @@ namespace Mavlink.Packets
         /// <summary>
         /// Gets packet array of raw bytes
         /// </summary>
-        public byte[] RawBytes
-        {
-            get
-            {
-                var rawBytes = new List<byte>
-                {
-                    HeaderValue,
-                    PayloadLength,
-                    SequenceNumber,
-                    SystemId,
-                    ComponentId,
-                    (byte) MessageId
-                };
-                rawBytes.AddRange(Payload);
-                rawBytes.AddRange(Checksum);
-
-                return rawBytes.ToArray();
-            }
-        }
+        public abstract byte[] RawBytes { get; }
     }
 }

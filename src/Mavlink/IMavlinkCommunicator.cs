@@ -3,20 +3,19 @@
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Interface of component which is responsible for communication via mavlink protocol
+//   Interface of component which is responsible for handling communication via mavlink protocol
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages;
-using Mavlink.Messages.Definitions;
 using System;
 
 namespace Mavlink
 {
     /// <summary>
-    /// Interface of component which is responsible for communication via mavlink protocol
+    /// Interface of component which is responsible for handling communication via mavlink protocol
     /// </summary>
-    public interface IMavlinkCommunicator<TMessage> : IDisposable where TMessage : ICommonMessage
+    public interface IMavlinkCommunicator<TMessage> : IDisposable where TMessage : MavlinkMessage
     {
         /// <summary>
         /// Subscribes for notification of received message from mavlink protocol
@@ -34,5 +33,10 @@ namespace Mavlink
         /// <param name="sequenceNumber"></param>
         /// <returns>Value which indicates whether operation completed successfully</returns>
         bool SendMessage(TMessage message, byte systemId, byte componentId, byte sequenceNumber = 1);
+
+        /// <summary>
+        /// Gest mavlink version used for communication
+        /// </summary>
+        MavlinkVersion MavlinkVersion { get; }
     }
 }

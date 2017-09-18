@@ -28,7 +28,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct ParamSetMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.ParamSet;
+        public MessageIdOld Id => MessageIdOld.ParamSet;
 
         /// <summary>
         /// Gets or sets onboard parameter value

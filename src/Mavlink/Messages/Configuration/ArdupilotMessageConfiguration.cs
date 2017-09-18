@@ -6,10 +6,10 @@ namespace Mavlink.Messages.Configuration
     {
         public override void Configure()
         {
-            Message().SetName("").SetId(1);
+            Message().SetName("1").SetId(1);
 
-            Property(hm => hm.Autopilot).SetName("").SetOrder(1);
-            Property(hm => hm.BaseMode).SetName("").SetOrder(2);
+            Property(hm => hm.Autopilot).SetName("1").SetOrder(1);
+            Property(hm => hm.BaseMode).SetName("1").SetOrder(2);
             Property(hb => hb.CustomMode).SetOrder(3).SetName("gfdsfds");
         }
     }
@@ -18,7 +18,7 @@ namespace Mavlink.Messages.Configuration
     {
         public override void Configure()
         {
-            Message().SetId(12).SetName("");
+            Message().SetId(12).SetName("1");
 
             Property(p => p.ParamId).SetOrder(1).SetSize(14).SetName("fds");
         }

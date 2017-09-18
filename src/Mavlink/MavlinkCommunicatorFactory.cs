@@ -8,8 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages;
-using Mavlink.Messages.Definitions;
-using Mavlink.Packets;
 using Mavlink.Connection;
 
 namespace Mavlink
@@ -20,9 +18,9 @@ namespace Mavlink
     public sealed class MavlinkCommunicatorFactory : IMavlinkCommunicatorFactory
     {
         /// <inheritdoc />
-        public IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService) where TMessage : ICommonMessage
+        public IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService, MavlinkVersion mavlinkVersion) where TMessage : MavlinkMessage
         {
-            return new MavlinkCommunicator<TMessage>(connectionService, new PacketHandler(), new MessageFactory<TMessage>());
+            return new MavlinkCommunicator<TMessage>(connectionService, mavlinkVersion, new MavlinkEngineFactory());
         }
     }
 }

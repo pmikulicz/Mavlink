@@ -21,7 +21,7 @@ namespace Mavlink.Messages.Implementations.Common
     public struct ServoOutputRawMessage : ICommonMessage
     {
         /// <inheritdoc />
-        public MessageId Id => MessageId.ServoOutputRaw;
+        public MessageIdOld Id => MessageIdOld.ServoOutputRaw;
 
         /// <summary>
         /// Gets or sets first servo output value, in microseconds
