@@ -24,6 +24,9 @@ namespace Mavlink.Messages
             if (!(obj is MessageId otherMessageId))
                 return false;
 
+            if (GetType() != obj.GetType())
+                return false;
+
             return Value == otherMessageId.Value;
         }
 
