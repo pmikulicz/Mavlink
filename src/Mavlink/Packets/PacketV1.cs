@@ -1,8 +1,19 @@
-﻿using System.Collections.Generic;
-using Mavlink.Messages;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PacketV1.cs" company="Patryk Mikulicz">
+//   Copyright (c) 2017 Patryk Mikulicz.
+// </copyright>
+// <summary>
+//   Represents model of first version of mavlink packet
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System.Collections.Generic;
 
 namespace Mavlink.Packets
 {
+    /// <summary>
+    /// Represents model of first version of mavlink packet
+    /// </summary>
     internal sealed class PacketV1 : Packet
     {
         internal const byte HeaderValue = 0xFE;
@@ -18,13 +29,6 @@ namespace Mavlink.Packets
         /// Gets start of frame transmission
         /// </summary>
         public override byte Header { get; } = HeaderValue;
-        
-        /// <summary>
-        /// Gets or sets identification of the message.
-        /// The id defines what the payload "means" and how it should be correctly decoded
-        /// </summary>
-        public byte MessageId { get; set; }
-       
 
         /// <summary>
         /// Gets packet array of raw bytes
@@ -40,7 +44,7 @@ namespace Mavlink.Packets
                     SequenceNumber,
                     SystemId,
                     ComponentId,
-                    MessageId
+                    (byte) MessageId
                 };
                 rawBytes.AddRange(Payload);
                 rawBytes.AddRange(Checksum);

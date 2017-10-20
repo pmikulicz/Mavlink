@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Mavlink.Messages;
-using Mavlink.Messages.Configuration;
+﻿using Mavlink.Messages.Configuration;
 using Mavlink.Messages.Dialects.Ardupilot;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Mavlink.UnitTests.Messages.Configuration
@@ -14,33 +12,33 @@ namespace Mavlink.UnitTests.Messages.Configuration
             private static IMessageMetadataContainer _messageMetadataContainer;
 
             [Fact]
-            public void Get_CorrectType_ReturnMessageMetadata()
+            public void Get_CorrectMessageId_ReturnMessageMetadata()
             {
-                Type heartbeatMessageType = typeof(HeartbeatMessage);
+                var heartbeatMessageId = new ArdupilotMessageId(ArdupilotId.Heartbeat);
 
                 _messageMetadataContainer = new MessageMetadataContainer(new List<MessageMetadata>
                 {
-                    new MessageMetadata(heartbeatMessageType)
+                    Constants.HeartBeatMessageMetadata
                 });
 
-                var messageMetadata = _messageMetadataContainer.Get(heartbeatMessageType);
+                var messageMetadata = _messageMetadataContainer.Get(heartbeatMessageId.Value);
 
-                Assert.NotEqual(messageMetadata, null);
+                Assert.NotNull(messageMetadata);
             }
 
             [Fact]
-            public void Get_IncorrectType_ReturnNull()
+            public void Get_IncorrectMessageId_ReturnNull()
             {
-                Type heartbeatMessageType = typeof(HeartbeatMessage);
+                ArdupilotMessageId incorrectMessageId = new ArdupilotMessageId((ArdupilotId)123456789);
 
                 _messageMetadataContainer = new MessageMetadataContainer(new List<MessageMetadata>
                 {
-                    new MessageMetadata(heartbeatMessageType)
+                    Constants.HeartBeatMessageMetadata
                 });
 
-                var messageMetadata = _messageMetadataContainer.Get(typeof(MavlinkMessage));
+                var messageMetadata = _messageMetadataContainer.Get(incorrectMessageId.Value);
 
-                Assert.Equal(messageMetadata, null);
+                Assert.Null(messageMetadata);
             }
         }
     }

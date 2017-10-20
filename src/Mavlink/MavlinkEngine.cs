@@ -7,12 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Messages;
+using Mavlink.Packets;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Mavlink.Messages;
-using Mavlink.Messages.Configuration;
-using Mavlink.Packets;
 
 namespace Mavlink
 {
@@ -23,17 +21,15 @@ namespace Mavlink
     internal sealed class MavlinkEngine<TMessage> : IMavlinkEngine<TMessage> where TMessage : MavlinkMessage
     {
         private readonly Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>> _messageNotifiers;
-        private readonly IMessageMetadataContainer _messageMetadataContainer;
+
         private readonly IPacketHandler _packetHandler;
         private readonly IMessageFactory<TMessage> _messageFactory;
 
-        public MavlinkEngine(IPacketHandler packetHandler, IMessageFactory<TMessage> messageFactory, IMessageMetadataContainerFactory messageMetadataContainerFactory)
+        public MavlinkEngine(IPacketHandler packetHandler, IMessageFactory<TMessage> messageFactory)
         {
-            if (messageMetadataContainerFactory == null) throw new ArgumentNullException(nameof(messageMetadataContainerFactory));
             _packetHandler = packetHandler ?? throw new ArgumentNullException(nameof(packetHandler));
             _messageFactory = messageFactory ?? throw new ArgumentNullException(nameof(messageFactory));
             _messageNotifiers = new Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>>(10);
-            _messageMetadataContainer = messageMetadataContainerFactory.Create<TMessage>();
         }
 
         /// <inheritdoc />
@@ -42,7 +38,6 @@ namespace Mavlink
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
 
-//            var messageMetadata = _messageMetadataCollection.Where(m => m.Type == )
             byte[] packetPayload = _messageFactory.CreateBytes(message);
             return _packetHandler.HandlePacket(systemId, componentId, sequenceNumber, 0, packetPayload);
         }
@@ -54,7 +49,7 @@ namespace Mavlink
 
             foreach (Packet packet in packets)
             {
-                TMessage message = _messageFactory.CreateMessage(packet.Payload, 0);
+                TMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
                 NotifyForMessage(message, packet.ComponentId, packet.SystemId);
             }
         }

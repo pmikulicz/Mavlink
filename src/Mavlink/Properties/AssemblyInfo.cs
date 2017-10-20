@@ -4,5 +4,4 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Mavlink.UnitTests")]
-[assembly: InternalsVisibleTo("MavlinkConnectionTest")]
-[assembly: InternalsVisibleTo("Mavlink.Test")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

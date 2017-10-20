@@ -11,21 +11,22 @@ namespace Mavlink.UnitTests.Messages.Configuration
 
         public sealed class ProvideTests : MessageMetadataContainerFactoryTests
         {
-
             [Fact]
             public void Provide_ReturnNotEmptyCollection()
             {
                 var messageMetadataContainer = MessageMetadataContainerFactory.Create<ArdupilotMessage>();
 
-                Assert.NotEqual(messageMetadataContainer.Quantity, 0);
+                const int expectedQuantity = 0;
+                Assert.NotEqual(expectedQuantity, messageMetadataContainer.Quantity);
             }
 
             [Fact]
             public void Provide_ReturnEmptyCollection()
             {
                 var messageMetadataContainer = MessageMetadataContainerFactory.Create<MavlinkMessage>();
+                const int expectedQuantity = 0;
 
-                Assert.Equal(messageMetadataContainer.Quantity, 0);
+                Assert.Equal(expectedQuantity, messageMetadataContainer.Quantity);
             }
         }
     }

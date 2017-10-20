@@ -15,19 +15,19 @@ namespace Mavlink.Messages
     internal interface IMessageFactory<TMessage> where TMessage : MavlinkMessage
     {
         /// <summary>
-        /// Creates mavlink message based on passed payload and message id
+        /// Creates mavlink message based on passed payload data and message id
         /// </summary>
-        /// <param name="payload">Payload from which message will be created</param>
-        /// <param name="messageIdOld">Id of created message</param>
+        /// <param name="payload">Payload as an array of bytes  which message will be created from</param>
+        /// <param name="messageId">Mavlink message id</param>
         /// <returns>Mavlink message</returns>
-        TMessage CreateMessage(byte[] payload, MessageIdOld messageIdOld);
+        TMessage CreateMessage(byte[] payload, int messageId);
 
         /// <summary>
-        /// Creates array of bytes based on passed mavlink message
+        /// Creates array of bytes based on passed mavlink message and message id
         /// </summary>
         /// <typeparam name="TMessage">Mavlink message</typeparam>
-        /// <param name="message"></param>
-        /// <returns></returns>
+        /// <param name="message">Mavlink message</param>
+        /// <returns>Mavlink message as bytes array</returns>
         byte[] CreateBytes(TMessage message);
     }
 }

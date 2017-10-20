@@ -7,11 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages.Definitions;
+using Mavlink.Common.Converters;
+using Mavlink.Messages.Configuration;
 using System;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace Mavlink.Messages
 {
@@ -20,48 +19,52 @@ namespace Mavlink.Messages
     /// </summary>
     internal sealed class MessageFactory<TMessage> : IMessageFactory<TMessage> where TMessage : MavlinkMessage
     {
+        private readonly IMessageMetadataContainer _messageMetadataContainer;
+        private readonly IByteConverterSelector _byteConverterSelector;
+
+        public MessageFactory(IMessageMetadataContainerFactory messageMetadataContainerFactory, IByteConverterSelector byteConverterSelector)
+        {
+            if (messageMetadataContainerFactory == null)
+                throw new ArgumentNullException(nameof(messageMetadataContainerFactory));
+            _byteConverterSelector =
+                byteConverterSelector ?? throw new ArgumentNullException(nameof(byteConverterSelector));
+
+            _messageMetadataContainer = messageMetadataContainerFactory.Create<TMessage>();
+        }
+
         /// <inheritdoc />
-        public TMessage CreateMessage(byte[] payload, MessageIdOld messageIdOld)
+        public TMessage CreateMessage(byte[] payload, int messageId)
         {
             if (payload == null)
                 throw new ArgumentNullException(nameof(payload));
 
-            TypeInfo typeInfo = typeof(MessageIdOld).GetTypeInfo();
-            MemberInfo enumField = typeInfo.DeclaredMembers.FirstOrDefault(m => m.Name.Equals(messageIdOld.ToString()));
+            MessageMetadata messageMetadata = _messageMetadataContainer.Get(messageId);
 
-            if (enumField == null)
-                throw new InvalidOperationException(
-                    $"Cannot find field of {typeof(MessageIdOld).Name} type with name {messageIdOld}");
+            TMessage message = (TMessage)Activator.CreateInstance(messageMetadata.Type);
+            int offset = 0;
 
-            MessageDefinitionAttribute messageDefinitionAttribute = enumField.GetCustomAttribute<MessageDefinitionAttribute>();
+            foreach (var property in messageMetadata.Properties)
+            {
+                PropertyInfo propertyInfo = property.Key;
+                PropertyMetadata propertyMetadata = property.Value;
+                IByteConverter byteConverter = _byteConverterSelector.Select(propertyInfo.PropertyType);
+                var bytesToConvert = new byte[propertyMetadata.Size];
+                Array.Copy(payload, offset, bytesToConvert, 0, propertyMetadata.Size);
+                var propertyValue = byteConverter.Convert(bytesToConvert);
+                propertyInfo.SetValue(message, propertyValue);
+                offset += propertyMetadata.Size;
+            }
 
-            if (messageDefinitionAttribute == null)
-                throw new InvalidOperationException(
-                    $"Message id {messageIdOld} is not decorated with attribute {typeof(MessageDefinitionAttribute).Name}");
-
-            Type messageType = messageDefinitionAttribute.Type;
-            return CastAsMessage(payload, messageType);
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
         public byte[] CreateBytes(TMessage message)
         {
-            int structureSize = Marshal.SizeOf(message.GetType());
-            byte[] messageBytes = new byte[structureSize];
+            if (message == null)
+                throw new ArgumentNullException(nameof(message));
 
-            IntPtr pointerToStructure = Marshal.AllocHGlobal(structureSize);
-            Marshal.StructureToPtr(message, pointerToStructure, true);
-            Marshal.Copy(pointerToStructure, messageBytes, 0, structureSize);
-            Marshal.FreeHGlobal(pointerToStructure);
-            return messageBytes;
-        }
-
-        private static TMessage CastAsMessage(byte[] payload, Type messageType)
-        {
-            GCHandle handle = GCHandle.Alloc(payload, GCHandleType.Pinned);
-            object obj = Marshal.PtrToStructure(handle.AddrOfPinnedObject(), messageType);
-            handle.Free();
-            return (TMessage)obj;
+            throw new NotImplementedException();
         }
     }
 }
