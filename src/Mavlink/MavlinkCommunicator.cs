@@ -69,6 +69,7 @@ namespace Mavlink
             }
         }
 
+        /// <inheritdoc />
         public MavlinkVersion MavlinkVersion { get; }
 
         public void Dispose()

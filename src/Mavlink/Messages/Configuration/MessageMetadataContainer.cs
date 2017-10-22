@@ -32,7 +32,7 @@ namespace Mavlink.Messages.Configuration
         {
             if (messageType == null) throw new ArgumentNullException(nameof(messageType));
 
-            return _messageMetadataByType.ContainsKey(messageType) ? _messageMetadataByType[messageType] : null;
+            return _messageMetadataByType.TryGetValue(messageType, out var messageMetadata) ? messageMetadata : null;
         }
 
 
