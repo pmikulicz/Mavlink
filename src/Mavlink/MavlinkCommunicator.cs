@@ -7,19 +7,19 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Connection;
 using Mavlink.Messages;
 using Mavlink.Packets;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Mavlink.Connection;
 
 namespace Mavlink
 {
     /// <summary>
     /// Component which is responsible for handling communication via mavlink protocol
     /// </summary>
-    internal sealed class MavlinkCommunicator<TMessage> : IMavlinkCommunicator<TMessage> where TMessage : MavlinkMessage 
+    internal sealed class MavlinkCommunicator<TMessage> : IMavlinkCommunicator<TMessage> where TMessage : MavlinkMessage
     {
         private readonly IMavlinkEngine<TMessage> _mavlinkEngine;
         private readonly IConnectionService _connectionService;
@@ -27,7 +27,7 @@ namespace Mavlink
         private readonly object _syncRoot = new object();
         private bool _disposed;
 
-        internal MavlinkCommunicator(IConnectionService connectionService,  MavlinkVersion mavlinkVersion, IMavlinkEngineFactory mavlinkEngineFactory)
+        internal MavlinkCommunicator(IConnectionService connectionService, MavlinkVersion mavlinkVersion, IMavlinkEngineFactory mavlinkEngineFactory)
         {
             if (mavlinkEngineFactory == null)
                 throw new ArgumentNullException(nameof(mavlinkEngineFactory));

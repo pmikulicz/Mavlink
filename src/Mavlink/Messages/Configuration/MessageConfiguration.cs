@@ -9,6 +9,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -21,7 +22,14 @@ namespace Mavlink.Messages.Configuration
     /// <typeparam name="TMessage"></typeparam>
     public abstract class MessageConfiguration<TMessage> : IMessageConfiguration, IMessageMetadataProvider where TMessage : MavlinkMessage
     {
-        private readonly MessageMetadata _messageMetadata = new MessageMetadata(typeof(TMessage));
+        private readonly IDictionary<PropertyInfo, PropertyMetadata> _properties;
+        private readonly MessageMetadata _messageMetadata;
+
+        protected MessageConfiguration()
+        {
+            _properties = new Dictionary<PropertyInfo, PropertyMetadata>(10);
+            _messageMetadata = new MessageMetadata(_properties, typeof(TMessage));
+        }
 
         public abstract void Configure();
 
@@ -35,11 +43,11 @@ namespace Mavlink.Messages.Configuration
         {
             var property = (PropertyInfo)((MemberExpression)selector.Body).Member;
 
-            if (_messageMetadata.Properties.ContainsKey(property))
-                return new PropertyMetadataConfigurator(_messageMetadata.Properties[property]);
+            if (_properties.ContainsKey(property))
+                return new PropertyMetadataConfigurator(_properties[property]);
 
             var propertyConfiguration = new PropertyMetadata();
-            _messageMetadata.Properties.Add(property, propertyConfiguration);
+            _properties.Add(property, propertyConfiguration);
 
             return new PropertyMetadataConfigurator(propertyConfiguration);
         }

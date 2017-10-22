@@ -21,7 +21,7 @@ namespace Mavlink
         /// <inheritdoc />
         public IMavlinkEngine<TMessage> Create<TMessage>() where TMessage : MavlinkMessage
         {
-            return new MavlinkEngine<TMessage>(new PacketHandler(), new MessageFactory<TMessage>(), new MessageMetadataContainerFactory());
+            return new MavlinkEngine<TMessage>(new PacketHandler(), new MessageFactory<TMessage>(new MessageMetadataContainerFactory(), null));
         }
     }
 }

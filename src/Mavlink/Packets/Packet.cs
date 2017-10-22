@@ -23,6 +23,12 @@ namespace Mavlink.Packets
         public abstract byte Header { get; }
 
         /// <summary>
+        /// Gets or sets identification of the message.
+        /// The id defines what the payload "means" and how it should be correctly decoded
+        /// </summary>
+        public int MessageId { get; set; }
+
+        /// <summary>
         /// Gets or sets length of payload
         /// </summary>
         public byte PayloadLength { get; set; }

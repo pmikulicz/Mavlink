@@ -25,7 +25,7 @@ namespace Mavlink.Messages.Configuration
         public int Order { get; set; }
 
         /// <summary>
-        /// Gets or sets property size of mavlink message
+        /// Gets or sets property size in bytes of mavlink message
         /// </summary>
         public int Size { get; set; }
     }

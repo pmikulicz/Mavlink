@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Mavlink.Messages.Configuration
@@ -18,9 +19,12 @@ namespace Mavlink.Messages.Configuration
     /// </summary>
     internal sealed class MessageMetadata
     {
-        public MessageMetadata(Type type)
+        private readonly IDictionary<PropertyInfo, PropertyMetadata> _internalProperties;
+
+        public MessageMetadata(IDictionary<PropertyInfo, PropertyMetadata> properties, Type type)
         {
-            Type = type ?? throw new ArgumentNullException(nameof(type));
+            _internalProperties = properties;
+            Type = type;
         }
 
         /// <summary>
@@ -41,7 +45,16 @@ namespace Mavlink.Messages.Configuration
         /// <summary>
         /// Gets mavlink message properties
         /// </summary>
-        public IDictionary<PropertyInfo, PropertyMetadata> Properties { get; } =
-            new Dictionary<PropertyInfo, PropertyMetadata>(10);
+        public IEnumerable<KeyValuePair<PropertyInfo, PropertyMetadata>> Properties
+        {
+            get
+            {
+                var propertiesList = _internalProperties.ToList();
+                propertiesList.Sort((first, second) =>
+                    first.Value.Order.CompareTo(second.Value.Order));
+
+                return propertiesList;
+            }
+        }
     }
 }

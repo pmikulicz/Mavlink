@@ -1,5 +1,4 @@
-﻿using Mavlink.Messages;
-using Mavlink.Packets;
+﻿using Mavlink.Packets;
 using Moq;
 using Xunit;
 
@@ -29,11 +28,12 @@ namespace Mavlink.UnitTests.Packets
 
         public sealed class AddByteMethodTests : PacketBuilderTests
         {
+            [Fact]
             public void AddByteReturnsFalse()
             {
                 bool result = PacketBuilder.AddByte(HeartbeatPacketBytes[0]);
 
-                Assert.Equal(false, result);
+                Assert.False(result);
             }
 
             [Fact]
@@ -65,27 +65,27 @@ namespace Mavlink.UnitTests.Packets
             [Fact]
             public void BuildWithCrcReturnPacket()
             {
-//                foreach (byte packetByte in HeartbeatPacketBytes)
-//                    PacketBuilder.AddByte(packetByte);
-//
-//                MessageIdOld expectedMessageId = MessageIdOld.Heartbeat;
-//                byte expectedPayloadLegth = 9;
-//                byte expectedSequenceNumber = 78;
-//                byte expectedSystemId = 1;
-//                byte expectedHeader = Packet.HeaderValue;
-//                byte[] expectedChecksum = { 0x1C, 0x7F };
-//                byte[] expectedPayload = { 0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03 };
-//
-//                Packet packet = PacketBuilder.Build();
-//
-//                Assert.NotNull(packet);
-//                Assert.Equal(expectedMessageId, packet.MessageIdOld);
-//                Assert.Equal(expectedPayloadLegth, packet.PayloadLength);
-//                Assert.Equal(expectedSequenceNumber, packet.SequenceNumber);
-//                Assert.Equal(expectedSystemId, packet.SystemId);
-//                Assert.Equal(expectedHeader, packet.Header);
-//                Assert.Equal(expectedChecksum, packet.Checksum);
-//                Assert.Equal(expectedPayload, packet.Payload);
+                //                foreach (byte packetByte in HeartbeatPacketBytes)
+                //                    PacketBuilder.AddByte(packetByte);
+                //
+                //                MessageIdOld expectedMessageId = MessageIdOld.Heartbeat;
+                //                byte expectedPayloadLegth = 9;
+                //                byte expectedSequenceNumber = 78;
+                //                byte expectedSystemId = 1;
+                //                byte expectedHeader = Packet.HeaderValue;
+                //                byte[] expectedChecksum = { 0x1C, 0x7F };
+                //                byte[] expectedPayload = { 0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03 };
+                //
+                //                Packet packet = PacketBuilder.Build();
+                //
+                //                Assert.NotNull(packet);
+                //                Assert.Equal(expectedMessageId, packet.MessageIdOld);
+                //                Assert.Equal(expectedPayloadLegth, packet.PayloadLength);
+                //                Assert.Equal(expectedSequenceNumber, packet.SequenceNumber);
+                //                Assert.Equal(expectedSystemId, packet.SystemId);
+                //                Assert.Equal(expectedHeader, packet.Header);
+                //                Assert.Equal(expectedChecksum, packet.Checksum);
+                //                Assert.Equal(expectedPayload, packet.Payload);
             }
 
             [Fact]
@@ -111,24 +111,24 @@ namespace Mavlink.UnitTests.Packets
                 PacketBuilder.AddByte(0x00);
                 PacketBuilder.AddByte(0x00);
 
-//                MessageIdOld expectedMessageId = MessageIdOld.Heartbeat;
-//                byte expectedPayloadLegth = 9;
-//                byte expectedSequenceNumber = 78;
-//                byte expectedSystemId = 1;
-//                byte expectedHeader = Packet.HeaderValue;
-//                byte[] expectedChecksum = { 0x1C, 0x7F };
-//                byte[] expectedPayload = { 0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03 };
-//
-//                Packet packet = PacketBuilder.Build(BuildType.WithoutCrc);
-//
-//                Assert.NotNull(packet);
-//                Assert.Equal(expectedMessageId, packet.MessageIdOld);
-//                Assert.Equal(expectedPayloadLegth, packet.PayloadLength);
-//                Assert.Equal(expectedSequenceNumber, packet.SequenceNumber);
-//                Assert.Equal(expectedSystemId, packet.SystemId);
-//                Assert.Equal(expectedHeader, packet.Header);
-//                Assert.Equal(expectedChecksum, packet.Checksum);
-//                Assert.Equal(expectedPayload, packet.Payload);
+                //                MessageIdOld expectedMessageId = MessageIdOld.Heartbeat;
+                //                byte expectedPayloadLegth = 9;
+                //                byte expectedSequenceNumber = 78;
+                //                byte expectedSystemId = 1;
+                //                byte expectedHeader = Packet.HeaderValue;
+                //                byte[] expectedChecksum = { 0x1C, 0x7F };
+                //                byte[] expectedPayload = { 0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03 };
+                //
+                //                Packet packet = PacketBuilder.Build(BuildType.WithoutCrc);
+                //
+                //                Assert.NotNull(packet);
+                //                Assert.Equal(expectedMessageId, packet.MessageIdOld);
+                //                Assert.Equal(expectedPayloadLegth, packet.PayloadLength);
+                //                Assert.Equal(expectedSequenceNumber, packet.SequenceNumber);
+                //                Assert.Equal(expectedSystemId, packet.SystemId);
+                //                Assert.Equal(expectedHeader, packet.Header);
+                //                Assert.Equal(expectedChecksum, packet.Checksum);
+                //                Assert.Equal(expectedPayload, packet.Payload);
             }
         }
     }
