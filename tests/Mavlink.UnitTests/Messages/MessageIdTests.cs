@@ -61,6 +61,7 @@ namespace Mavlink.UnitTests.Messages
                 MessageId firstMessageId = null;
                 MessageId secondMessageId = null;
 
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 bool result = firstMessageId == secondMessageId;
 
                 Assert.True(result);
@@ -72,6 +73,7 @@ namespace Mavlink.UnitTests.Messages
                 MessageId firstMessageId = new ArdupilotMessageId(ArdupilotId.Heartbeat);
                 MessageId secondMessageId = null;
 
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 bool result = firstMessageId == secondMessageId;
 
                 Assert.False(result);
@@ -108,6 +110,7 @@ namespace Mavlink.UnitTests.Messages
                 MessageId firstMessageId = null;
                 MessageId secondMessageId = null;
 
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 bool result = firstMessageId != secondMessageId;
 
                 Assert.False(result);
@@ -119,6 +122,7 @@ namespace Mavlink.UnitTests.Messages
                 MessageId firstMessageId = new ArdupilotMessageId(ArdupilotId.Heartbeat);
                 MessageId secondMessageId = null;
 
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 bool result = firstMessageId != secondMessageId;
 
                 Assert.True(result);

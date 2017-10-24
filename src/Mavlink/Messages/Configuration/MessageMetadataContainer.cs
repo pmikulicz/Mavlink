@@ -7,7 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,23 +17,20 @@ namespace Mavlink.Messages.Configuration
     /// </summary>
     internal sealed class MessageMetadataContainer : IMessageMetadataContainer
     {
-        private readonly IDictionary<Type, MessageMetadata> _messageMetadataByType;
+        private readonly IDictionary<int, MessageMetadata> _messageMetadataById;
 
         public MessageMetadataContainer(IEnumerable<MessageMetadata> messageMetadata)
         {
             var messageMetadataArray = messageMetadata as MessageMetadata[] ?? messageMetadata.ToArray();
-            _messageMetadataByType = messageMetadataArray.ToDictionary(metadata => metadata.Type);
+            _messageMetadataById = messageMetadataArray.ToDictionary(metadata => metadata.Id);
             Quantity = messageMetadataArray.Length;
         }
 
         /// <inheritdoc />
-        public MessageMetadata Get(Type messageType)
+        public MessageMetadata Get(int messageId)
         {
-            if (messageType == null) throw new ArgumentNullException(nameof(messageType));
-
-            return _messageMetadataByType.TryGetValue(messageType, out var messageMetadata) ? messageMetadata : null;
+            return _messageMetadataById.TryGetValue(messageId, out var messageMetadata) ? messageMetadata : null;
         }
-
 
         /// <inheritdoc />
         public int Quantity { get; }
