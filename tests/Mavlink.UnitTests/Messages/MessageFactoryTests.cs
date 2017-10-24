@@ -1,9 +1,13 @@
-﻿using Mavlink.Messages;
+﻿using Mavlink.Common.Converters;
+using Mavlink.Messages;
 using Mavlink.Messages.Configuration;
 using Mavlink.Messages.Dialects.Ardupilot;
 using Mavlink.Messages.Implementations.Common.Types;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Xunit;
 
 namespace Mavlink.UnitTests.Messages
@@ -20,150 +24,83 @@ namespace Mavlink.UnitTests.Messages
                 {
                     Constants.HeartBeatMessageMetadata
                 }));
-            _messageFactory = new MessageFactory<ArdupilotMessage>(ContainerFactoryMock.Object, null);
+
+            _messageFactory = new MessageFactory<ArdupilotMessage>(ContainerFactoryMock.Object, type =>
+             {
+                 var assembly = Assembly.GetAssembly(typeof(IConverter));
+                 List<Type> converterTypes = assembly.GetTypes()
+                     .Where(t =>
+                     !t.IsAbstract &&
+                     !t.IsInterface &&
+                     t.IsClass &&
+                     typeof(IConverter).IsAssignableFrom(t))
+                     .ToList();
+
+                 var converters = new List<IConverter>(converterTypes.Count);
+                 converters.AddRange(converterTypes.Select(convertType => (IConverter)Activator.CreateInstance(convertType)));
+
+                 return converters.FirstOrDefault(c => c.Type == type);
+             });
         }
 
-        protected readonly byte[] HeartbeatMessagePayload =
-        {
-            0x0, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03
-        };
-
-        protected readonly byte[] MissionRequestPartialListPayload =
-        {
-            0x0, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03
-        };
-
-        protected readonly byte[] ChangeOperatorControlMessagePayload =
-        {
-            0x01, 0x00, 0x00,
-            0x74, 0x74, 0x74, 0x65, 0x65, 0x65, 0x73, 0x73, 0x73, 0x74, 0x74, 0x74, 0x74, 0x74, 0x74, 0x65, 0x65, 0x65, 0x73, 0x73, 0x73, 0x74, 0x74, 0x74, 0x31
-        };
-
-        protected readonly byte[] GpsStatusMessagePayload =
-        {
-            // SatellitesVisible
-            0x01,
-            // SatellitePrn
-            0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-            // SatelliteUsed
-            0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
-            // SatelliteElevation
-            0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
-            // SatelliteAzimuth
-            0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
-            // SatelliteSnr
-            0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06
-        };
-
-        protected MessageIdOld HeartbeatMessageIdOld = MessageIdOld.Heartbeat;
-        protected MessageIdOld ChangeOperatorControlMessageIdOld = MessageIdOld.ChangeOperatorControl;
-        protected MessageIdOld GpsStatusMessageIdOld = MessageIdOld.GpsStatus;
-
-        public sealed class CreateMethodTests : MessageFactoryTests
+        public sealed class CreateMessageTests : MessageFactoryTests
         {
             [Fact]
-            public void CreateMessage_NullMessage_ThrowArgumentNullException()
+            public void CreateMessage_NullMessagePayload_ThrowArgumentNullException()
             {
                 int messageId = Constants.HeartbeatMessageId;
                 Assert.Throws<ArgumentNullException>(() => _messageFactory.CreateMessage(null, messageId));
             }
 
             [Fact]
-            public void CreateMessage_Ok()
+            public void CreateMessage_TooManyPayloadBytes_ThrowInvalidOperationException()
             {
                 int messageId = Constants.HeartbeatMessageId;
-                _messageFactory.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
+                Assert.Throws<InvalidOperationException>(() => _messageFactory.CreateMessage(Utils.CreateByteArray(0, 20), messageId));
             }
 
             [Fact]
-            public void CreateThrowInvalidOperationExceptionWhenEnumNotDefined()
+            public void CreateMessage_HeartbeatMessagePayload_MessageWithCorrectId()
             {
-                //                Assert.Throws<InvalidOperationException>(() => MessageFactory.CreateMessage(new byte[] { }, (MessageIdOld)254));
+                int messageId = Constants.HeartbeatMessageId;
+                ArdupilotMessage message = _messageFactory.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
+                Assert.Equal(messageId, message.Id.Value);
             }
 
             [Fact]
-            public void CreateReturnsMessage()
+            public void CreateMessage_HeartbeatMessagePayload_CorrectMessage()
             {
-                var expectedType = MavType.Quadrotor;
-                var expectedAutopilot = MavAutopilot.Ardupilotmega;
-                var expectedBaseMode = MavModeFlag.CustomModeEnabled | MavModeFlag.StabilizeEnabled | MavModeFlag.ManualInputEnabled;
-                uint expectedCustomMode = 0;
-                var expectedSystemStatus = MavState.Active;
-                byte expectedMavlinkVersion = 3;
+                int messageId = Constants.HeartbeatMessageId;
+                HeartbeatMessage message = (HeartbeatMessage)_messageFactory.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
+                MavType expectedType = Constants.HeartbeatMessage.Type;
+                MavAutopilot expectedAutopilot = Constants.HeartbeatMessage.Autopilot;
+                MavModeFlag expectedBaseMode = Constants.HeartbeatMessage.BaseMode;
+                uint expectedCustomMode = Constants.HeartbeatMessage.CustomMode;
+                MavState expectedSystemStatus = Constants.HeartbeatMessage.SystemStatus;
+                byte expectedMavlinkVersion = Constants.HeartbeatMessage.MavlinkVersion;
+                Assert.NotNull(message);
+                Assert.Equal(expectedAutopilot, message.Autopilot);
+                Assert.Equal(expectedType, message.Type);
+                Assert.Equal(expectedCustomMode, message.CustomMode);
+                Assert.Equal(expectedBaseMode, message.BaseMode);
+                Assert.Equal(expectedSystemStatus, message.SystemStatus);
+                Assert.Equal(expectedMavlinkVersion, message.MavlinkVersion);
+            }
+        }
 
-                //                HeartbeatMessage message = (HeartbeatMessage)MessageFactory.CreateMessage(HeartbeatMessagePayload, HeartbeatMessageIdOld);
-
-                //                Assert.NotNull(message);
-                //                Assert.Equal(expectedAutopilot, message.Autopilot);
-                //                Assert.Equal(expectedType, message.Type);
-                //                Assert.Equal(expectedCustomMode, message.CustomMode);
-                //                Assert.Equal(expectedBaseMode, message.BaseMode);
-                //                Assert.Equal(expectedSystemStatus, message.SystemStatus);
-                //                Assert.Equal(expectedMavlinkVersion, message.MavlinkVersion);
+        public sealed class CreateBytesTests : MessageFactoryTests
+        {
+            [Fact]
+            public void CreateBytes_NullMessage_ThrowArgumentNullException()
+            {
+                Assert.Throws<ArgumentNullException>(() => _messageFactory.CreateBytes(null));
             }
 
             [Fact]
-            public void CreateReturnsMessageWithFixedArray()
+            public void CreateBytes_HeartbeatMessage_CorrectBytes()
             {
-                byte expectedTargetSystem = 0x01;
-                byte expectedControlRequest = 0x00;
-                byte expectedVersion = 0x00;
-                char[] expectedPasskey =
-                {
-                    't', 't', 't', 'e', 'e', 'e', 's', 's', 's', 't', 't', 't', 't', 't', 't', 'e',
-                    'e', 'e', 's', 's', 's', 't', 't', 't', '1'
-                };
-
-                //                ChangeOperatorControlMessage message = (ChangeOperatorControlMessage)MessageFactory.CreateMessage(ChangeOperatorControlMessagePayload, ChangeOperatorControlMessageIdOld);
-                //
-                //                Assert.NotNull(message);
-                //                Assert.Equal(expectedTargetSystem, message.TargetSystem);
-                //                Assert.Equal(expectedControlRequest, message.ControlRequest);
-                //                Assert.Equal(expectedVersion, message.Version);
-                //                Assert.Equal(expectedPasskey, message.Passkey);
-            }
-
-            [Fact]
-            public void CreateReturnsMessageWithMultipleFixedArray()
-            {
-                byte satellitesVisible = 0x01;
-                byte[] satellitePrn =
-                {
-                    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
-                    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02
-                };
-                byte[] satelliteUsed =
-                {
-                    0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03,
-                    0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03
-                };
-
-                byte[] satelliteElevation =
-                {
-                    0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
-                    0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04
-                };
-                byte[] satelliteAzimuth =
-                {
-                    0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05,
-                    0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05
-                };
-
-                byte[] satelliteSnr =
-                {
-                    0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06,
-                    0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06
-                };
-
-                //                GpsStatusMessage message = (GpsStatusMessage)MessageFactory.CreateMessage(GpsStatusMessagePayload, GpsStatusMessageIdOld);
-                //
-                //                Assert.NotNull(message);
-                //                Assert.Equal(satellitesVisible, message.SatellitesVisible);
-                //                Assert.Equal(satellitePrn, message.SatellitePrn);
-                //                Assert.Equal(satelliteUsed, message.SatelliteUsed);
-                //                Assert.Equal(satelliteElevation, message.SatelliteElevation);
-                //                Assert.Equal(satelliteAzimuth, message.SatelliteAzimuth);
-                //                Assert.Equal(satelliteSnr, message.SatelliteSnr);
+                var messageBytes = _messageFactory.CreateBytes(Constants.HeartbeatMessage);
+                Assert.Equal(Constants.HeartbeatMessagePayload, messageBytes);
             }
         }
     }

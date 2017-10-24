@@ -14,10 +14,15 @@ namespace Mavlink.Messages
     /// </summary>
     public abstract class MessageId
     {
+        protected MessageId(int idValue)
+        {
+            Value = idValue;
+        }
+
         /// <summary>
         /// Gets the value of message id
         /// </summary>
-        public abstract int Value { get; }
+        public int Value { get; }
 
         public override bool Equals(object obj)
         {

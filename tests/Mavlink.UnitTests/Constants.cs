@@ -1,5 +1,6 @@
 ﻿using Mavlink.Messages.Configuration;
 using Mavlink.Messages.Dialects.Ardupilot;
+using Mavlink.Messages.Implementations.Common.Types;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -69,6 +70,16 @@ namespace Mavlink.UnitTests
         public static byte[] HeartbeatMessagePayload =
         {
             0x0, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03
+        };
+
+        public static HeartbeatMessage HeartbeatMessage = new HeartbeatMessage
+        {
+            Type = MavType.Quadrotor,
+            MavlinkVersion = 3,
+            SystemStatus = MavState.Active,
+            BaseMode = MavModeFlag.CustomModeEnabled | MavModeFlag.StabilizeEnabled | MavModeFlag.ManualInputEnabled,
+            CustomMode = 0,
+            Autopilot = MavAutopilot.Ardupilotmega
         };
     }
 }

@@ -8,7 +8,7 @@ namespace Mavlink.UnitTests
 {
     public class MavlinkEngineTests
     {
-        private static readonly IMavlinkEngine<ArdupilotMessage> _mavlinkEngine;
+        private readonly IMavlinkEngine<ArdupilotMessage> _mavlinkEngine;
 
         private static readonly Mock<IPacketHandler> PacketHandlerMock = new Mock<IPacketHandler>();
 
@@ -17,6 +17,11 @@ namespace Mavlink.UnitTests
 
         private static readonly Mock<IMessageMetadataContainer> MessageMetadataContainerMock =
             new Mock<IMessageMetadataContainer>();
+
+        public MavlinkEngineTests()
+        {
+            _mavlinkEngine = new MavlinkEngine<ArdupilotMessage>(PacketHandlerMock.Object, MessageFactoryMock.Object);
+        }
 
         public sealed class CreatePacketTests : MavlinkEngineTests
         {

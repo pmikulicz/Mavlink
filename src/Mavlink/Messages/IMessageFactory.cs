@@ -23,11 +23,11 @@ namespace Mavlink.Messages
         TMessage CreateMessage(byte[] payload, int messageId);
 
         /// <summary>
-        /// Creates array of bytes based on passed mavlink message and message id
+        /// Creates array of bytes for packet payload based on passed mavlink message
         /// </summary>
         /// <typeparam name="TMessage">Mavlink message</typeparam>
         /// <param name="message">Mavlink message</param>
-        /// <returns>Mavlink message as bytes array</returns>
+        /// <returns>Mavlink message as bytes array for packet payload</returns>
         byte[] CreateBytes(TMessage message);
     }
 }

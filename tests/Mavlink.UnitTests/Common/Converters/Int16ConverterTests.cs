@@ -6,22 +6,22 @@ namespace Mavlink.UnitTests.Common.Converters
 {
     public class Int16ConverterTests
     {
-        private static readonly IByteConverter Converter = new Int16Converter();
+        private static readonly IConverter Converter = new Int16Converter();
 
         public sealed class ConvertTests : Int16ConverterTests
         {
             [Fact]
             public void Convert_NullBytes_ThrowArgumentNullException()
             {
-                Assert.Throws<ArgumentNullException>(() => Converter.Convert(null));
+                Assert.Throws<ArgumentNullException>(() => Converter.ConvertBytes(null));
             }
 
             [Fact]
             public void Convert_MoreThanTwoBytes_ThrowArgumentNullException()
             {
-                var bytesToConvert = Helpers.CreateByteArray(0, 3);
+                var bytesToConvert = Utils.CreateByteArray(0, 3);
                 Assert.Throws<ArgumentException>(() =>
-                    Converter.Convert(bytesToConvert));
+                    Converter.ConvertBytes(bytesToConvert));
             }
 
             [Fact]
@@ -29,7 +29,7 @@ namespace Mavlink.UnitTests.Common.Converters
             {
                 const short expectedValue = 10;
                 var bytesToConvert = BitConverter.GetBytes(expectedValue);
-                short convertedValue = (short)Converter.Convert(bytesToConvert);
+                short convertedValue = (short)Converter.ConvertBytes(bytesToConvert);
 
                 Assert.Equal(expectedValue, convertedValue);
             }

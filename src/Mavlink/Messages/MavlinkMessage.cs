@@ -14,10 +14,6 @@ namespace Mavlink.Messages
     /// </summary>
     public abstract class MavlinkMessage
     {
-        protected MavlinkMessage()
-        {
-        }
-
         /// <summary>
         /// Gest mavlink message id
         /// </summary>

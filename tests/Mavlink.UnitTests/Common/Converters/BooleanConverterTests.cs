@@ -6,21 +6,21 @@ namespace Mavlink.UnitTests.Common.Converters
 {
     public class BooleanConverterTests
     {
-        private static readonly IByteConverter Converter = new BooleanConverter();
+        private static readonly IConverter Converter = new BooleanConverter();
 
         public sealed class ConvertTests : BooleanConverterTests
         {
             [Fact]
             public void Convert_NullBytes_ThrowArgumentNullException()
             {
-                Assert.Throws<ArgumentNullException>(() => Converter.Convert(null));
+                Assert.Throws<ArgumentNullException>(() => Converter.ConvertBytes(null));
             }
 
             [Fact]
             public void Convert_MoreThanOneByte_ThrowArgumentNullException()
             {
-                var bytesToConvert = Helpers.CreateByteArray(0, 2);
-                Assert.Throws<ArgumentException>(() => Converter.Convert(bytesToConvert));
+                var bytesToConvert = Utils.CreateByteArray(0, 2);
+                Assert.Throws<ArgumentException>(() => Converter.ConvertBytes(bytesToConvert));
             }
 
             [Fact]
@@ -28,7 +28,7 @@ namespace Mavlink.UnitTests.Common.Converters
             {
                 const bool expectedValue = false;
                 var bytesToConvert = BitConverter.GetBytes(expectedValue);
-                bool convertedValue = (bool)Converter.Convert(bytesToConvert);
+                bool convertedValue = (bool)Converter.ConvertBytes(bytesToConvert);
 
                 Assert.Equal(expectedValue, convertedValue);
             }

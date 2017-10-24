@@ -22,8 +22,4 @@
     <ProjectReference Include="..\..\src\Mavlink\Mavlink.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Messages\Converters\" />
-  </ItemGroup>
-
 </Project>

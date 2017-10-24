@@ -3,35 +3,34 @@
 //   Copyright (c) 2017 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Abstract implementation of byte converter
+//   Represents converter dedicated for byte types
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 
 namespace Mavlink.Common.Converters
 {
     /// <summary>
-    /// Abstract implementation of byte converter
+    /// Represents converter dedicated for byte types
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    internal abstract class ByteConverter<T> : IByteConverter
+    internal sealed class ByteConverter : BaseConverter<byte>
     {
-        /// <inheritdoc />
-        public object Convert(byte[] bytes)
+        protected override byte RunByteArrayConversion(byte[] bytes)
         {
-            if (bytes == null)
-                throw new ArgumentNullException(nameof(bytes));
+            const int byteSize = sizeof(byte);
 
-            //if (BitConverter.IsLittleEndian)
-            //   Array.Reverse(bytes);
+            if (bytes.Length != byteSize)
+                throw new ArgumentException(
+                    $"Cannot convert byte array with length {bytes.Length} to one byte which size is {byteSize}");
 
-            return RunConversion(bytes);
+            return bytes.First();
         }
 
-        /// <inheritdoc />
-        public Type Type => typeof(T);
-
-        protected abstract T RunConversion(byte[] bytes);
+        protected override byte[] RunValueConversion(byte value)
+        {
+            return new[] { value };
+        }
     }
 }

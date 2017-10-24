@@ -1,6 +1,6 @@
-﻿namespace Mavlink.UnitTests.Common.Converters
+﻿namespace Mavlink.UnitTests
 {
-    public static class Helpers
+    public static class Utils
     {
         public static byte[] CreateByteArray(byte byteToFill, int arraySize)
         {
