@@ -14,7 +14,7 @@ namespace Mavlink.UnitTests.Messages.Configuration
             [Fact]
             public void Provide_ReturnNotEmptyCollection()
             {
-                var messageMetadataContainer = MessageMetadataContainerFactory.Create<ArdupilotMessage>();
+                var messageMetadataContainer = MessageMetadataContainerFactory.Create<IArdupilotMessage>();
 
                 const int expectedQuantity = 0;
                 Assert.NotEqual(expectedQuantity, messageMetadataContainer.Quantity);
@@ -23,7 +23,7 @@ namespace Mavlink.UnitTests.Messages.Configuration
             [Fact]
             public void Provide_ReturnEmptyCollection()
             {
-                var messageMetadataContainer = MessageMetadataContainerFactory.Create<MavlinkMessage>();
+                var messageMetadataContainer = MessageMetadataContainerFactory.Create<IMavlinkMessage>();
                 const int expectedQuantity = 0;
 
                 Assert.Equal(expectedQuantity, messageMetadataContainer.Quantity);

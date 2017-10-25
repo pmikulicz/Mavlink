@@ -20,7 +20,7 @@ namespace Mavlink.Messages.Configuration
     /// configurations of all mavlink message types
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    public abstract class MessageConfiguration<TMessage> : IMessageConfiguration, IMessageMetadataProvider where TMessage : MavlinkMessage
+    public abstract class MessageConfiguration<TMessage> : IMessageConfiguration, IMessageMetadataProvider where TMessage : IMavlinkMessage
     {
         private readonly IDictionary<PropertyInfo, PropertyMetadata> _properties;
         private readonly MessageMetadata _messageMetadata;

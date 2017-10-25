@@ -1,5 +1,6 @@
 ﻿using Mavlink.Messages.Configuration;
 using Mavlink.Messages.Dialects.Ardupilot;
+using Mavlink.Messages.Dialects.Common;
 using System.Collections.Generic;
 using Xunit;
 
@@ -14,7 +15,7 @@ namespace Mavlink.UnitTests.Messages.Configuration
             [Fact]
             public void Get_CorrectMessageId_ReturnMessageMetadata()
             {
-                var heartbeatMessageId = new ArdupilotMessageId(ArdupilotId.Heartbeat);
+                var heartbeatMessageId = new CommonMessageId(CommonId.Heartbeat);
 
                 _messageMetadataContainer = new MessageMetadataContainer(new List<MessageMetadata>
                 {

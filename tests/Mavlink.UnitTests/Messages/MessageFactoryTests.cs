@@ -14,18 +14,18 @@ namespace Mavlink.UnitTests.Messages
 {
     public class MessageFactoryTests
     {
-        private static IMessageFactory<ArdupilotMessage> _messageFactory;
+        private static IMessageFactory<IArdupilotMessage> _messageFactory;
         private static readonly Mock<IMessageMetadataContainerFactory> ContainerFactoryMock = new Mock<IMessageMetadataContainerFactory>();
 
         public MessageFactoryTests()
         {
-            ContainerFactoryMock.Setup(config => config.Create<ArdupilotMessage>()).Returns(new MessageMetadataContainer(
+            ContainerFactoryMock.Setup(config => config.Create<IArdupilotMessage>()).Returns(new MessageMetadataContainer(
                 new[]
                 {
                     Constants.HeartBeatMessageMetadata
                 }));
 
-            _messageFactory = new MessageFactory<ArdupilotMessage>(ContainerFactoryMock.Object, type =>
+            _messageFactory = new MessageFactory<IArdupilotMessage>(ContainerFactoryMock.Object, type =>
              {
                  var assembly = Assembly.GetAssembly(typeof(IConverter));
                  List<Type> converterTypes = assembly.GetTypes()
@@ -60,15 +60,15 @@ namespace Mavlink.UnitTests.Messages
             }
 
             [Fact]
-            public void CreateMessage_HeartbeatMessagePayload_MessageWithCorrectId()
+            public void CreateMessage_HeartbeatMessagePayload_ReturnMessageWithCorrectId()
             {
                 int messageId = Constants.HeartbeatMessageId;
-                ArdupilotMessage message = _messageFactory.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
+                IArdupilotMessage message = _messageFactory.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
                 Assert.Equal(messageId, message.Id.Value);
             }
 
             [Fact]
-            public void CreateMessage_HeartbeatMessagePayload_CorrectMessage()
+            public void CreateMessage_HeartbeatMessagePayload_ReturnCorrectMessage()
             {
                 int messageId = Constants.HeartbeatMessageId;
                 HeartbeatMessage message = (HeartbeatMessage)_messageFactory.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
@@ -97,7 +97,7 @@ namespace Mavlink.UnitTests.Messages
             }
 
             [Fact]
-            public void CreateBytes_HeartbeatMessage_CorrectBytes()
+            public void CreateBytes_HeartbeatMessage_ReturnCorrectBytes()
             {
                 var messageBytes = _messageFactory.CreateBytes(Constants.HeartbeatMessage);
                 Assert.Equal(Constants.HeartbeatMessagePayload, messageBytes);

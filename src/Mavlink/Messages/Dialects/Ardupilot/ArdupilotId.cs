@@ -2,9 +2,6 @@
 {
     public enum ArdupilotId
     {
-        /// <summary>
-        /// The heartbeat message shows that a system is present and responding
-        /// </summary>
         Heartbeat = 0,
 
         /// <summary>
@@ -23,7 +20,5 @@
         /// This allows to measure the system latencies, including serial port, radio modem and UDP connections
         /// </summary>
         Ping = 4,
-
-        ParamRequestRead = 55
     }
 }

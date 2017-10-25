@@ -3,20 +3,20 @@
 //   Copyright (c) 2017 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Represents abstract model of mavlink message
+//   Represents interface for a model of mavlink message
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Mavlink.Messages
 {
     /// <summary>
-    /// Represents abstract model of mavlink message
+    /// Represents interface for a model of mavlink message
     /// </summary>
-    public abstract class MavlinkMessage
+    public interface IMavlinkMessage
     {
         /// <summary>
         /// Gest mavlink message id
         /// </summary>
-        public abstract MessageId Id { get; }
+        MessageId Id { get; }
     }
 }

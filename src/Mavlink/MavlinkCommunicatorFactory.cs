@@ -18,7 +18,7 @@ namespace Mavlink
     public sealed class MavlinkCommunicatorFactory : IMavlinkCommunicatorFactory
     {
         /// <inheritdoc />
-        public IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService, MavlinkVersion mavlinkVersion) where TMessage : MavlinkMessage
+        public IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService, MavlinkVersion mavlinkVersion) where TMessage : IMavlinkMessage
         {
             return new MavlinkCommunicator<TMessage>(connectionService, mavlinkVersion, new MavlinkEngineFactory());
         }

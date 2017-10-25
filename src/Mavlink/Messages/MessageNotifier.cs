@@ -14,7 +14,7 @@ namespace Mavlink.Messages
     /// <summary>
     /// Component which is responsible for notifying about an incoming mavlink messages
     /// </summary>
-    internal sealed class MessageNotifier<TMessage> : IMessageNotifier<TMessage> where TMessage : MavlinkMessage
+    internal sealed class MessageNotifier<TMessage> : IMessageNotifier<TMessage> where TMessage : IMavlinkMessage
     {
         /// <inheritdoc />
         public event EventHandler<MessageReceivedEventArgs<TMessage>> MessageReceived;
@@ -27,8 +27,5 @@ namespace Mavlink.Messages
         {
             MessageReceived?.Invoke(this, args);
         }
-
-
-        
     }
 }

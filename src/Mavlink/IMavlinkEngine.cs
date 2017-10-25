@@ -16,7 +16,7 @@ namespace Mavlink
     /// Interface of a component which is the engine fo the mavlink protocol
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    internal interface IMavlinkEngine<TMessage> where TMessage : MavlinkMessage
+    internal interface IMavlinkEngine<TMessage> where TMessage : IMavlinkMessage
     {
         /// <summary>
         /// Creates mavlink packet

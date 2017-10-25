@@ -14,7 +14,7 @@ namespace Mavlink.Messages
     /// <summary>
     /// Interface of a component which is responsible for notifying about an incoming mavlinkmessages
     /// </summary>
-    public interface IMessageNotifier<TMessage> where TMessage : MavlinkMessage
+    public interface IMessageNotifier<TMessage> where TMessage : IMavlinkMessage
     {
         /// <summary>
         /// Occurs when a message is received from a mavlink

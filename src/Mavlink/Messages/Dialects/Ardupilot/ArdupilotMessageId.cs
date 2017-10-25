@@ -1,6 +1,4 @@
-﻿using Mavlink.Messages.Dialects.Ardupilot;
-
-namespace Mavlink.Messages.Configuration
+﻿namespace Mavlink.Messages.Dialects.Ardupilot
 {
     public sealed class ArdupilotMessageId : MessageId
     {

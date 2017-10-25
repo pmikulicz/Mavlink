@@ -18,7 +18,7 @@ namespace Mavlink.Messages
     /// <summary>
     /// Factory which is responsible for creating mavlink messages
     /// </summary>
-    internal sealed class MessageFactory<TMessage> : IMessageFactory<TMessage> where TMessage : MavlinkMessage
+    internal sealed class MessageFactory<TMessage> : IMessageFactory<TMessage> where TMessage : IMavlinkMessage
     {
         private readonly IMessageMetadataContainer _messageMetadataContainer;
         private readonly Func<Type, IConverter> _selectConverter;

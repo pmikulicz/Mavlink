@@ -21,6 +21,6 @@ namespace Mavlink
         /// </summary>
         /// <typeparam name="TMessage">Type of mavlink message</typeparam>
         /// <returns>New instance of engine for the mavlink protocol</returns>
-        IMavlinkEngine<TMessage> Create<TMessage>() where TMessage : MavlinkMessage;
+        IMavlinkEngine<TMessage> Create<TMessage>() where TMessage : IMavlinkMessage;
     }
 }

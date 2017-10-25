@@ -19,6 +19,6 @@ namespace Mavlink.Messages.Configuration
         /// </summary>
         /// <typeparam name="TMessage">Type of mavlink message</typeparam>
         /// <returns>Instance of a container for mavlink message metadata collection</returns>
-        IMessageMetadataContainer Create<TMessage>() where TMessage : MavlinkMessage;
+        IMessageMetadataContainer Create<TMessage>() where TMessage : IMavlinkMessage;
     }
 }

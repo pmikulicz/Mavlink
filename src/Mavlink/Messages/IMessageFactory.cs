@@ -12,7 +12,7 @@ namespace Mavlink.Messages
     /// <summary>
     /// Interface of a component which is responsible for creating mavlink messages
     /// </summary>
-    internal interface IMessageFactory<TMessage> where TMessage : MavlinkMessage
+    internal interface IMessageFactory<TMessage> where TMessage : IMavlinkMessage
     {
         /// <summary>
         /// Creates mavlink message based on passed payload data and message id

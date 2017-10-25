@@ -19,7 +19,7 @@ namespace Mavlink
     /// <summary>
     /// Component which is responsible for handling communication via mavlink protocol
     /// </summary>
-    internal sealed class MavlinkCommunicator<TMessage> : IMavlinkCommunicator<TMessage> where TMessage : MavlinkMessage
+    internal sealed class MavlinkCommunicator<TMessage> : IMavlinkCommunicator<TMessage> where TMessage : IMavlinkMessage
     {
         private readonly IMavlinkEngine<TMessage> _mavlinkEngine;
         private readonly IConnectionService _connectionService;

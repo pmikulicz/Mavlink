@@ -15,7 +15,7 @@ namespace Mavlink
     /// <summary>
     /// Interface of component which is responsible for handling communication via mavlink protocol
     /// </summary>
-    public interface IMavlinkCommunicator<TMessage> : IDisposable where TMessage : MavlinkMessage
+    public interface IMavlinkCommunicator<TMessage> : IDisposable where TMessage : IMavlinkMessage
     {
         /// <summary>
         /// Subscribes for notification of received message from mavlink protocol

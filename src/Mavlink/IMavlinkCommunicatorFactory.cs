@@ -24,6 +24,6 @@ namespace Mavlink
         /// <param name="mavlinkVersion">Mavlink version to be used for communication</param>
         /// <returns>New instance of mavlin communicator</returns>
         IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService, MavlinkVersion mavlinkVersion)
-            where TMessage : MavlinkMessage;
+            where TMessage : IMavlinkMessage;
     }
 }

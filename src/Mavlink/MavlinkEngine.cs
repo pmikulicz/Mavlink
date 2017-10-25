@@ -18,7 +18,7 @@ namespace Mavlink
     /// Engine fo the mavlink protocol
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
-    internal sealed class MavlinkEngine<TMessage> : IMavlinkEngine<TMessage> where TMessage : MavlinkMessage
+    internal sealed class MavlinkEngine<TMessage> : IMavlinkEngine<TMessage> where TMessage : IMavlinkMessage
     {
         private readonly Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>> _messageNotifiers;
 
