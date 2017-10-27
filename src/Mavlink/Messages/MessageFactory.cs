@@ -52,15 +52,7 @@ namespace Mavlink.Messages
             {
                 PropertyInfo propertyInfo = property.Key;
                 PropertyMetadata propertyMetadata = property.Value;
-                var propertyType = propertyInfo.PropertyType.IsEnum
-                    ? propertyInfo.PropertyType.GetEnumUnderlyingType()
-                    : propertyInfo.PropertyType;
-                IConverter converter = _selectConverter(propertyType);
-
-                if (converter == null)
-                    throw new InvalidOperationException(
-                        $"Cannot find proper byte converter for property with name '{propertyInfo.Name}' and type '{propertyInfo.PropertyType.Name}'");
-
+                var converter = GetConverter(propertyInfo);
                 var bytesToConvert = new byte[propertyMetadata.Size];
                 Array.Copy(payload, offset, bytesToConvert, 0, propertyMetadata.Size);
                 var propertyValue = converter.ConvertBytes(bytesToConvert);
@@ -86,16 +78,7 @@ namespace Mavlink.Messages
             {
                 PropertyInfo propertyInfo = property.Key;
                 PropertyMetadata propertyMetadata = property.Value;
-
-                var propertyType = propertyInfo.PropertyType.IsEnum
-                    ? propertyInfo.PropertyType.GetEnumUnderlyingType()
-                    : propertyInfo.PropertyType;
-                IConverter converter = _selectConverter(propertyType);
-
-                if (converter == null)
-                    throw new InvalidOperationException(
-                        $"Cannot find proper byte converter for property with name '{propertyInfo.Name}' and type '{propertyInfo.PropertyType.Name}'");
-
+                var converter = GetConverter(propertyInfo);
                 var valueToConvert = propertyInfo.GetValue(message);
                 var valueAsBytes = converter.ConvertValue(valueToConvert);
                 Array.Copy(valueAsBytes, 0, messageBytes, offset, valueAsBytes.Length);
@@ -103,6 +86,20 @@ namespace Mavlink.Messages
             }
 
             return messageBytes;
+        }
+
+        private IConverter GetConverter(PropertyInfo propertyInfo)
+        {
+            var propertyType = propertyInfo.PropertyType.IsEnum
+                ? propertyInfo.PropertyType.GetEnumUnderlyingType()
+                : propertyInfo.PropertyType;
+            var converter = _selectConverter(propertyType);
+
+            if (converter == null)
+                throw new InvalidOperationException(
+                    $"Cannot find proper byte converter for property with name '{propertyInfo.Name}' and type '{propertyInfo.PropertyType.Name}'");
+
+            return converter;
         }
     }
 }
