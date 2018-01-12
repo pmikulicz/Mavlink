@@ -1,5 +1,6 @@
-﻿using System;
-using Mavlink.Common.Converters;
+﻿using Mavlink.Common.Converters;
+using System;
+using System.Text;
 using Xunit;
 
 namespace Mavlink.UnitTests.Common.Converters
@@ -30,6 +31,16 @@ namespace Mavlink.UnitTests.Common.Converters
                 char[] convertedValue = (char[])Converter.ConvertBytes(Utils.CreateByteArray(0, 4));
 
                 Assert.Equal(expectedValue, convertedValue);
+            }
+
+            [Fact]
+            public void Convert_FourBytesAsText_ReturnArrayWithText()
+            {
+                char[] expectedText = { 'T', 'e', 's', 't' };
+                byte[] textAsBytes = Encoding.ASCII.GetBytes(expectedText);
+                char[] convertedValue = (char[])Converter.ConvertBytes(textAsBytes);
+
+                Assert.Equal(expectedText, convertedValue);
             }
         }
     }
