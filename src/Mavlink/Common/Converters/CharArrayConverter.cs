@@ -16,8 +16,6 @@ namespace Mavlink.Common.Converters
     /// </summary>
     internal sealed class CharArrayConverter : BaseConverter<char[]>
     {
-        private const int CharSize = sizeof(char);
-
         protected override char[] RunByteArrayConversion(byte[] bytes)
         {
             return Encoding.ASCII.GetChars(bytes);
