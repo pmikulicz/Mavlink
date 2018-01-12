@@ -3,7 +3,7 @@
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Component which is responsible for handling packets
+//   Component which is responsible for handling mavlink packets
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ using System.Collections.Generic;
 namespace Mavlink.Packets
 {
     /// <summary>
-    ///  Component which is responsible for handling packets
+    ///  Component which is responsible for handling mavlink packets
     /// </summary>
     internal sealed class PacketHandler : IPacketHandler
     {

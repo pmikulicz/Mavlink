@@ -56,9 +56,10 @@ namespace Mavlink
         /// <inheritdoc />
         public IMavlinkEngine<TMessage> Create<TMessage>() where TMessage : IMavlinkMessage
         {
-            //TODO: choose apropriate packet builder
             IPacketBuilder packetBuilder = new PacketBuilder();
-            return new MavlinkEngine<TMessage>(new PacketHandler(packetBuilder), new MessageFactory<TMessage>(new MessageMetadataContainerFactory(),
+
+            return new MavlinkEngine<TMessage>(new PacketHandler(packetBuilder),
+                new MessageFactory<TMessage>(new MessageMetadataContainerFactory(),
                 type =>
                 {
                     return _cachedByteConverters.FirstOrDefault(c => c.Type == type);

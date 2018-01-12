@@ -7,8 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Mavlink.Messages;
 using Mavlink.Connection;
+using Mavlink.Messages;
 
 namespace Mavlink
 {

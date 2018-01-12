@@ -33,5 +33,10 @@ namespace Mavlink.Packets
         /// If packet is not valid it returns null
         /// </returns>
         Packet Build(BuildType buildType = BuildType.WithCrc);
+
+        /// <summary>
+        /// Gets mavlink version for which builder is dedicated
+        /// </summary>
+        MavlinkVersion MavlinkVersion { get; }
     }
 }

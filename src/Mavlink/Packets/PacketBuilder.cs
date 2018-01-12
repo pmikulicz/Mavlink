@@ -65,6 +65,9 @@ namespace Mavlink.Packets
             //            return ProcessBuildPacket(packetBytes, packetBytes[Packet.PayloadLengthIndex], payload, buildType);
         }
 
+        /// <inheritdoc />
+        public MavlinkVersion MavlinkVersion => MavlinkVersion.V10;
+
         private Packet ProcessBuildPacket(byte[] packetBytes, byte payloadLength, byte[] payload, BuildType buildType)
         {
             return null;
