@@ -24,11 +24,14 @@ namespace Mavlink
     internal sealed class MavlinkEngineFactory : IMavlinkEngineFactory
     {
         private static IList<IConverter> _cachedByteConverters;
+        private MavlinkVersion _mavlinkVersion;
 
-        public MavlinkEngineFactory()
+        public MavlinkEngineFactory(MavlinkVersion mavlinkVersion)
         {
             if (_cachedByteConverters == null)
                 InitializeByteConverters();
+
+            _mavlinkVersion = mavlinkVersion;
         }
 
         private static void InitializeByteConverters()
@@ -53,7 +56,9 @@ namespace Mavlink
         /// <inheritdoc />
         public IMavlinkEngine<TMessage> Create<TMessage>() where TMessage : IMavlinkMessage
         {
-            return new MavlinkEngine<TMessage>(new PacketHandler(), new MessageFactory<TMessage>(new MessageMetadataContainerFactory(),
+            //TODO: choose apropriate packet builder
+            IPacketBuilder packetBuilder = new PacketBuilder();
+            return new MavlinkEngine<TMessage>(new PacketHandler(packetBuilder), new MessageFactory<TMessage>(new MessageMetadataContainerFactory(),
                 type =>
                 {
                     return _cachedByteConverters.FirstOrDefault(c => c.Type == type);

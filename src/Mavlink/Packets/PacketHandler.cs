@@ -22,15 +22,7 @@ namespace Mavlink.Packets
 
         public PacketHandler(IPacketBuilder packetBuilder)
         {
-            if (packetBuilder == null)
-                throw new ArgumentNullException(nameof(packetBuilder));
-
-            _packetBuilder = packetBuilder;
-        }
-
-        public PacketHandler()
-            : this(new PacketBuilder())
-        {
+            _packetBuilder = packetBuilder ?? throw new ArgumentNullException(nameof(packetBuilder));
         }
 
         /// <inheritdoc />

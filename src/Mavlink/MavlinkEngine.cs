@@ -39,7 +39,7 @@ namespace Mavlink
                 throw new ArgumentNullException(nameof(message));
 
             byte[] packetPayload = _messageFactory.CreateBytes(message);
-            return _packetHandler.HandlePacket(systemId, componentId, sequenceNumber, 0, packetPayload);
+            return _packetHandler.HandlePacket(systemId, componentId, sequenceNumber, message.Id.Value, packetPayload);
         }
 
         /// <inheritdoc />
