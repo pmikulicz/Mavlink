@@ -14,11 +14,12 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for double types
     /// </summary>
-    internal sealed class DoubleConverter : BaseConverter<double>
+    internal sealed class DoubleConverter : Converter<double>
     {
         private const int DoubleSize = sizeof(double);
 
-        protected override double RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override double ConvertBytes(byte[] bytes)
         {
             if (bytes.Length != DoubleSize)
                 throw new ArgumentException(
@@ -27,7 +28,8 @@ namespace Mavlink.Common.Converters
             return BitConverter.ToDouble(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(double value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(double value)
         {
             var convertedValue = BitConverter.GetBytes(value);
 

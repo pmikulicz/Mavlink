@@ -14,11 +14,12 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for int types
     /// </summary>
-    internal sealed class Int32Converter : BaseConverter<int>
+    internal sealed class Int32Converter : Converter<int>
     {
         private const int IntSize = sizeof(int);
 
-        protected override int RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override int ConvertBytes(byte[] bytes)
         {
             if (bytes.Length != IntSize)
                 throw new ArgumentException(
@@ -27,7 +28,8 @@ namespace Mavlink.Common.Converters
             return BitConverter.ToInt32(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(int value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(int value)
         {
             var convertedValue = BitConverter.GetBytes(value);
 

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BaseConverter.cs" company="Patryk Mikulicz">
+// <copyright file="Converter.cs" company="Patryk Mikulicz">
 //   Copyright (c) 2017 Patryk Mikulicz.
 // </copyright>
 // <summary>
@@ -15,30 +15,40 @@ namespace Mavlink.Common.Converters
     /// Abstract implementation of a converter
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal abstract class BaseConverter<T> : IConverter
+    internal abstract class Converter<T> : IConverter
     {
         /// <inheritdoc />
-        public object ConvertBytes(byte[] bytes)
+        object IConverter.ConvertBytes(byte[] bytes)
         {
             if (bytes == null)
                 throw new ArgumentNullException(nameof(bytes));
 
-            return RunByteArrayConversion(bytes);
+            return ConvertBytes(bytes);
         }
 
-        public byte[] ConvertValue(object value)
+        byte[] IConverter.ConvertValue(object value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
-            return RunValueConversion((T)value);
+            return ConvertValue((T)value);
         }
 
         /// <inheritdoc />
         public Type Type => typeof(T);
 
-        public abstract T RunByteArrayConversion(byte[] bytes);
+        /// <summary>
+        ///  Converts byte array to a value
+        /// </summary>
+        /// <param name="bytes">Bytes to be converted</param>
+        /// <returns>Strongly typed converted value</returns>
+        public abstract T ConvertBytes(byte[] bytes);
 
-        protected abstract byte[] RunValueConversion(T value);
+        /// <summary>
+        /// Converts value to byte array
+        /// </summary>
+        /// <param name="value">Strongly typed value to be converterd</param>
+        /// <returns>Converted value as byte array</returns>
+        public abstract byte[] ConvertValue(T value);
     }
 }

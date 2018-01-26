@@ -14,11 +14,12 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for short types
     /// </summary>
-    internal sealed class Int16Converter : BaseConverter<short>
+    internal sealed class Int16Converter : Converter<short>
     {
         private const int ShortSize = sizeof(short);
 
-        protected override short RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override short ConvertBytes(byte[] bytes)
         {
             if (bytes.Length != ShortSize)
                 throw new ArgumentException(
@@ -27,7 +28,8 @@ namespace Mavlink.Common.Converters
             return BitConverter.ToInt16(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(short value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(short value)
         {
             var convertedValue = BitConverter.GetBytes(value);
 

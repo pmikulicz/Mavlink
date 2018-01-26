@@ -14,11 +14,12 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for bool types
     /// </summary>
-    internal sealed class BooleanConverter : BaseConverter<bool>
+    internal sealed class BooleanConverter : Converter<bool>
     {
         private const int BoolSize = sizeof(bool);
 
-        public override bool RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override bool ConvertBytes(byte[] bytes)
         {
             if (bytes.Length != BoolSize)
                 throw new ArgumentException(
@@ -27,7 +28,8 @@ namespace Mavlink.Common.Converters
             return BitConverter.ToBoolean(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(bool value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(bool value)
         {
             var convertedValue = BitConverter.GetBytes(value);
 

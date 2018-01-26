@@ -14,11 +14,12 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for ushort types
     /// </summary>
-    internal sealed class UInt16Converter : BaseConverter<ushort>
+    internal sealed class UInt16Converter : Converter<ushort>
     {
         private const int UshortSize = sizeof(short);
 
-        protected override ushort RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override ushort ConvertBytes(byte[] bytes)
         {
             if (bytes.Length != UshortSize)
                 throw new ArgumentException(
@@ -27,7 +28,8 @@ namespace Mavlink.Common.Converters
             return BitConverter.ToUInt16(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(ushort value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(ushort value)
         {
             var convertedValue = BitConverter.GetBytes(value);
 

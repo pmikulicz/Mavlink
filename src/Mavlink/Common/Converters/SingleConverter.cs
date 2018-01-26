@@ -14,22 +14,30 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for float types
     /// </summary>
-    internal sealed class SingleConverter : BaseConverter<float>
+    internal sealed class SingleConverter : Converter<float>
     {
-        protected override float RunByteArrayConversion(byte[] bytes)
-        {
-            const int floatSize = sizeof(float);
+        private const int FloatSize = sizeof(float);
 
-            if (bytes.Length != floatSize)
+        /// <inheritdoc />
+        public override float ConvertBytes(byte[] bytes)
+        {
+            if (bytes.Length != FloatSize)
                 throw new ArgumentException(
-                    $"Cannot convert byte array with length {bytes.Length} to float which size is {floatSize}");
+                    $"Cannot convert byte array with length {bytes.Length} to float which size is {FloatSize}");
 
             return BitConverter.ToSingle(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(float value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(float value)
         {
-            throw new NotImplementedException();
+            var convertedValue = BitConverter.GetBytes(value);
+
+            if (convertedValue.Length != FloatSize)
+                throw new ArgumentException(
+                    $"Size of converted value as bytes {convertedValue.Length} is different than float size which is {FloatSize}");
+
+            return convertedValue;
         }
     }
 }

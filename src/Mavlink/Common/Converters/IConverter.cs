@@ -19,7 +19,7 @@ namespace Mavlink.Common.Converters
         /// <summary>
         /// Converts byte array to a value
         /// </summary>
-        /// <param name="bytes"></param>
+        /// <param name="bytes">Bytes to be converted</param>
         /// <returns>Converted value as an object</returns>
         object ConvertBytes(byte[] bytes);
 

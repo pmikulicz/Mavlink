@@ -15,9 +15,10 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for byte types
     /// </summary>
-    internal sealed class ByteConverter : BaseConverter<byte>
+    internal sealed class ByteConverter : Converter<byte>
     {
-        protected override byte RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override byte ConvertBytes(byte[] bytes)
         {
             const int byteSize = sizeof(byte);
 
@@ -28,7 +29,8 @@ namespace Mavlink.Common.Converters
             return bytes.First();
         }
 
-        protected override byte[] RunValueConversion(byte value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(byte value)
         {
             return new[] { value };
         }

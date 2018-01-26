@@ -14,11 +14,12 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for char types
     /// </summary>
-    internal sealed class CharConverter : BaseConverter<char>
+    internal sealed class CharConverter : Converter<char>
     {
         private const int CharSize = sizeof(char);
 
-        protected override char RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override char ConvertBytes(byte[] bytes)
         {
             if (bytes.Length != CharSize)
                 throw new ArgumentException(
@@ -27,7 +28,8 @@ namespace Mavlink.Common.Converters
             return BitConverter.ToChar(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(char value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(char value)
         {
             var convertedValue = BitConverter.GetBytes(value);
 

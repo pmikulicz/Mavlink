@@ -14,11 +14,12 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for long types
     /// </summary>
-    internal sealed class Int64Converter : BaseConverter<long>
+    internal sealed class Int64Converter : Converter<long>
     {
         private const int LongSize = sizeof(long);
 
-        protected override long RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override long ConvertBytes(byte[] bytes)
         {
             if (bytes.Length != LongSize)
                 throw new ArgumentException(
@@ -27,7 +28,8 @@ namespace Mavlink.Common.Converters
             return BitConverter.ToInt64(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(long value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(long value)
         {
             var convertedValue = BitConverter.GetBytes(value);
 

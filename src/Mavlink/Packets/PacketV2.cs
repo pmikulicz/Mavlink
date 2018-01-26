@@ -17,7 +17,7 @@ namespace Mavlink.Packets
     /// </summary>
     internal sealed class PacketV2 : Packet
     {
-        internal const byte HeaderValue = 0xFE;
+        internal const byte HeaderValue = 0xFD;
         internal const int MaxPayloadSize = 253;
 
         /// <inheritdoc />
@@ -28,8 +28,8 @@ namespace Mavlink.Packets
         {
             get
             {
-                var converter = new Int32Converter();
-                return (int)converter.ConvertBytes(new[] { FirstByteOfId, MiddleByteOfId, LastByteOfId });
+                Converter<int> converter = new Int32Converter();
+                return converter.ConvertBytes(new[] { FirstByteOfId, MiddleByteOfId, LastByteOfId });
             }
         }
 

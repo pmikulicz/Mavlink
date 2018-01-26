@@ -14,11 +14,12 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for ulong types
     /// </summary>
-    internal sealed class UInt64Converter : BaseConverter<ulong>
+    internal sealed class UInt64Converter : Converter<ulong>
     {
         private const int UlongSize = sizeof(ulong);
 
-        protected override ulong RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override ulong ConvertBytes(byte[] bytes)
         {
             if (bytes.Length != UlongSize)
                 throw new ArgumentException(
@@ -27,7 +28,8 @@ namespace Mavlink.Common.Converters
             return BitConverter.ToUInt64(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(ulong value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(ulong value)
         {
             var convertedValue = BitConverter.GetBytes(value);
 

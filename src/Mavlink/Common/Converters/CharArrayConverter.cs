@@ -14,14 +14,16 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for char array types
     /// </summary>
-    internal sealed class CharArrayConverter : BaseConverter<char[]>
+    internal sealed class CharArrayConverter : Converter<char[]>
     {
-        protected override char[] RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override char[] ConvertBytes(byte[] bytes)
         {
             return Encoding.ASCII.GetChars(bytes);
         }
 
-        protected override byte[] RunValueConversion(char[] value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(char[] value)
         {
             return Encoding.ASCII.GetBytes(value);
         }

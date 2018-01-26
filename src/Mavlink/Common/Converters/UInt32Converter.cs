@@ -14,11 +14,12 @@ namespace Mavlink.Common.Converters
     /// <summary>
     /// Represents converter dedicated for uint types
     /// </summary>
-    internal sealed class UInt32Converter : BaseConverter<uint>
+    internal sealed class UInt32Converter : Converter<uint>
     {
         private const int UintSize = sizeof(uint);
 
-        protected override uint RunByteArrayConversion(byte[] bytes)
+        /// <inheritdoc />
+        public override uint ConvertBytes(byte[] bytes)
         {
             if (bytes.Length != UintSize)
                 throw new ArgumentException(
@@ -27,7 +28,8 @@ namespace Mavlink.Common.Converters
             return BitConverter.ToUInt32(bytes, 0);
         }
 
-        protected override byte[] RunValueConversion(uint value)
+        /// <inheritdoc />
+        public override byte[] ConvertValue(uint value)
         {
             var convertedValue = BitConverter.GetBytes(value);
 
