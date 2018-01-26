@@ -17,7 +17,6 @@ namespace Mavlink.Packets
     internal sealed class PacketV1 : Packet
     {
         internal const byte HeaderValue = 0xFE;
-        internal const int MaxPayloadSize = 255;
 
         /// <inheritdoc />
         public override byte Header { get; } = HeaderValue;

@@ -47,7 +47,7 @@ namespace Mavlink.Packets
         public Packet HandlePacket(byte systemId, byte componentId, byte sequenceNumber, int messageId, byte[] packetPayload)
         {
             return null;
-            //            PacketBuilder packetBuilder = new PacketBuilder();
+            //            PacketV1Builder packetBuilder = new PacketV1Builder();
             //            byte[] emptyChecksum = { 0x00, 0x00 };
             //
             //            if (packetBuilder.AddByte(Packet.HeaderValue))
@@ -83,7 +83,7 @@ namespace Mavlink.Packets
         public Packet HandlePacket(byte systemId, byte componentId, byte sequenceNumber, MessageIdOld messageIdOld, byte[] packetPayload)
         {
             return null;
-            //            PacketBuilder packetBuilder = new PacketBuilder();
+            //            PacketV1Builder packetBuilder = new PacketV1Builder();
             //            byte[] emptyChecksum = { 0x00, 0x00 };
             //
             //            if (packetBuilder.AddByte(Packet.HeaderValue))
@@ -117,10 +117,5 @@ namespace Mavlink.Packets
 
         /// <inheritdoc />
         public event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
-
-        private void OnInvalidPacketReceived(InvalidPacketReceivedEventArgs e)
-        {
-            InvalidPacketReceived?.Invoke(this, e);
-        }
     }
 }

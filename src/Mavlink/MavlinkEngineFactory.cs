@@ -56,7 +56,8 @@ namespace Mavlink
         /// <inheritdoc />
         public IMavlinkEngine<TMessage> Create<TMessage>() where TMessage : IMavlinkMessage
         {
-            IPacketBuilder packetBuilder = new PacketBuilder();
+            //TODO: select apropriate packet bulder dedicated for specified mavlink version
+            IPacketBuilder packetBuilder = new PacketV1Builder();
 
             return new MavlinkEngine<TMessage>(new PacketHandler(packetBuilder),
                 new MessageFactory<TMessage>(new MessageMetadataContainerFactory(),

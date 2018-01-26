@@ -1,34 +1,31 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PacketBuilder.cs" company="Patryk Mikulicz">
+// <copyright file="PacketV1Builder.cs" company="Patryk Mikulicz">
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Component which is responsible for building single mavlink packet
+//   Component which is responsible for building single first version mavlink packet
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Mavlink.Packets
 {
     /// <summary>
-    /// Component which is responsible for building single mavlink packet
+    /// Component which is responsible for building single first version mavlink packet
     /// </summary>
-    internal sealed class PacketBuilder : IPacketBuilder
+    internal sealed class PacketV1Builder : IPacketBuilder
     {
         private readonly IPacketValidator _packetValidator;
-        private readonly List<byte> _packetBuffer = new List<byte>(50);
 
-        public PacketBuilder(IPacketValidator packetValidator)
+        public PacketV1Builder(IPacketValidator packetValidator)
         {
-            if (packetValidator == null)
-                throw new ArgumentNullException(nameof(packetValidator));
-
-            _packetValidator = packetValidator;
+            _packetValidator = packetValidator ?? throw new ArgumentNullException(nameof(packetValidator));
         }
 
-        public PacketBuilder()
+        public PacketV1Builder()
             : this(new PacketValidator())
         {
         }
@@ -36,13 +33,13 @@ namespace Mavlink.Packets
         /// <inheritdoc />
         public bool AddByte(byte packetByte)
         {
-            //            if (packetByte == Packet.HeaderValue)
+            return true;
+            //            if (packetByte == PacketV1.HeaderValue)
             //                _packetBuffer.Clear();
-
-            _packetBuffer.Add(packetByte);
-            byte[] packetBytes = _packetBuffer.ToArray();
-
-            return HasPacketMetadata(packetBytes) && IsPacketComplete(packetBytes);
+            //
+            //            _packetBuffer.Add(packetByte);
+            //
+            //            return HasPacketMetadata(_packetBuffer) & IsPacketComplete(_packetBuffer);
         }
 
         /// <inheritdoc />
@@ -55,12 +52,12 @@ namespace Mavlink.Packets
             //            if (!(HasPacketMetadata(packetBytes) && IsPacketComplete(packetBytes)))
             //                return null;
             //
-            //            if (packetBytes[Packet.HeaderIndex] != Packet.HeaderValue)
+            //            if (packetBytes[Packet.HeaderIndex] != PacketV1.HeaderValue)
             //                return null;
             //
-            //            int payloadLength = Convert.ToInt32(packetBytes[Packet.PayloadLengthIndex]);
+            //            int payloadLength = packetBytes[Packet.PayloadLengthIndex];
             //            byte[] payload = new byte[payloadLength];
-            //            Array.Copy(packetBytes, Packet.PayloadIndex, payload, 0, payloadLength);
+            //            Array.Copy(packetBytes, PacketV1.PayloadIndex, payload, 0, payloadLength);
             //
             //            return ProcessBuildPacket(packetBytes, packetBytes[Packet.PayloadLengthIndex], payload, buildType);
         }
@@ -71,10 +68,11 @@ namespace Mavlink.Packets
         private Packet ProcessBuildPacket(byte[] packetBytes, byte payloadLength, byte[] payload, BuildType buildType)
         {
             return null;
+
             //            byte[] checksum = new byte[Packet.ChecksumLength];
-            //            Array.Copy(packetBytes, Packet.PayloadIndex + payloadLength, checksum, 0, Packet.ChecksumLength);
+            //            Array.Copy(packetBytes, PacketV1.PayloadIndex + payloadLength, checksum, 0, Packet.ChecksumLength);
             //
-            //            Packet packet = new Packet
+            //            PacketV1 packet = new PacketV1()
             //            {
             //                PayloadLength = payloadLength,
             //                SequenceNumber = packetBytes[Packet.PacketSequenceIndex],
@@ -94,19 +92,18 @@ namespace Mavlink.Packets
             //            return packet;
         }
 
-        private static bool IsPacketComplete(byte[] bytes)
+        private static bool IsPacketComplete(IReadOnlyList<byte> bytes)
         {
             return true;
-            //            int payloadLength = Convert.ToInt32(bytes[Packet.PayloadLengthIndex]);
-            //            int totalPacketLength = Packet.MetadataLength + Packet.ChecksumLength + payloadLength;
+            //            int payloadLength = bytes[Packet.PayloadLengthIndex];
+            //            int totalPacketLength = PacketV1.MetadataLength + Packet.ChecksumLength + payloadLength;
             //
-            //            return bytes.Length == totalPacketLength;
+            //            return bytes.Count == totalPacketLength;
         }
 
-        private static bool HasPacketMetadata(byte[] bytes)
+        private static bool HasPacketMetadata(ICollection bytes)
         {
             return true;
-            //            return bytes.Length > Packet.MetadataLength;
         }
     }
 }

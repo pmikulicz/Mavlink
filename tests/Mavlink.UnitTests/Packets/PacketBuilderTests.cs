@@ -23,7 +23,7 @@ namespace Mavlink.UnitTests.Packets
             mockPacketValidator
                .Setup(validator => validator.GetChecksum(It.IsAny<Packet>()))
                .Returns(new byte[] { 0x1C, 0x7F });
-            PacketBuilder = new PacketBuilder(mockPacketValidator.Object);
+            PacketBuilder = new PacketV1Builder(mockPacketValidator.Object);
         }
 
         public sealed class AddByteMethodTests : PacketBuilderTests
@@ -66,7 +66,7 @@ namespace Mavlink.UnitTests.Packets
             public void BuildWithCrcReturnPacket()
             {
                 //                foreach (byte packetByte in HeartbeatPacketBytes)
-                //                    PacketBuilder.AddByte(packetByte);
+                //                    PacketV1Builder.AddByte(packetByte);
                 //
                 //                MessageIdOld expectedMessageId = MessageIdOld.Heartbeat;
                 //                byte expectedPayloadLegth = 9;
@@ -76,7 +76,7 @@ namespace Mavlink.UnitTests.Packets
                 //                byte[] expectedChecksum = { 0x1C, 0x7F };
                 //                byte[] expectedPayload = { 0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03 };
                 //
-                //                Packet packet = PacketBuilder.Build();
+                //                Packet packet = PacketV1Builder.Build();
                 //
                 //                Assert.NotNull(packet);
                 //                Assert.Equal(expectedMessageId, packet.MessageIdOld);
@@ -119,7 +119,7 @@ namespace Mavlink.UnitTests.Packets
                 //                byte[] expectedChecksum = { 0x1C, 0x7F };
                 //                byte[] expectedPayload = { 0x00, 0x00, 0x00, 0x00, 0x02, 0x03, 0x51, 0x04, 0x03 };
                 //
-                //                Packet packet = PacketBuilder.Build(BuildType.WithoutCrc);
+                //                Packet packet = PacketV1Builder.Build(BuildType.WithoutCrc);
                 //
                 //                Assert.NotNull(packet);
                 //                Assert.Equal(expectedMessageId, packet.MessageIdOld);
