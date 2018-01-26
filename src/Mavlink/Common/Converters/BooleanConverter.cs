@@ -18,7 +18,7 @@ namespace Mavlink.Common.Converters
     {
         private const int BoolSize = sizeof(bool);
 
-        protected override bool RunByteArrayConversion(byte[] bytes)
+        public override bool RunByteArrayConversion(byte[] bytes)
         {
             if (bytes.Length != BoolSize)
                 throw new ArgumentException(

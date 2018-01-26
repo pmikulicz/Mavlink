@@ -37,7 +37,7 @@ namespace Mavlink.Common.Converters
         /// <inheritdoc />
         public Type Type => typeof(T);
 
-        protected abstract T RunByteArrayConversion(byte[] bytes);
+        public abstract T RunByteArrayConversion(byte[] bytes);
 
         protected abstract byte[] RunValueConversion(T value);
     }

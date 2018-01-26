@@ -7,6 +7,9 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Common.Converters;
+using System.Collections.Generic;
+
 namespace Mavlink.Packets
 {
     /// <summary>
@@ -14,10 +17,85 @@ namespace Mavlink.Packets
     /// </summary>
     internal sealed class PacketV2 : Packet
     {
-        /// <inheritdoc />
-        public override byte Header { get; }
+        internal const byte HeaderValue = 0xFE;
+        internal const int MaxPayloadSize = 253;
 
         /// <inheritdoc />
-        public override byte[] RawBytes { get; }
+        public override byte Header => HeaderValue;
+
+        /// <inheritdoc />
+        public override int MessageId
+        {
+            get
+            {
+                var converter = new Int32Converter();
+                return (int)converter.ConvertBytes(new[] { FirstByteOfId, MiddleByteOfId, LastByteOfId });
+            }
+        }
+
+        /// <summary>
+        /// Gest or sets flags that must be understood
+        /// </summary>
+        public byte IncompactFlags { get; set; }
+
+        /// <summary>
+        /// Gest or sets flags that can be ignored if not understood
+        /// </summary>
+        public byte CompactFlags { get; set; }
+
+        /// <summary>
+        /// Gets or sets first 8 bits of the id of the message
+        /// </summary>
+        public byte FirstByteOfId { get; set; }
+
+        /// <summary>
+        /// Gets or sets middle 8 bits of the id of the message
+        /// </summary>
+        public byte MiddleByteOfId { get; set; }
+
+        /// <summary>
+        /// Gets or sets last 8 bits of the id of the message
+        /// </summary>
+        public byte LastByteOfId { get; set; }
+
+        /// <summary>
+        /// Gets or sets optional field for point-to-point messages, used for payload else
+        /// </summary>
+        public byte TargetSystemId { get; set; }
+
+        /// <summary>
+        /// Gets or sets optional field for point-to-point messages, used for payload else
+        /// </summary>
+        public byte TargetComponentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets signature which allows ensuring that the link is tamper-proof
+        /// </summary>
+        public byte[] Signature { get; set; }
+
+        /// <inheritdoc />
+        protected override byte[] GetBytes()
+        {
+            var rawBytes = new List<byte>
+            {
+                HeaderValue,
+                PayloadLength,
+                IncompactFlags,
+                CompactFlags,
+                SequenceNumber,
+                SystemId,
+                ComponentId,
+                FirstByteOfId,
+                MiddleByteOfId,
+                LastByteOfId,
+                TargetSystemId,
+                TargetComponentId
+            };
+            rawBytes.AddRange(Payload);
+            rawBytes.AddRange(Checksum);
+            rawBytes.AddRange(Signature);
+
+            return rawBytes.ToArray();
+        }
     }
 }

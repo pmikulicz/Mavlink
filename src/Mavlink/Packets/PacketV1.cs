@@ -17,40 +17,35 @@ namespace Mavlink.Packets
     internal sealed class PacketV1 : Packet
     {
         internal const byte HeaderValue = 0xFE;
-        internal const int PacketSequenceIndex = 2;
-        internal const int SystemIdIndex = 3;
-        internal const int ComponentIdIndex = 4;
-        internal const int MessageIdIndex = 5;
-        internal const int PayloadIndex = 6;
-        internal const int ChecksumLength = 2;
-        internal const int MetadataLength = 6;
+        internal const int MaxPayloadSize = 255;
 
-        /// <summary>
-        /// Gets start of frame transmission
-        /// </summary>
+        /// <inheritdoc />
         public override byte Header { get; } = HeaderValue;
 
-        /// <summary>
-        /// Gets packet array of raw bytes
-        /// </summary>
-        public override byte[] RawBytes
-        {
-            get
-            {
-                var rawBytes = new List<byte>
-                {
-                    HeaderValue,
-                    PayloadLength,
-                    SequenceNumber,
-                    SystemId,
-                    ComponentId,
-                    (byte) MessageId
-                };
-                rawBytes.AddRange(Payload);
-                rawBytes.AddRange(Checksum);
+        /// <inheritdoc />
+        public override int MessageId => ByteId;
 
-                return rawBytes.ToArray();
-            }
+        /// <summary>
+        /// Gets or sets id of message in payload as a byte
+        /// </summary>
+        public byte ByteId { get; set; }
+
+        /// <inheritdoc />
+        protected override byte[] GetBytes()
+        {
+            var rawBytes = new List<byte>
+            {
+                HeaderValue,
+                PayloadLength,
+                SequenceNumber,
+                SystemId,
+                ComponentId,
+                (byte) MessageId
+            };
+            rawBytes.AddRange(Payload);
+            rawBytes.AddRange(Checksum);
+
+            return rawBytes.ToArray();
         }
     }
 }

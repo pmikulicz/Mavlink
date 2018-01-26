@@ -15,7 +15,6 @@ namespace Mavlink.Packets
     internal abstract class Packet
     {
         protected const int HeaderIndex = 0;
-        protected const int PayloadLengthIndex = 1;
 
         /// <summary>
         /// Gets start of frame transmission
@@ -26,7 +25,7 @@ namespace Mavlink.Packets
         /// Gets or sets identification of the message.
         /// The id defines what the payload "means" and how it should be correctly decoded
         /// </summary>
-        public int MessageId { get; set; }
+        public abstract int MessageId { get; }
 
         /// <summary>
         /// Gets or sets length of payload
@@ -65,6 +64,12 @@ namespace Mavlink.Packets
         /// <summary>
         /// Gets packet array of raw bytes
         /// </summary>
-        public abstract byte[] RawBytes { get; }
+        public byte[] RawBytes => GetBytes();
+
+        /// <summary>
+        /// Gets all packet bytes in the right order
+        /// </summary>
+        /// <returns></returns>
+        protected abstract byte[] GetBytes();
     }
 }
