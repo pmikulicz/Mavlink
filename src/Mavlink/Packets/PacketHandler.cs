@@ -33,7 +33,7 @@ namespace Mavlink.Packets
 
             foreach (byte packetByte in bytes)
             {
-                if (!_packetBuilder.AddByte(packetByte)) continue;
+                if (_packetBuilder.AddByte(packetByte)) continue;
 
                 Packet packet = _packetBuilder.Build();
 

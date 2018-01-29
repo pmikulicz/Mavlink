@@ -7,11 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Mavlink
 {
     /// <summary>
     /// Defines all mavlink protocol versions
     /// </summary>
+    [Flags]
     public enum MavlinkVersion
     {
         /// <summary>

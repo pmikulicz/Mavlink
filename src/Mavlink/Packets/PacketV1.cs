@@ -8,18 +8,20 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
+using Mavlink.Packets.Attributes;
 
 namespace Mavlink.Packets
 {
     /// <summary>
     /// Represents model of first version of mavlink packet
     /// </summary>
+    [PacketInfo(CrcLength = 2, MavlinkVersion = MavlinkVersion.V10, MaxPayloadLength = 255, SignatureLength = 0)]
     internal sealed class PacketV1 : Packet
     {
         internal const byte HeaderValue = 0xFE;
 
         /// <inheritdoc />
-        public override byte Header { get; } = HeaderValue;
+        public override byte Header { get; protected set; } = HeaderValue;
 
         /// <inheritdoc />
         public override int MessageId => ByteId;
@@ -27,6 +29,7 @@ namespace Mavlink.Packets
         /// <summary>
         /// Gets or sets id of message in payload as a byte
         /// </summary>
+        [PacketData(Index = 5, MavlinkVersion = MavlinkVersion.V10)]
         public byte ByteId { get; set; }
 
         /// <inheritdoc />

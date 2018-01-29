@@ -18,7 +18,7 @@ namespace Mavlink.Packets
         /// Add single packet byte
         /// </summary>
         /// <param name="packetByte">Single packet byte</param>
-        /// <returns>value indicating whether all packet bytes were collected and are ready to build</returns>
+        /// <returns>True if there are more bytes to append, otherwise false</returns>
         bool AddByte(byte packetByte);
 
         /// <summary>

@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Packets.Attributes;
+
 namespace Mavlink.Packets
 {
     /// <summary>
@@ -14,12 +16,11 @@ namespace Mavlink.Packets
     /// </summary>
     internal abstract class Packet
     {
-        protected const int HeaderIndex = 0;
-
         /// <summary>
         /// Gets start of frame transmission
         /// </summary>
-        public abstract byte Header { get; }
+        [PacketData(Index = 0, MavlinkVersion = MavlinkVersion.V10 | MavlinkVersion.V20)]
+        public abstract byte Header { get; protected set; }
 
         /// <summary>
         /// Gets or sets identification of the message.
@@ -30,18 +31,23 @@ namespace Mavlink.Packets
         /// <summary>
         /// Gets or sets length of payload
         /// </summary>
+        [PacketData(Index = 1, MavlinkVersion = MavlinkVersion.V10 | MavlinkVersion.V20)]
         public byte PayloadLength { get; set; }
 
         /// <summary>
         /// Gets or sets sequence number. Each component counts up its send sequence.
         /// Allows to detect packet loss
         /// </summary>
+        [PacketData(Index = 2, MavlinkVersion = MavlinkVersion.V10)]
+        [PacketData(Index = 4, MavlinkVersion = MavlinkVersion.V20)]
         public byte SequenceNumber { get; set; }
 
         /// <summary>
         /// Gets or sets identification of the sending system.
         /// Allows to differentiate different systems on the same network
         /// </summary>
+        [PacketData(Index = 3, MavlinkVersion = MavlinkVersion.V10)]
+        [PacketData(Index = 5, MavlinkVersion = MavlinkVersion.V20)]
         public byte SystemId { get; set; }
 
         /// <summary>
@@ -49,6 +55,8 @@ namespace Mavlink.Packets
         /// Allows to differentiate different components of the same system,
         /// e.g. the IMU and the autopilot
         /// </summary>
+        [PacketData(Index = 4, MavlinkVersion = MavlinkVersion.V10)]
+        [PacketData(Index = 5, MavlinkVersion = MavlinkVersion.V20)]
         public byte ComponentId { get; set; }
 
         /// <summary>

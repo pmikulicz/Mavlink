@@ -18,22 +18,6 @@ namespace Mavlink.UnitTests.Common.Converters
             }
 
             [Fact]
-            public void Convert_IncorrectLenghtOfBytes_ThrowArgumentNullException()
-            {
-                var bytesToConvert = Utils.CreateByteArray(0, sizeof(char) * 1 + 1);
-                Assert.Throws<ArgumentException>(() => Converter.ConvertBytes(bytesToConvert));
-            }
-
-            [Fact]
-            public void Convert_FourZeroBytes_ReturnArrayWithTwoEmptyChars()
-            {
-                char[] expectedValue = { char.MinValue, char.MinValue };
-                char[] convertedValue = (char[])Converter.ConvertBytes(Utils.CreateByteArray(0, 4));
-
-                Assert.Equal(expectedValue, convertedValue);
-            }
-
-            [Fact]
             public void Convert_FourBytesAsText_ReturnArrayWithText()
             {
                 char[] expectedText = { 'T', 'e', 's', 't' };
