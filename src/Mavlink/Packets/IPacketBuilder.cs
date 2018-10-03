@@ -15,22 +15,14 @@ namespace Mavlink.Packets
     internal interface IPacketBuilder
     {
         /// <summary>
-        /// Add single packet byte
-        /// </summary>
-        /// <param name="packetByte">Single packet byte</param>
-        /// <returns>True if there are more bytes to append, otherwise false</returns>
-        bool AddByte(byte packetByte);
-
-        /// <summary>
-        /// Builds mavlink packet from aggregated bytes
+        /// Builds mavlink packet
         /// </summary>
         /// <param name="buildType">
         /// Type of a build.
         /// Builder can build packet with crc or without crc
         /// </param>
         /// <returns>
-        /// New packet from aggregated bytes.
-        /// If packet is not valid it returns null
+        /// New mavlink packet. If packet is not valid it returns null
         /// </returns>
         Packet Build(BuildType buildType = BuildType.WithCrc);
 

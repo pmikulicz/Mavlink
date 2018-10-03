@@ -10,17 +10,17 @@ namespace Mavlink.UnitTests
     {
         private readonly IMavlinkEngine<IArdupilotMessage> _mavlinkEngine;
 
-        private static readonly Mock<IPacketHandler> PacketHandlerMock = new Mock<IPacketHandler>();
+        private static readonly Mock<IMessageProcessor<IArdupilotMessage>> MessageProcessorMock =
+            new Mock<IMessageProcessor<IArdupilotMessage>>();
 
-        private static readonly Mock<IMessageFactory<IArdupilotMessage>> MessageFactoryMock =
-            new Mock<IMessageFactory<IArdupilotMessage>>();
-
-        private static readonly Mock<IMessageMetadataContainer> MessageMetadataContainerMock =
-            new Mock<IMessageMetadataContainer>();
+        private static readonly Mock<IPacketBuilderDirector> PacketBuilderDirectorMock =
+            new Mock<IPacketBuilderDirector>();
 
         public MavlinkEngineTests()
         {
-            _mavlinkEngine = new MavlinkEngine<IArdupilotMessage>(PacketHandlerMock.Object, MessageFactoryMock.Object);
+            _mavlinkEngine =
+                new MavlinkEngine<IArdupilotMessage>(MessageProcessorMock.Object,
+                    () => PacketBuilderDirectorMock.Object);
         }
 
         public sealed class CreatePacketTests : MavlinkEngineTests

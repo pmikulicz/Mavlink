@@ -14,7 +14,7 @@ namespace Mavlink.UnitTests.Messages
 {
     public class MessageFactoryTests
     {
-        private static IMessageFactory<IArdupilotMessage> _messageFactory;
+        private static IMessageProcessor<IArdupilotMessage> _messageProcessor;
         private static readonly Mock<IMessageMetadataContainerFactory> ContainerFactoryMock = new Mock<IMessageMetadataContainerFactory>();
 
         public MessageFactoryTests()
@@ -25,7 +25,7 @@ namespace Mavlink.UnitTests.Messages
                     Constants.HeartBeatMessageMetadata
                 }));
 
-            _messageFactory = new MessageFactory<IArdupilotMessage>(ContainerFactoryMock.Object, type =>
+            _messageProcessor = new MessageProcessor<IArdupilotMessage>(ContainerFactoryMock.Object, type =>
              {
                  var assembly = Assembly.GetAssembly(typeof(IConverter));
                  List<Type> converterTypes = assembly.GetTypes()
@@ -49,21 +49,21 @@ namespace Mavlink.UnitTests.Messages
             public void CreateMessage_NullMessagePayload_ThrowArgumentNullException()
             {
                 int messageId = Constants.HeartbeatMessageId;
-                Assert.Throws<ArgumentNullException>(() => _messageFactory.CreateMessage(null, messageId));
+                Assert.Throws<ArgumentNullException>(() => _messageProcessor.CreateMessage(null, messageId));
             }
 
             [Fact]
             public void CreateMessage_TooManyPayloadBytes_ThrowInvalidOperationException()
             {
                 int messageId = Constants.HeartbeatMessageId;
-                Assert.Throws<InvalidOperationException>(() => _messageFactory.CreateMessage(Utils.CreateByteArray(0, 20), messageId));
+                Assert.Throws<InvalidOperationException>(() => _messageProcessor.CreateMessage(Utils.CreateByteArray(0, 20), messageId));
             }
 
             [Fact]
             public void CreateMessage_HeartbeatMessagePayload_ReturnMessageWithCorrectId()
             {
                 int messageId = Constants.HeartbeatMessageId;
-                IArdupilotMessage message = _messageFactory.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
+                IArdupilotMessage message = _messageProcessor.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
                 Assert.Equal(messageId, message.Id.Value);
             }
 
@@ -71,7 +71,7 @@ namespace Mavlink.UnitTests.Messages
             public void CreateMessage_HeartbeatMessagePayload_ReturnCorrectMessage()
             {
                 int messageId = Constants.HeartbeatMessageId;
-                HeartbeatMessage message = (HeartbeatMessage)_messageFactory.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
+                HeartbeatMessage message = (HeartbeatMessage)_messageProcessor.CreateMessage(Constants.HeartbeatMessagePayload, messageId);
                 MavType expectedType = Constants.HeartbeatMessage.Type;
                 MavAutopilot expectedAutopilot = Constants.HeartbeatMessage.Autopilot;
                 MavModeFlag expectedBaseMode = Constants.HeartbeatMessage.BaseMode;
@@ -93,13 +93,13 @@ namespace Mavlink.UnitTests.Messages
             [Fact]
             public void CreateBytes_NullMessage_ThrowArgumentNullException()
             {
-                Assert.Throws<ArgumentNullException>(() => _messageFactory.CreateBytes(null));
+                Assert.Throws<ArgumentNullException>(() => _messageProcessor.CreateBytes(null));
             }
 
             [Fact]
             public void CreateBytes_HeartbeatMessage_ReturnCorrectBytes()
             {
-                var messageBytes = _messageFactory.CreateBytes(Constants.HeartbeatMessage);
+                var messageBytes = _messageProcessor.CreateBytes(Constants.HeartbeatMessage);
                 Assert.Equal(Constants.HeartbeatMessagePayload, messageBytes);
             }
         }

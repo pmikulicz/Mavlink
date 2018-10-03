@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PacketBuilder.cs" company="Raiffeisen Leasing Polska S.A.">
-//   Copyright (c) 2018 Raiffeisen Leasing Polska S.A. All Rights Reserved.
+// <copyright file="PacketBuilder.cs" company="Patryk Mikulicz">
+//   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
 //   Abstract implementation of a component which is responsible for building mavlink packet
@@ -17,27 +17,11 @@ namespace Mavlink.Packets
     /// </summary>
     internal abstract class PacketBuilder : IPacketBuilder
     {
-        private const int DefaultPacketLength = 50;
-        private bool _metadataSetUp = false;
-        protected readonly IPacketMetadataContext PacketMetadataConetxt;
-        protected readonly List<byte> PacketBuffer = new List<byte>(DefaultPacketLength);
-        protected readonly Packet PacketTemplate;
+        private readonly byte[] _content;
 
-        protected PacketBuilder(IPacketMetadataContext packetMetadataConetxt, Packet packetTemplate)
+        protected PacketBuilder(byte[] content)
         {
-            PacketMetadataConetxt = packetMetadataConetxt ?? throw new ArgumentNullException(nameof(packetMetadataConetxt));
-            PacketTemplate = packetTemplate;
-        }
-
-        /// <inheritdoc />
-        public bool AddByte(byte packetByte)
-        {
-            if (packetByte == PacketTemplate.Header)
-                InitializeProcess();
-
-            PacketBuffer.Add(packetByte);
-
-            return !(HasPacketMetadata(PacketBuffer) & IsPacketComplete(PacketBuffer));
+            _content = content;
         }
 
         /// <inheritdoc />
@@ -45,43 +29,5 @@ namespace Mavlink.Packets
 
         /// <inheritdoc />
         public abstract MavlinkVersion MavlinkVersion { get; }
-
-        private bool IsPacketComplete(IReadOnlyCollection<byte> packetBytes)
-        {
-            return packetBytes.Count ==
-                   PacketMetadataConetxt.MetadataLength + PacketTemplate.PayloadLength + PacketMetadataConetxt.CrCLength +
-                   PacketMetadataConetxt.SignatureLength;
-        }
-
-        private bool HasPacketMetadata(IReadOnlyCollection<byte> packetBytes)
-        {
-            bool hasPacketMetadata = packetBytes.Count >= PacketMetadataConetxt.MetadataLength;
-
-            if (hasPacketMetadata & !_metadataSetUp)
-                SetMetadata();
-
-            return hasPacketMetadata;
-        }
-
-        private void InitializeProcess()
-        {
-            _metadataSetUp = false;
-            PacketBuffer.Clear();
-        }
-
-        private void SetMetadata()
-        {
-            Type packetType = PacketTemplate.GetType();
-
-            foreach (var propertyInfo in packetType.GetProperties())
-            {
-                if (!PacketMetadataConetxt.HasDataIndex(propertyInfo)) continue;
-
-                int dataIndex = PacketMetadataConetxt.GetDataIndex(propertyInfo);
-                propertyInfo.SetValue(PacketTemplate, PacketBuffer[dataIndex]);
-            }
-
-            _metadataSetUp = true;
-        }
     }
 }

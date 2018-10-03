@@ -3,7 +3,7 @@
 //   Copyright (c) 2017 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Represents model of first version of mavlink packet
+//   Represents first version of mavlink packet
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,9 +13,8 @@ using Mavlink.Packets.Attributes;
 namespace Mavlink.Packets
 {
     /// <summary>
-    /// Represents model of first version of mavlink packet
+    /// Represents first version of mavlink packet
     /// </summary>
-    [PacketInfo(CrcLength = 2, MavlinkVersion = MavlinkVersion.V10, MaxPayloadLength = 255, SignatureLength = 0)]
     internal sealed class PacketV1 : Packet
     {
         internal const byte HeaderValue = 0xFE;
@@ -29,7 +28,6 @@ namespace Mavlink.Packets
         /// <summary>
         /// Gets or sets id of message in payload as a byte
         /// </summary>
-        [PacketData(Index = 5, MavlinkVersion = MavlinkVersion.V10)]
         public byte ByteId { get; set; }
 
         /// <inheritdoc />

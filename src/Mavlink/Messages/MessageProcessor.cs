@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MessageFactory.cs" company="Patryk Mikulicz">
+// <copyright file="MessageProcessor.cs" company="Patryk Mikulicz">
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
@@ -16,14 +16,14 @@ using System.Reflection;
 namespace Mavlink.Messages
 {
     /// <summary>
-    /// Factory which is responsible for creating mavlink messages
+    /// Processor which is responsible for creating mavlink messages
     /// </summary>
-    internal sealed class MessageFactory<TMessage> : IMessageFactory<TMessage> where TMessage : IMavlinkMessage
+    internal sealed class MessageProcessor<TMessage> : IMessageProcessor<TMessage> where TMessage : IMavlinkMessage
     {
         private readonly IMessageMetadataContainer _messageMetadataContainer;
         private readonly Func<Type, IConverter> _selectConverter;
 
-        public MessageFactory(IMessageMetadataContainerFactory messageMetadataContainerFactory, Func<Type, IConverter> selectConverter)
+        public MessageProcessor(IMessageMetadataContainerFactory messageMetadataContainerFactory, Func<Type, IConverter> selectConverter)
         {
             if (messageMetadataContainerFactory == null)
                 throw new ArgumentNullException(nameof(messageMetadataContainerFactory));

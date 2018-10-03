@@ -32,7 +32,7 @@ namespace Mavlink
             if (mavlinkEngineFactory == null)
                 throw new ArgumentNullException(nameof(mavlinkEngineFactory));
 
-            _mavlinkEngine = mavlinkEngineFactory.Create<TMessage>();
+            _mavlinkEngine = mavlinkEngineFactory.Create<TMessage>(mavlinkVersion);
             _connectionService = connectionService ?? throw new ArgumentNullException(nameof(connectionService));
             _cancellationTokenSource = new CancellationTokenSource();
             Task.Factory.StartNew(ProcessReading, _cancellationTokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);

@@ -22,13 +22,13 @@ namespace Mavlink
     {
         private readonly Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>> _messageNotifiers;
 
-        private readonly IPacketHandler _packetHandler;
-        private readonly IMessageFactory<TMessage> _messageFactory;
+        private readonly IMessageProcessor<TMessage> _messageProcessor;
+        private readonly Func<IPacketBuilderDirector> _getPacketBuilderDirector;
 
-        public MavlinkEngine(IPacketHandler packetHandler, IMessageFactory<TMessage> messageFactory)
+        public MavlinkEngine(IMessageProcessor<TMessage> messageProcessor, Func<IPacketBuilderDirector> getPacketBuilderDirector)
         {
-            _packetHandler = packetHandler ?? throw new ArgumentNullException(nameof(packetHandler));
-            _messageFactory = messageFactory ?? throw new ArgumentNullException(nameof(messageFactory));
+            _getPacketBuilderDirector = getPacketBuilderDirector ?? throw new ArgumentNullException(nameof(getPacketBuilderDirector));
+            _messageProcessor = messageProcessor ?? throw new ArgumentNullException(nameof(messageProcessor));
             _messageNotifiers = new Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>>(10);
         }
 
@@ -38,18 +38,26 @@ namespace Mavlink
             if (message == null)
                 throw new ArgumentNullException(nameof(message));
 
-            byte[] packetPayload = _messageFactory.CreateBytes(message);
-            return _packetHandler.HandlePacket(systemId, componentId, sequenceNumber, message.Id.Value, packetPayload);
+            byte[] packetPayload = _messageProcessor.CreateBytes(message);
+
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
         public void ProcessBytes(byte[] packetBytes)
         {
-            IEnumerable<Packet> packets = _packetHandler.HandlePackets(packetBytes);
+            IPacketBuilderDirector packetBuilderDirector = _getPacketBuilderDirector();
 
-            foreach (Packet packet in packets)
+            foreach (var packetByte in packetBytes)
             {
-                TMessage message = _messageFactory.CreateMessage(packet.Payload, packet.MessageId);
+                var nextByte = packetBuilderDirector.AddByte(packetByte);
+
+                if (nextByte)
+                    continue;
+
+                IPacketBuilder packetBuilder = packetBuilderDirector.Construct();
+                Packet packet = packetBuilder.Build();
+                TMessage message = _messageProcessor.CreateMessage(packet.Payload, packet.MessageId);
                 NotifyForMessage(message, packet.ComponentId, packet.SystemId);
             }
         }

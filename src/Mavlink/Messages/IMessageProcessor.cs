@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IMessageFactory.cs" company="Patryk Mikulicz">
+// <copyright file="IMessageProcessor.cs" company="Patryk Mikulicz">
 //   Copyright (c) 2016 Patryk Mikulicz.
 // </copyright>
 // <summary>
@@ -12,7 +12,7 @@ namespace Mavlink.Messages
     /// <summary>
     /// Interface of a component which is responsible for creating mavlink messages
     /// </summary>
-    internal interface IMessageFactory<TMessage> where TMessage : IMavlinkMessage
+    internal interface IMessageProcessor<TMessage> where TMessage : IMavlinkMessage
     {
         /// <summary>
         /// Creates mavlink message based on passed payload data and message id
