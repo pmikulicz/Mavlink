@@ -8,9 +8,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using Mavlink.Packets.Attributes;
 
-namespace Mavlink.Packets
+namespace Mavlink.Packets.V1
 {
     /// <summary>
     /// Represents first version of mavlink packet

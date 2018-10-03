@@ -1,5 +1,4 @@
 ﻿using Mavlink.Messages;
-using Mavlink.Messages.Configuration;
 using Mavlink.Messages.Dialects.Ardupilot;
 using Mavlink.Packets;
 using Moq;

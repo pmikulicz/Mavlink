@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Mavlink.Common.Converters;
 
 namespace Mavlink.Packets
 {

@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using Mavlink.Packets;
-using Mavlink.Packets.V1;
-using Moq;
-using Xunit;
-
-namespace Mavlink.UnitTests.Packets
+﻿namespace Mavlink.UnitTests.Packets
 {
     public class PacketV1BuilderTests
     {
