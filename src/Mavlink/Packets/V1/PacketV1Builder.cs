@@ -17,14 +17,16 @@ namespace Mavlink.Packets.V1
     internal sealed class PacketV1Builder : IPacketBuilder
     {
         private readonly PacketStructure _packetStructure;
+        private readonly byte[] _packetBytes;
 
-        public PacketV1Builder(PacketStructure packetStructure)
+        public PacketV1Builder(byte[] packetBytes, PacketStructure packetStructure)
         {
+            _packetBytes = packetBytes ?? throw new ArgumentNullException(nameof(packetBytes));
             _packetStructure = packetStructure ?? throw new ArgumentNullException(nameof(packetStructure));
         }
 
         /// <inheritdoc />
-        public Packet Build(byte[] packetBytes)
+        public Packet Build()
         {
             return null;
         }

@@ -32,7 +32,7 @@ namespace Mavlink.Packets
 
             foreach (byte packetByte in bytes)
             {
-                Packet packet = _packetBuilder.Build(null);
+                Packet packet = _packetBuilder.Build();
 
                 if (packet != null)
                     yield return packet;
@@ -47,31 +47,31 @@ namespace Mavlink.Packets
             //            PacketV1Builder packetBuilder = new PacketV1Builder();
             //            byte[] emptyChecksum = { 0x00, 0x00 };
             //
-            //            if (packetBuilder.CheckByte(Packet.HeaderValue))
+            //            if (packetBuilder.AddByte(Packet.HeaderValue))
             //                return null;
             //
-            //            if (packetBuilder.CheckByte((byte)packetPayload.Length))
+            //            if (packetBuilder.AddByte((byte)packetPayload.Length))
             //                return null;
             //
-            //            if (packetBuilder.CheckByte(sequenceNumber))
+            //            if (packetBuilder.AddByte(sequenceNumber))
             //                return null;
             //
-            //            if (packetBuilder.CheckByte(systemId))
+            //            if (packetBuilder.AddByte(systemId))
             //                return null;
             //
-            //            if (packetBuilder.CheckByte(componentId))
+            //            if (packetBuilder.AddByte(componentId))
             //                return null;
             //
-            //            if (packetBuilder.CheckByte((byte)messageIdOld))
+            //            if (packetBuilder.AddByte((byte)messageIdOld))
             //                return null;
             //
-            //            if (packetPayload.Any(payloadByte => packetBuilder.CheckByte(payloadByte)))
+            //            if (packetPayload.Any(payloadByte => packetBuilder.AddByte(payloadByte)))
             //                return null;
             //
-            //            if (packetBuilder.CheckByte(emptyChecksum[0]))
+            //            if (packetBuilder.AddByte(emptyChecksum[0]))
             //                return null;
             //
-            //            return !packetBuilder.CheckByte(emptyChecksum[1]) ?
+            //            return !packetBuilder.AddByte(emptyChecksum[1]) ?
             //                null :
             //                packetBuilder.Build(BuildType.WithoutCrc);
         }

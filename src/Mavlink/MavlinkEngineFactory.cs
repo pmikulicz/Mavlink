@@ -61,7 +61,7 @@ namespace Mavlink
                     type =>
                     {
                         return _cachedByteConverters.FirstOrDefault(c => c.Type == type);
-                    }), () => new PacketBuilderDirector(mavlinkVersion, new PacketBlueprint()));
+                    }), new PacketBuilderDirector(mavlinkVersion));
         }
     }
 }

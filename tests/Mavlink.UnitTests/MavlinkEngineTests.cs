@@ -18,8 +18,7 @@ namespace Mavlink.UnitTests
         public MavlinkEngineTests()
         {
             _mavlinkEngine =
-                new MavlinkEngine<IArdupilotMessage>(MessageProcessorMock.Object,
-                    () => PacketBuilderDirectorMock.Object);
+                new MavlinkEngine<IArdupilotMessage>(MessageProcessorMock.Object, PacketBuilderDirectorMock.Object);
         }
 
         public sealed class CreatePacketTests : MavlinkEngineTests

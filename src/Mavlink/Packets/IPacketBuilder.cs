@@ -17,13 +17,10 @@ namespace Mavlink.Packets
         /// <summary>
         /// Builds mavlink packet
         /// </summary>
-        /// <param name="packetBytes">
-        /// Packet bytes from which packet will be built
-        /// </param>
         /// <returns>
         /// New mavlink packet. If packet is not valid it returns null
         /// </returns>
-        Packet Build(byte[] packetBytes);
+        Packet Build();
 
         /// <summary>
         /// Gets mavlink version for which builder is dedicated

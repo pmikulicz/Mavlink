@@ -10,7 +10,6 @@
 using Mavlink.Messages;
 using Mavlink.Packets;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Mavlink
@@ -24,11 +23,11 @@ namespace Mavlink
         private readonly Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>> _messageNotifiers;
 
         private readonly IMessageProcessor<TMessage> _messageProcessor;
-        private readonly Func<IPacketBuilderDirector> _getPacketBuilderDirector;
+        private readonly IPacketBuilderDirector _packetBuilderDirector;
 
-        public MavlinkEngine(IMessageProcessor<TMessage> messageProcessor, Func<IPacketBuilderDirector> getPacketBuilderDirector)
+        public MavlinkEngine(IMessageProcessor<TMessage> messageProcessor, IPacketBuilderDirector packetBuilderDirector)
         {
-            _getPacketBuilderDirector = getPacketBuilderDirector ?? throw new ArgumentNullException(nameof(getPacketBuilderDirector));
+            _packetBuilderDirector = packetBuilderDirector ?? throw new ArgumentNullException(nameof(packetBuilderDirector));
             _messageProcessor = messageProcessor ?? throw new ArgumentNullException(nameof(messageProcessor));
             _messageNotifiers = new Dictionary<Func<TMessage, bool>, MessageNotifier<TMessage>>(10);
         }
@@ -47,21 +46,19 @@ namespace Mavlink
         /// <inheritdoc />
         public void ProcessBytes(byte[] packetBytes)
         {
-            IPacketBuilderDirector packetBuilderDirector = _getPacketBuilderDirector();
-            ConcurrentBag<byte> packetBuffer = new ConcurrentBag<byte>();
-
             foreach (var packetByte in packetBytes)
             {
-                PacketUnit packetUnit = packetBuilderDirector.CheckByte(packetByte);
+                bool nextByte = _packetBuilderDirector.AddByte(packetByte);
 
-                if (packetUnit.FirstByte)
-                {
-                    packetBuffer.Add(packetByte);
+                if (nextByte)
                     continue;
-                }
 
-                IPacketBuilder packetBuilder = packetBuilderDirector.Construct();
-                Packet packet = packetBuilder.Build(null);
+                IPacketBuilder packetBuilder = _packetBuilderDirector.Construct();
+                Packet packet = packetBuilder.Build();
+
+                if (packet == null)
+                    continue;
+
                 TMessage message = _messageProcessor.CreateMessage(packet.Payload, packet.MessageId);
                 NotifyForMessage(message, packet.ComponentId, packet.SystemId);
             }
