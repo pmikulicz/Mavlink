@@ -17,14 +17,13 @@ namespace Mavlink.Packets
         /// <summary>
         /// Builds mavlink packet
         /// </summary>
-        /// <param name="buildType">
-        /// Type of a build.
-        /// Builder can build packet with crc or without crc
+        /// <param name="packetBytes">
+        /// Packet bytes from which packet will be built
         /// </param>
         /// <returns>
         /// New mavlink packet. If packet is not valid it returns null
         /// </returns>
-        Packet Build(BuildType buildType = BuildType.WithCrc);
+        Packet Build(byte[] packetBytes);
 
         /// <summary>
         /// Gets mavlink version for which builder is dedicated

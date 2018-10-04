@@ -44,7 +44,7 @@
         //            public void AddByte_HeaderByte_ReturnTrue()
         //            {
         //                bool expectedValue = true;
-        //                bool accualValue = PacketBuilder.AddByte(Constants.HeartbeatPacketBytes[0]);
+        //                bool accualValue = PacketBuilder.CheckByte(Constants.HeartbeatPacketBytes[0]);
         //                Assert.Equal(expectedValue, accualValue);
         //            }
         //
@@ -53,11 +53,11 @@
         //            {
         //                for (int i = 0; i < Constants.HeartbeatPacketBytes.Length - 1; i++)
         //                {
-        //                    PacketBuilder.AddByte(Constants.HeartbeatPacketBytes[i]);
+        //                    PacketBuilder.CheckByte(Constants.HeartbeatPacketBytes[i]);
         //                }
         //
         //                bool expectedValue = false;
-        //                bool accualValue = PacketBuilder.AddByte(Constants.HeartbeatPacketBytes[Constants.HeartbeatPacketBytes.Length - 1]);
+        //                bool accualValue = PacketBuilder.CheckByte(Constants.HeartbeatPacketBytes[Constants.HeartbeatPacketBytes.Length - 1]);
         //                Assert.Equal(expectedValue, accualValue);
         //            }
         //        }

@@ -7,10 +7,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Mavlink.Packets
 {
@@ -21,6 +21,7 @@ namespace Mavlink.Packets
     {
         private static readonly IDictionary<MavlinkVersion, PacketDefinition> PacketsDefinition;
         private static readonly IDictionary<MavlinkVersion, PacketStructure> PacketsStructure;
+        private static readonly IInstanceCreator InstanceCreator = new InstanceCreator();
 
         static PacketBlueprint()
         {
@@ -50,33 +51,16 @@ namespace Mavlink.Packets
 
         private static IDictionary<MavlinkVersion, PacketStructure> InitializePacketsStructure()
         {
-            IEnumerable<PacketStructure> packetsStructure = InitializeDerivedTypes<PacketStructure>();
+            IEnumerable<PacketStructure> packetsStructure = InstanceCreator.CreateDerived<PacketStructure>();
 
             return packetsStructure.ToDictionary(ps => ps.MavlinkVersion, ps => ps);
         }
 
         private static IDictionary<MavlinkVersion, PacketDefinition> InitializePacketsDefinition()
         {
-            IEnumerable<PacketDefinition> packetsDefinition = InitializeDerivedTypes<PacketDefinition>();
+            IEnumerable<PacketDefinition> packetsDefinition = InstanceCreator.CreateDerived<PacketDefinition>();
 
-            return packetsDefinition.ToDictionary(ps => ps.MavlinkVersion, ps => ps);
-        }
-
-        private static IEnumerable<TBaseType> InitializeDerivedTypes<TBaseType>()
-        {
-            Type baseClass = typeof(TBaseType);
-            Assembly assembly = Assembly.GetAssembly(baseClass);
-            IEnumerable<Type> allTypes = assembly.GetTypes()
-                .Where(t =>
-                    !t.IsAbstract &&
-                    !t.IsInterface &&
-                    t.IsClass &&
-                    baseClass.IsAssignableFrom(t));
-
-            foreach (Type type in allTypes)
-            {
-                yield return (TBaseType)Activator.CreateInstance(type);
-            }
+            return packetsDefinition.ToDictionary(pd => pd.MavlinkVersion, pd => pd);
         }
     }
 }

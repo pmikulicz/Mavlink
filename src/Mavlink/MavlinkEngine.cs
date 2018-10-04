@@ -3,19 +3,20 @@
 //   Copyright (c) 2017 Patryk Mikulicz.
 // </copyright>
 // <summary>
-//   Engine fo the mavlink protocol
+//   Engine of the mavlink protocol
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Messages;
 using Mavlink.Packets;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Mavlink
 {
     /// <summary>
-    /// Engine fo the mavlink protocol
+    /// Engine of the mavlink protocol
     /// </summary>
     /// <typeparam name="TMessage"></typeparam>
     internal sealed class MavlinkEngine<TMessage> : IMavlinkEngine<TMessage> where TMessage : IMavlinkMessage
@@ -47,16 +48,20 @@ namespace Mavlink
         public void ProcessBytes(byte[] packetBytes)
         {
             IPacketBuilderDirector packetBuilderDirector = _getPacketBuilderDirector();
+            ConcurrentBag<byte> packetBuffer = new ConcurrentBag<byte>();
 
             foreach (var packetByte in packetBytes)
             {
-                var nextByte = packetBuilderDirector.AddByte(packetByte);
+                PacketUnit packetUnit = packetBuilderDirector.CheckByte(packetByte);
 
-                if (nextByte)
+                if (packetUnit.FirstByte)
+                {
+                    packetBuffer.Add(packetByte);
                     continue;
+                }
 
                 IPacketBuilder packetBuilder = packetBuilderDirector.Construct();
-                Packet packet = packetBuilder.Build();
+                Packet packet = packetBuilder.Build(null);
                 TMessage message = _messageProcessor.CreateMessage(packet.Payload, packet.MessageId);
                 NotifyForMessage(message, packet.ComponentId, packet.SystemId);
             }

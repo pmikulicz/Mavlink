@@ -21,8 +21,10 @@ namespace Mavlink.Packets
             _content = content;
         }
 
-        /// <inheritdoc />
-        public abstract Packet Build(BuildType buildType = BuildType.WithCrc);
+        public Packet Build(byte[] packetBytes)
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <inheritdoc />
         public abstract MavlinkVersion MavlinkVersion { get; }

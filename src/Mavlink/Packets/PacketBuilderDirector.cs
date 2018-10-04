@@ -1,10 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using Mavlink.Packets.V1;
 
 namespace Mavlink.Packets
 {
     internal sealed class PacketBuilderDirector : IPacketBuilderDirector
     {
-        private readonly ConcurrentBag<byte> _packetBuffer = new ConcurrentBag<byte>();
         private readonly MavlinkVersion _mavlinkVersion;
         private readonly PacketDefinition _packetDefinition;
         private readonly PacketStructure _packetStructure;
@@ -12,22 +11,25 @@ namespace Mavlink.Packets
         public PacketBuilderDirector(MavlinkVersion mavlinkVersion, IPacketBlueprint packetBlueprint)
         {
             _mavlinkVersion = mavlinkVersion;
-            PacketDefinition _packetDefinition = packetBlueprint.GetPacketDefinition(mavlinkVersion);
-            PacketStructure _packetStructure = packetBlueprint.GetPacketStructrure(mavlinkVersion);
+            _packetDefinition = packetBlueprint.GetPacketDefinition(mavlinkVersion);
+            _packetStructure = packetBlueprint.GetPacketStructrure(mavlinkVersion);
         }
 
-        public bool AddByte(byte packetByte)
+        public PacketBuilderDirector(MavlinkVersion mavlinkVersion)
+            : this(mavlinkVersion, new PacketBlueprint())
         {
-            if (packetByte == _packetDefinition.Header)
-                return false;
+        }
 
-            _packetBuffer.Add(packetByte);
-            return true;
+        public PacketUnit CheckByte(byte packetByte)
+        {
+            return packetByte == _packetDefinition.Header
+                ? new PacketUnit(true, packetByte)
+                : new PacketUnit(false, packetByte);
         }
 
         public IPacketBuilder Construct()
         {
-            throw new System.NotImplementedException();
+            return new PacketV1Builder(_packetStructure);
         }
     }
 }

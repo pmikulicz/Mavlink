@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+
 namespace Mavlink.Packets.V1
 {
     /// <summary>
@@ -14,15 +16,15 @@ namespace Mavlink.Packets.V1
     /// </summary>
     internal sealed class PacketV1Builder : IPacketBuilder
     {
-        private readonly byte[] _content;
+        private readonly PacketStructure _packetStructure;
 
-        public PacketV1Builder(byte[] content)
+        public PacketV1Builder(PacketStructure packetStructure)
         {
-            _content = content;
+            _packetStructure = packetStructure ?? throw new ArgumentNullException(nameof(packetStructure));
         }
 
         /// <inheritdoc />
-        public Packet Build(BuildType buildType = BuildType.WithCrc)
+        public Packet Build(byte[] packetBytes)
         {
             return null;
         }
