@@ -15,6 +15,11 @@ namespace Mavlink.Packets
     internal abstract class PacketStructure
     {
         /// <summary>
+        /// Gets packet header value
+        /// </summary>
+        public abstract byte Header { get; }
+
+        /// <summary>
         /// Gets header position in packet
         /// </summary>
         public int HeaderIndex { get; } = 0;

@@ -21,10 +21,5 @@ namespace Mavlink.Packets
         /// New mavlink packet. If packet is not valid it returns null
         /// </returns>
         Packet Build();
-
-        /// <summary>
-        /// Gets mavlink version for which builder is dedicated
-        /// </summary>
-        MavlinkVersion MavlinkVersion { get; }
     }
 }

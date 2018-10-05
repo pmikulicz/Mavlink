@@ -8,7 +8,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using Mavlink.Common;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,7 +32,7 @@ namespace Mavlink.Packets
         public PacketDefinition GetPacketDefinition(MavlinkVersion mavlinkVersion)
         {
             if (!PacketsDefinition.ContainsKey(mavlinkVersion))
-                throw new InvalidOperationException(
+                throw new MavlinkException(
                     $"Cannot ger packet definition for mavlink version {mavlinkVersion}");
 
             return PacketsDefinition[mavlinkVersion];
@@ -43,7 +42,7 @@ namespace Mavlink.Packets
         public PacketStructure GetPacketStructrure(MavlinkVersion mavlinkVersion)
         {
             if (!PacketsStructure.ContainsKey(mavlinkVersion))
-                throw new InvalidOperationException(
+                throw new MavlinkException(
                     $"Cannot ger packet structure for mavlink version {mavlinkVersion}");
 
             return PacketsStructure[mavlinkVersion];

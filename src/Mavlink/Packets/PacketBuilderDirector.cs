@@ -1,31 +1,24 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
-using Mavlink.Packets.V1;
 
 namespace Mavlink.Packets
 {
     internal sealed class PacketBuilderDirector : IPacketBuilderDirector
     {
-        private readonly MavlinkVersion _mavlinkVersion;
-        private readonly PacketDefinition _packetDefinition;
+        private readonly IPacketBuilderFactory _builderFactory;
         private readonly PacketStructure _packetStructure;
         private readonly ConcurrentBag<byte> _packetBuffer = new ConcurrentBag<byte>();
 
-        public PacketBuilderDirector(MavlinkVersion mavlinkVersion, IPacketBlueprint packetBlueprint)
+        public PacketBuilderDirector(IPacketBuilderFactory builderFactory, PacketStructure packetStructure)
         {
-            _mavlinkVersion = mavlinkVersion;
-            _packetDefinition = packetBlueprint.GetPacketDefinition(mavlinkVersion);
-            _packetStructure = packetBlueprint.GetPacketStructrure(mavlinkVersion);
-        }
-
-        public PacketBuilderDirector(MavlinkVersion mavlinkVersion)
-            : this(mavlinkVersion, new PacketBlueprint())
-        {
+            _builderFactory = builderFactory ?? throw new ArgumentNullException(nameof(builderFactory));
+            _packetStructure = packetStructure;
         }
 
         public bool AddByte(byte packetByte)
         {
-            if (packetByte == _packetDefinition.Header)
+            if (packetByte == _packetStructure.Header)
                 return false;
 
             _packetBuffer.Add(packetByte);
@@ -35,7 +28,8 @@ namespace Mavlink.Packets
 
         public IPacketBuilder Construct()
         {
-            var packetBuilder = new PacketV1Builder(new[] { _packetDefinition.Header }.Concat(_packetBuffer).ToArray(),
+            IPacketBuilder packetBuilder = _builderFactory.Create(
+                new[] { _packetStructure.Header }.Concat(_packetBuffer).ToArray(),
                 _packetStructure);
             _packetBuffer.Clear();
 

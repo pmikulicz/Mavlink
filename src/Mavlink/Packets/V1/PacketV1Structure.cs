@@ -15,6 +15,9 @@ namespace Mavlink.Packets.V1
     internal sealed class PacketV1Structure : PacketStructure
     {
         /// <inheritdoc />
+        public override byte Header { get; } = 0xFE;
+
+        /// <inheritdoc />
         public override byte SequenceNumberIndex { get; } = 2;
 
         /// <inheritdoc />

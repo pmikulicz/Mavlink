@@ -7,14 +7,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Common;
 using Mavlink.Common.Converters;
 using Mavlink.Messages;
-using Mavlink.Messages.Configuration;
 using Mavlink.Packets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Mavlink
 {
@@ -23,45 +22,34 @@ namespace Mavlink
     /// </summary>
     internal sealed class MavlinkEngineFactory : IMavlinkEngineFactory
     {
-        private static IList<IConverter> _cachedByteConverters;
-        private MavlinkVersion _mavlinkVersion;
+        private static IEnumerable<IConverter> _cachedByteConverters;
+        private readonly IPacketBuilderFactory _packetBuilderFactory;
+        private readonly PacketStructure _packetStructure;
 
-        public MavlinkEngineFactory(MavlinkVersion mavlinkVersion)
+        public MavlinkEngineFactory(IPacketBuilderFactory packetBuilderFactory, PacketStructure packetStructure)
         {
+            _packetBuilderFactory = packetBuilderFactory ?? throw new ArgumentNullException(nameof(packetBuilderFactory));
+            _packetStructure = packetStructure ?? throw new ArgumentNullException(nameof(packetStructure));
+
             if (_cachedByteConverters == null)
                 InitializeByteConverters();
-
-            _mavlinkVersion = mavlinkVersion;
         }
 
         private static void InitializeByteConverters()
         {
-            var assembly = Assembly.GetAssembly(typeof(IConverter));
-            List<Type> converterTypes = assembly.GetTypes()
-                .Where(t =>
-                    !t.IsAbstract &&
-                    !t.IsInterface &&
-                    t.IsClass &&
-                    typeof(IConverter).IsAssignableFrom(t))
-                .ToList();
-
-            _cachedByteConverters = new List<IConverter>(converterTypes.Count);
-
-            foreach (var type in converterTypes)
-            {
-                _cachedByteConverters.Add((IConverter)Activator.CreateInstance(type));
-            }
+            var instanceCreator = new InstanceCreator();
+            _cachedByteConverters = instanceCreator.CreateDerived<IConverter>();
         }
 
         /// <inheritdoc />
         public IMavlinkEngine<TMessage> Create<TMessage>(MavlinkVersion mavlinkVersion) where TMessage : IMavlinkMessage
         {
             return new MavlinkEngine<TMessage>(
-                new MessageProcessor<TMessage>(new MessageMetadataContainerFactory(),
+                new MessageProcessor<TMessage>(
                     type =>
                     {
                         return _cachedByteConverters.FirstOrDefault(c => c.Type == type);
-                    }), new PacketBuilderDirector(mavlinkVersion));
+                    }), new PacketBuilderDirector(_packetBuilderFactory, _packetStructure));
         }
     }
 }

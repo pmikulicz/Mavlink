@@ -30,8 +30,5 @@ namespace Mavlink.Packets.V1
         {
             return null;
         }
-
-        /// <inheritdoc />
-        public MavlinkVersion MavlinkVersion { get; } = MavlinkVersion.V10;
     }
 }

@@ -7,8 +7,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.Common;
 using Mavlink.Connection;
 using Mavlink.Messages;
+using Mavlink.Packets;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mavlink
 {
@@ -17,10 +21,30 @@ namespace Mavlink
     /// </summary>
     public sealed class MavlinkCommunicatorFactory : IMavlinkCommunicatorFactory
     {
+        private static IEnumerable<IPacketBuilderFactory> _cachedBuilderFactories;
+
+        static MavlinkCommunicatorFactory()
+        {
+            InitializeBuilderFactories();
+        }
+
         /// <inheritdoc />
         public IMavlinkCommunicator<TMessage> Create<TMessage>(IConnectionService connectionService, MavlinkVersion mavlinkVersion) where TMessage : IMavlinkMessage
         {
-            return new MavlinkCommunicator<TMessage>(connectionService, mavlinkVersion, new MavlinkEngineFactory(mavlinkVersion));
+            var packetBuilderFactory = _cachedBuilderFactories.FirstOrDefault(f => f.MavlinkVersion == mavlinkVersion);
+
+            if (packetBuilderFactory == null)
+                throw new MavlinkException($"Cannot get packet builder factory for mavlink version {mavlinkVersion}");
+
+            var packetBlueprint = new PacketBlueprint();
+            var packetStructure = packetBlueprint.GetPacketStructrure(mavlinkVersion);
+            return new MavlinkCommunicator<TMessage>(connectionService, mavlinkVersion, new MavlinkEngineFactory(packetBuilderFactory, packetStructure));
+        }
+
+        private static void InitializeBuilderFactories()
+        {
+            var instanceCreator = new InstanceCreator();
+            _cachedBuilderFactories = instanceCreator.CreateDerived<IPacketBuilderFactory>();
         }
     }
 }

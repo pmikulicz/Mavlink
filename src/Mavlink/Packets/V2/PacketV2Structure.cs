@@ -14,6 +14,9 @@ namespace Mavlink.Packets.V2
     /// </summary>
     internal sealed class PacketV2Structure : PacketStructure
     {
+        /// <inheritdoc />
+        public override byte Header { get; } = 0xFD;
+
         /// <summary>
         /// Gets incompact flags position in packet
         /// </summary>

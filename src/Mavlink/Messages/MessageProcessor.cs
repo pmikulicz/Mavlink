@@ -33,6 +33,12 @@ namespace Mavlink.Messages
             _messageMetadataContainer = messageMetadataContainerFactory.Create<TMessage>();
         }
 
+        public MessageProcessor(Func<Type, IConverter> selectConverter)
+            : this(new MessageMetadataContainerFactory(), selectConverter)
+        {
+            _selectConverter = selectConverter;
+        }
+
         /// <inheritdoc />
         public TMessage CreateMessage(byte[] payload, int messageId)
         {

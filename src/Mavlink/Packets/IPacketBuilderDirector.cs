@@ -22,7 +22,7 @@ namespace Mavlink.Packets
         /// <summary>
         /// Constructs appriopriate packet builder
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Concrete packet builder</returns>
         IPacketBuilder Construct();
     }
 }
