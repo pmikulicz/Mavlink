@@ -1,9 +1,21 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PacketBuilderDirector.cs" company="Patryk Mikulicz">
+//   Copyright (c) 2018 Patryk Mikulicz.
+// </copyright>
+// <summary>
+//   Represents component which is responsible for constructing appropriate packet builder
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
 
 namespace Mavlink.Packets
 {
+    /// <summary>
+    /// Represents component which is responsible for constructing appropriate packet builder
+    /// </summary>
     internal sealed class PacketBuilderDirector : IPacketBuilderDirector
     {
         private readonly IPacketBuilderFactory _builderFactory;
@@ -16,6 +28,7 @@ namespace Mavlink.Packets
             _packetStructure = packetStructure;
         }
 
+        /// <inheritdoc />
         public bool AddByte(byte packetByte)
         {
             if (packetByte == _packetStructure.Header)
@@ -26,6 +39,7 @@ namespace Mavlink.Packets
             return true;
         }
 
+        /// <inheritdoc />
         public IPacketBuilder Construct()
         {
             IPacketBuilder packetBuilder = _builderFactory.Create(

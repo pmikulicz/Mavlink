@@ -82,7 +82,7 @@ namespace Mavlink.UnitTests
             Autopilot = MavAutopilot.Ardupilotmega
         };
 
-        public static byte[] HeartbeatPacketBytes =
+        public static byte[] HeartbeatPacketV1Bytes =
         {
             0xFE, 0x09, 0x4E, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x03,
             0x51, 0x04, 0x03, 0x1C, 0x7F

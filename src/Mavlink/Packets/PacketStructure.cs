@@ -32,17 +32,22 @@ namespace Mavlink.Packets
         /// <summary>
         /// Gets sequence number position in packet
         /// </summary>
-        public abstract byte SequenceNumberIndex { get; }
+        public abstract int SequenceNumberIndex { get; }
 
         /// <summary>
         /// Gets system id position in packet
         /// </summary>
-        public abstract byte SystemIdIndex { get; }
+        public abstract int SystemIdIndex { get; }
 
         /// <summary>
         /// Gets component id position in packet
         /// </summary>
-        public abstract byte ComponentIdIndex { get; }
+        public abstract int ComponentIdIndex { get; }
+
+        /// <summary>
+        /// Gets payload starting index in packet
+        /// </summary>
+        public abstract int PayloadIndex { get; }
 
         /// <summary>
         /// Gets mavlink version of metadata

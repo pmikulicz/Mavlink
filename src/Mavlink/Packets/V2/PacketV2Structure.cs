@@ -28,40 +28,31 @@ namespace Mavlink.Packets.V2
         public byte CompactFlagsIndex { get; } = 3;
 
         /// <inheritdoc />
-        public override byte SequenceNumberIndex { get; } = 4;
+        public override int SequenceNumberIndex { get; } = 4;
 
         /// <inheritdoc />
-        public override byte SystemIdIndex { get; } = 5;
+        public override int SystemIdIndex { get; } = 5;
 
         /// <inheritdoc />
-        public override byte ComponentIdIndex { get; } = 6;
+        public override int ComponentIdIndex { get; } = 6;
 
         /// <summary>
         ///  Gets first byte of id position in packet
         /// </summary>
-        public byte FirstByteOfIdIndex { get; } = 7;
+        public int FirstByteOfIdIndex { get; } = 7;
 
         /// <summary>
         /// Gets middle byte of id position in packet
         /// </summary>
-        public byte MiddleByteOfIdIndex { get; } = 8;
+        public int MiddleByteOfIdIndex { get; } = 8;
 
         /// <summary>
         /// Gets last byte of id position in packet
         /// </summary>
-        public byte LastByteOfIdIndex { get; } = 9;
+        public int LastByteOfIdIndex { get; } = 9;
 
-        /// <summary>
-        /// Gets target system id position in packet
-        /// </summary>
-        public byte TargetSystemIdIdIndex { get; } = 10;
-
-        /// <summary>
-        /// /// <summary>
-        /// Gets target component id position in packet
-        /// </summary>
-        /// </summary>
-        public byte TargetComponentIdIndex { get; } = 11;
+        /// <inheritdoc />
+        public override int PayloadIndex { get; } = 10;
 
         /// <inheritdoc />
         public override MavlinkVersion MavlinkVersion { get; } = MavlinkVersion.V20;

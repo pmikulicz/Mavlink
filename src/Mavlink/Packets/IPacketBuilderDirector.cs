@@ -1,8 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IPacketBuilderDirector.cs" company="Patryk Mikulicz">
-//   Copyright (c) 2016 Patryk Mikulicz.
+//   Copyright (c) 2018 Patryk Mikulicz.
 // </copyright>
 // <summary>
+//   Interface of a component which is responsible for constructing appropriate packet builder
+// </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace Mavlink.Packets
