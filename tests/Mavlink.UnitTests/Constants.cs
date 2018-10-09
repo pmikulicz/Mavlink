@@ -1,6 +1,7 @@
 ﻿using Mavlink.Messages.Configuration;
 using Mavlink.Messages.Dialects.Ardupilot;
 using Mavlink.Messages.Implementations.Common.Types;
+using Mavlink.Packets.V1;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -86,6 +87,18 @@ namespace Mavlink.UnitTests
         {
             0xFE, 0x09, 0x4E, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x03,
             0x51, 0x04, 0x03, 0x1C, 0x7F
+        };
+
+        public static PacketV1 HeartbeatPacketV1 = new PacketV1
+        {
+            PayloadLength = 0x09,
+            SequenceNumber = 0x4E,
+            SystemId = 0x01,
+            ComponentId = 0x01,
+            ByteId = 0x00,
+            Payload = new byte[]{ 0x00, 0x00, 0x00, 0x00, 0x02, 0x03,
+                0x51, 0x04, 0x03 },
+            Checksum = new byte[] { 0x1C, 0x7F }
         };
     }
 }

@@ -7,7 +7,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 
 namespace Mavlink.Packets
@@ -38,6 +37,6 @@ namespace Mavlink.Packets
         /// <summary>
         /// Occurs when an invalid packet has been received
         /// </summary>
-        event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
+//        event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
     }
 }

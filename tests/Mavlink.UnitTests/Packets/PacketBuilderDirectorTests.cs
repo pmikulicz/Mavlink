@@ -22,6 +22,18 @@ namespace Mavlink.UnitTests.Packets
             {
                 var packetBuilderDirector = new PacketBuilderDirector(PacketBuilderFactory.Object, new PacketV1Structure());
                 var expectedvalue = false;
+                packetBuilderDirector.AddByte(new byte());
+
+                var nextByte = packetBuilderDirector.AddByte(Constants.HeartbeatPacketV1Bytes[0]);
+
+                Assert.Equal(expectedvalue, nextByte);
+            }
+
+            [Fact]
+            public void AddByte_HeaderByteWithEmptyBuffer_ReturnTrue()
+            {
+                var packetBuilderDirector = new PacketBuilderDirector(PacketBuilderFactory.Object, new PacketV1Structure());
+                var expectedvalue = true;
 
                 var nextByte = packetBuilderDirector.AddByte(Constants.HeartbeatPacketV1Bytes[0]);
 

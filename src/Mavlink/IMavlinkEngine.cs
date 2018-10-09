@@ -6,9 +6,10 @@
 //   Interface of a component which is the engine fo the mavlink protocol
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-using System;
+using Mavlink.EventArgs;
 using Mavlink.Messages;
 using Mavlink.Packets;
+using System;
 
 namespace Mavlink
 {
@@ -40,5 +41,9 @@ namespace Mavlink
         /// </summary>
         /// <param name="packetBytes"></param>
         void ProcessBytes(byte[] packetBytes);
+
+        event EventHandler<PacketReceivedEventArgs> PacketReceived;
+
+        event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
     }
 }

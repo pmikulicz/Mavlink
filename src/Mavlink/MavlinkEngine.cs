@@ -7,6 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Mavlink.EventArgs;
 using Mavlink.Messages;
 using Mavlink.Packets;
 using System;
@@ -59,10 +60,15 @@ namespace Mavlink
                 if (packet == null)
                     continue;
 
+                PacketReceived?.Invoke(this, new PacketReceivedEventArgs(packet));
                 TMessage message = _messageProcessor.CreateMessage(packet.Payload, packet.MessageId);
                 NotifyForMessage(message, packet.ComponentId, packet.SystemId);
             }
         }
+
+        public event EventHandler<PacketReceivedEventArgs> PacketReceived;
+
+        public event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
 
         /// <inheritdoc />
         public IMessageNotifier<TMessage> RegisterMessageSubscriber(Func<TMessage, bool> condition)

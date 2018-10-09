@@ -36,8 +36,8 @@ namespace Mavlink.Packets
 
                 if (packet != null)
                     yield return packet;
-                else
-                    InvalidPacketReceived?.Invoke(this, new InvalidPacketReceivedEventArgs(bytes));
+                //                else
+                //                    InvalidPacketReceived?.Invoke(this, new InvalidPacketReceivedEventArgs(bytes));
             }
         }
 
@@ -77,6 +77,6 @@ namespace Mavlink.Packets
         }
 
         /// <inheritdoc />
-        public event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
+//        public event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
     }
 }

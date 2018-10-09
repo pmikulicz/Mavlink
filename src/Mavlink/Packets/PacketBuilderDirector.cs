@@ -31,6 +31,9 @@ namespace Mavlink.Packets
         /// <inheritdoc />
         public bool AddByte(byte packetByte)
         {
+            if (packetByte == _packetStructure.Header && _packetBuffer.IsEmpty)
+                return true;
+
             if (packetByte == _packetStructure.Header)
                 return false;
 
