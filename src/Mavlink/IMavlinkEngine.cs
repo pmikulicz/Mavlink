@@ -42,8 +42,14 @@ namespace Mavlink
         /// <param name="packetBytes"></param>
         void ProcessBytes(byte[] packetBytes);
 
+        /// <summary>
+        /// Event which occurs when an correct packet has been created
+        /// </summary>
         event EventHandler<PacketReceivedEventArgs> PacketReceived;
 
+        /// <summary>
+        /// Event which occurs when an incorrect packet has been created
+        /// </summary>
         event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
     }
 }

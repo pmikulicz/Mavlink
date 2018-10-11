@@ -55,19 +55,22 @@ namespace Mavlink
                     continue;
 
                 IPacketBuilder packetBuilder = _packetBuilderDirector.Construct();
-                Packet packet = packetBuilder.Build();
-
-                if (packet == null)
-                    continue;
-
-                PacketReceived?.Invoke(this, new PacketReceivedEventArgs(packet));
-                TMessage message = _messageProcessor.CreateMessage(packet.Payload, packet.MessageId);
-                NotifyForMessage(message, packet.ComponentId, packet.SystemId);
+                packetBuilder.Build(new BuildEvents(p =>
+                {
+                    PacketReceived?.Invoke(this, new PacketReceivedEventArgs(p));
+                    TMessage message = _messageProcessor.CreateMessage(p.Payload, p.MessageId);
+                    NotifyForMessage(message, p.ComponentId, p.SystemId);
+                }, bytes =>
+                {
+                    InvalidPacketReceived?.Invoke(this, new InvalidPacketReceivedEventArgs(bytes));
+                }));
             }
         }
 
+        /// <inheritdoc />
         public event EventHandler<PacketReceivedEventArgs> PacketReceived;
 
+        /// <inheritdoc />
         public event EventHandler<InvalidPacketReceivedEventArgs> InvalidPacketReceived;
 
         /// <inheritdoc />

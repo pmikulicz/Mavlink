@@ -28,18 +28,16 @@ namespace Mavlink.Packets.V1
         }
 
         /// <inheritdoc />
-        public Packet Build()
+        public void Build(BuildEvents buildEvents)
         {
             if (!(_packetStructure is PacketV1Structure packetStructure))
                 throw new InvalidCastException($"Cannot cast packet structure to {typeof(PacketV1Structure)}");
 
-            if (_packetBytes.Length == 0)
-                throw new MavlinkException("Packet bytes cannot be empty");
-
-            if (_packetBytes.Length <= packetStructure.PayloadLenghtIndex)
-                throw new MavlinkException(
-                    $"Packet bytes length cannot be less or equal {packetStructure.PayloadLenghtIndex}," +
-                    " because there is not possibility to determine payload length and therefore total correct packet length");
+            if (_packetBytes.Length == 0 || _packetBytes.Length <= packetStructure.PayloadLenghtIndex)
+            {
+                buildEvents.InvalidPacketCreated(_packetBytes);
+                return;
+            }
 
             byte payloadLength = _packetBytes.ElementAt(packetStructure.PayloadLenghtIndex);
             int metadataSize = packetStructure.PayloadIndex;
@@ -48,8 +46,8 @@ namespace Mavlink.Packets.V1
 
             if (totalPacketSize != _packetBytes.Length)
             {
-                // incorrect packet bytes
-                return null;
+                buildEvents.InvalidPacketCreated(_packetBytes);
+                return;
             }
 
             byte[] payload = new byte[payloadLength];
@@ -57,7 +55,7 @@ namespace Mavlink.Packets.V1
             Array.Copy(_packetBytes, packetStructure.PayloadIndex, payload, 0, payloadLength);
             Array.Copy(_packetBytes, checksumIndex, checksum, 0, ChecksumSize);
 
-            return new PacketV1
+            buildEvents.PacketCreated(new PacketV1
             {
                 ByteId = _packetBytes.ElementAt(packetStructure.MessageIdIndex),
                 ComponentId = _packetBytes.ElementAt(packetStructure.ComponentIdIndex),
@@ -66,7 +64,7 @@ namespace Mavlink.Packets.V1
                 SequenceNumber = _packetBytes.ElementAt(packetStructure.SequenceNumberIndex),
                 Payload = payload,
                 Checksum = checksum
-            };
+            });
         }
     }
 }

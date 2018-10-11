@@ -17,9 +17,7 @@ namespace Mavlink.Packets
         /// <summary>
         /// Builds mavlink packet
         /// </summary>
-        /// <returns>
-        /// New mavlink packet. If packet is not valid it returns null
-        /// </returns>
-        Packet Build();
+        /// <param name="buildEvents">Packet builder events</param>
+        void Build(BuildEvents buildEvents);
     }
 }
